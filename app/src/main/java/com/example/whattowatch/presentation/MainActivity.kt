@@ -1,4 +1,4 @@
-package com.example.whattowatch
+package com.example.whattowatch.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

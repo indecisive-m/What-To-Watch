@@ -32,13 +32,16 @@ ktor-client = { module = "io.ktor:ktor-client-core", version.ref = "ktorVersion"
 ktor-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktorVersion" }
 ktor-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorVersion" }
 ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorVersion" }
+ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktorVersion" }
+ktor-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktorVersion" }
 
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koinBOM" }
-koin-core = { module = "io.insert-koin:koin-core" }
-koin-android = { module = "io.insert-koin:koin-android" }
-koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose" }
-koin-androidx-navigation = { module = "io.insert-koin:koin-androidx-navigation" }
-koin-navigation-compose = { module = "io.insert-koin:koin-androidx-compose-navigation" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinBOM" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinBOM" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinBOM" }
+koin-androidx-navigation = { module = "io.insert-koin:koin-androidx-navigation", version.ref = "koinBOM" }
+koin-navigation-compose = { module = "io.insert-koin:koin-androidx-compose-navigation", version.ref = "koinBOM" }
+
 
 
 
@@ -55,14 +58,15 @@ ktor = [
     "ktor-client",
     "ktor-cio",
     "ktor-content-negotiation",
-    "ktor-serialization"
+    "ktor-serialization",
+    "ktor-logging",
+    "ktor-auth"
 ]
 
 koin = [
     "koin-android",
     "koin-androidx-compose",
     "koin-androidx-navigation",
-    "koin-bom",
     "koin-core",
     "koin-navigation-compose"
 ]
