@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -5,7 +7,11 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
+
+
 android {
+
+
     namespace = "com.example.whattowatch"
     compileSdk = 35
 
@@ -17,9 +23,23 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+
     }
 
     buildTypes {
+        debug {
+            val properties = Properties()
+            properties.load(
+                project.rootProject.file("local.properties")
+                    .inputStream()
+            )
+            buildConfigField(
+                "String",
+                "BEARER_TOKEN",
+                properties.getProperty("BEARER_TOKEN")
+            )
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -37,6 +57,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
