@@ -34,6 +34,7 @@ ktor-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation",
 ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorVersion" }
 ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktorVersion" }
 ktor-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktorVersion" }
+ktor-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktorVersion" }
 
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koinBOM" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinBOM" }
@@ -60,7 +61,8 @@ ktor = [
     "ktor-content-negotiation",
     "ktor-serialization",
     "ktor-logging",
-    "ktor-auth"
+    "ktor-auth",
+    "ktor-okhttp"
 ]
 
 koin = [

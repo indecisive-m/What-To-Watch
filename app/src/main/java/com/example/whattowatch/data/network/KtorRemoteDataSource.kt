@@ -13,7 +13,7 @@ private const val BASE_URL = "https://api.themoviedb.org/3/"
 private const val BEARER_TOKEN = BuildConfig.BEARER_TOKEN
 
 
-class KtorRemoteDateSource(
+class KtorRemoteDataSource(
     private val httpClient: HttpClient
 ) : RemoteDataSource {
 
