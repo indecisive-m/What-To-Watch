@@ -1,28 +1,25 @@
 package com.example.whattowatch.data.mappers
 
-import com.example.whattowatch.data.dto.SearchedMovieDto
-import com.example.whattowatch.domain.Movie
+import com.example.whattowatch.data.dto.SearchedTVShowDto
+import com.example.whattowatch.domain.TVShow
 
-fun SearchedMovieDto.toMovie(): Movie {
 
 // Will need to add a null check for the images
-
-    return Movie(
+fun SearchedTVShowDto.toTVShow(): TVShow {
+    return TVShow(
         id = id,
-        title = title,
+        name = name,
         adult = adult,
-        posterPath = "https://image.tmdb.org/t/p/w500$posterPath",
         backdropPath = "https://image.tmdb.org/t/p/w500$backdropPath",
         genreIds = genreIds,
+        originCountry = originCountry,
         language = language,
-        originalTitle = originalTitle,
+        originalName = originalName,
         overview = overview,
         popularity = popularity,
-        releaseDate = releaseDate,
-        video = video,
+        posterPath = "https://image.tmdb.org/t/p/w500$posterPath",
+        firstAirDate = firstAirDate,
         averageVote = averageVote,
         voteCount = voteCount
     )
 }
-
-
