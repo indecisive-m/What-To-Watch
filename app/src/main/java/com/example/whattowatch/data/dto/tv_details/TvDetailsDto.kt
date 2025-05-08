@@ -1,10 +1,14 @@
-package com.example.whattowatch.data.dto
+package com.example.whattowatch.data.dto.tv_details
 
+import com.example.whattowatch.data.dto.movie_details.Genres
+import com.example.whattowatch.data.dto.movie_details.ProductionCompanies
+import com.example.whattowatch.data.dto.movie_details.ProductionCountries
+import com.example.whattowatch.data.dto.movie_details.SpokenLanguages
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class TVShowDetails(
+data class TvDetails(
     val adult: Boolean,
     @SerialName("backdrop_path")
     val backdropPath: String,

@@ -1,12 +1,12 @@
 package com.example.whattowatch.data.mappers
 
-import com.example.whattowatch.data.dto.SearchedTVShowDto
-import com.example.whattowatch.domain.TVShow
+import com.example.whattowatch.data.dto.tv_search.SearchedTvDto
+import com.example.whattowatch.domain.Tv
 
 
 // Will need to add a null check for the images
-fun SearchedTVShowDto.toTVShow(): TVShow {
-    return TVShow(
+fun SearchedTvDto.toTv(): Tv {
+    return Tv(
         id = id,
         name = name,
         adult = adult,
@@ -23,3 +23,5 @@ fun SearchedTVShowDto.toTVShow(): TVShow {
         voteCount = voteCount
     )
 }
+
+//fun TVShowDetails.toTVDetails()

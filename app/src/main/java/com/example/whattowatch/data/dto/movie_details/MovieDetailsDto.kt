@@ -1,8 +1,9 @@
-package com.example.whattowatch.data.dto
+package com.example.whattowatch.data.dto.movie_details
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@Serializable
 data class MovieDetailsDto(
     val adult: Boolean,
     @SerialName("backdrop_path")
