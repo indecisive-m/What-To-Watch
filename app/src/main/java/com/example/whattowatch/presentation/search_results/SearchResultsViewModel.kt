@@ -1,5 +1,6 @@
 package com.example.whattowatch.presentation.search_results
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.whattowatch.domain.MediaRepository
@@ -34,6 +35,9 @@ class SearchResultsViewModel(
 
             is SearchResultsAction.OnSearchPress -> {
                 onSearchPress(query = action.query)
+                _state.update {
+                    it.copy(searchQuery = "")
+                }
 
             }
         }
@@ -50,6 +54,11 @@ class SearchResultsViewModel(
 
                 repository.searchMovies(query)
                     .onSuccess { searchResults ->
+
+                        Log.d(
+                            "test",
+                            searchResults.toString()
+                        )
 
                         _state.update {
                             it.copy(

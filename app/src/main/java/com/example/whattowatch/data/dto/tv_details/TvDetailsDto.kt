@@ -45,7 +45,7 @@ data class TvDetailsDto(
     val overview: String,
     val popularity: Double,
     @SerialName("poster_path")
-    val posterPath: String,
+    val posterPath: String?,
     @SerialName("production_companies")
     val productionCompanies: List<ProductionCompanies>,
     @SerialName("production_countries")
@@ -148,7 +148,7 @@ data class Seasons(
     val name: String,
     val overview: String,
     @SerialName("poster_path")
-    val posterPath: String,
+    val posterPath: String?,
     @SerialName("season_number")
     val seasonNumber: Int,
     @SerialName("vote_average")

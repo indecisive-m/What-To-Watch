@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">What To Watch</string>
+    <string name="search_placeholder">Search</string>
+    <string name="search_with_voice">Search with microphone</string>
 </resources>
