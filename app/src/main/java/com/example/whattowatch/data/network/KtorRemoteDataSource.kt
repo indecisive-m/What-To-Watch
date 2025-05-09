@@ -1,5 +1,6 @@
 package com.example.whattowatch.data.network
 
+import android.util.Log
 import com.example.whattowatch.BuildConfig
 import com.example.whattowatch.data.dto.movie_details.MovieDetailsResultsDto
 import com.example.whattowatch.data.dto.movie_search.MovieSearchResultsDto
@@ -7,8 +8,12 @@ import com.example.whattowatch.data.dto.tv_details.TvDetailsResultsDto
 import com.example.whattowatch.data.dto.tv_search.TvSearchResultsDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.plugins.ClientRequestException
+import io.ktor.client.plugins.ServerResponseException
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
+import io.ktor.client.statement.HttpResponse
+import kotlinx.serialization.SerializationException
 
 
 private const val BASE_URL = "https://api.themoviedb.org/3"
@@ -22,23 +27,51 @@ class KtorRemoteDataSource(
 ) : RemoteDataSource {
 
     override suspend fun searchMovies(query: String): Result<MovieSearchResultsDto> {
-
-        return httpClient.get("$BASE_URL/search/movie") {
-            headers {
-                append(
-                    "Authorization",
-                    "Bearer $BEARER_TOKEN"
-                )
+        return try {
+            val response: HttpResponse = httpClient.get("$BASE_URL/search/movie") {
+                headers {
+                    append(
+                        "Authorization",
+                        "Bearer $BEARER_TOKEN"
+                    )
+                }
+                url {
+                    parameters.append(
+                        "query",
+                        query
+                    )
+                }
             }
-            url {
-                parameters.append(
-                    "query",
-                    query
-                )
-            }
+            val resultsDto: MovieSearchResultsDto = response.body()
+            Result.success(resultsDto)
+        } catch (e: ClientRequestException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+            Result.failure(e)
+        } catch (e: ServerResponseException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
 
+            Result.failure(e)
+        } catch (e: SerializationException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        } catch (e: Exception) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
         }
-            .body()
     }
 
     override suspend fun getImages(imageUrlString: String): Result<ByteArray> {

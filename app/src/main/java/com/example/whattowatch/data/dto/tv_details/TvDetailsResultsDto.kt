@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class TvDetailsResultsDto(
     val page: Int,
-    val results: List<TvDetails>,
+    val results: List<TvDetailsDto>,
     @SerialName("total_pages")
     val totalPages: Int,
     @SerialName("total_results")

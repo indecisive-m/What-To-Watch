@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class SearchedMovieDto(
     val adult: Boolean,
     @SerialName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String?,
     @SerialName("genre_ids")
     val genreIds: List<Int>,
     val id: Int,

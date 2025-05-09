@@ -83,5 +83,6 @@ dependencies {
     project.dependencies.platform(libs.koin.bom)
     implementation(libs.koin.core)
     implementation(libs.bundles.koin)
+    implementation(libs.kotlinx.serialization)
 
 }

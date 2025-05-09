@@ -2,6 +2,7 @@ package com.example.whattowatch.data.mappers
 
 import com.example.whattowatch.data.dto.movie_details.MovieDetailsDto
 import com.example.whattowatch.data.dto.movie_search.SearchedMovieDto
+import com.example.whattowatch.data.mappers.helpers.toDomain
 import com.example.whattowatch.domain.Movie
 import com.example.whattowatch.domain.MovieDetails
 

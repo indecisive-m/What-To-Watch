@@ -8,7 +8,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class TvDetails(
+data class TvDetailsDto(
     val adult: Boolean,
     @SerialName("backdrop_path")
     val backdropPath: String,

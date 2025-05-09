@@ -4,11 +4,13 @@ import com.example.whattowatch.data.dto.movie_search.MovieSearchResultsDto
 import com.example.whattowatch.data.mappers.toMovie
 import com.example.whattowatch.data.mappers.toMovieDetails
 import com.example.whattowatch.data.mappers.toTv
+import com.example.whattowatch.data.mappers.toTvDetails
 import com.example.whattowatch.data.network.KtorRemoteDataSource
 import com.example.whattowatch.domain.MediaRepository
 import com.example.whattowatch.domain.Movie
 import com.example.whattowatch.domain.MovieDetails
 import com.example.whattowatch.domain.Tv
+import com.example.whattowatch.domain.TvDetails
 
 
 class DefaultMediaRepository(
@@ -40,6 +42,16 @@ class DefaultMediaRepository(
             .map { dto ->
                 dto.results.map {
                     it.toMovieDetails()
+                }
+
+            }
+    }
+
+    override suspend fun getTvDetails(id: Int): Result<List<TvDetails>> {
+        return remoteDataSource.getTvDetails(id)
+            .map { dto ->
+                dto.results.map {
+                    it.toTvDetails()
                 }
 
             }

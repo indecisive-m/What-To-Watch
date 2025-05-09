@@ -1,33 +1,79 @@
 package com.example.whattowatch.presentation.search_results
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.whattowatch.ui.theme.WhatToWatchTheme
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
 fun SearchResultsScreenRoot(
-    modifier: Modifier = Modifier
+    viewModel: SearchResultsViewModel = koinViewModel()
 ) {
 
-    SearchResultsScreen()
+    val state = viewModel.state.collectAsStateWithLifecycle()
+
+    SearchResultsScreen(
+        state = state.value,
+        onAction = { action ->
+            when (action) {
+                is SearchResultsAction.OnItemClick -> {
+
+                }
+
+                else -> Unit
+            }
+            viewModel.onAction(action)
+        }
+    )
 
 }
 
 
 @Composable
-fun SearchResultsScreen() {
-    Text("Hello")
+fun SearchResultsScreen(
+    state: SearchResultsState,
+    onAction: (SearchResultsAction) -> Unit
 
-}
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(50.dp)
+    ) {
+        OutlinedTextField(
+            value = state.searchQuery,
+            onValueChange = {
+                onAction(SearchResultsAction.OnSearchQueryChange(it))
+            },
+            placeholder = {
+                Text("Write Summat Here")
+            }
+        )
+        Button(
+            onClick = {
+                onAction(SearchResultsAction.OnSearchPress(state.searchQuery))
+            }
+        ) { }
 
-
-@Preview
-@Composable
-fun SearchResultsScreenPreview() {
-    WhatToWatchTheme {
-        SearchResultsScreen()
     }
+
 }
+
+
+//@Preview
+//@Composable
+//fun SearchResultsScreenPreview() {
+//    WhatToWatchTheme {
+//        SearchResultsScreen(
+//
+//        )
+//    }
+//}
