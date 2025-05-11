@@ -83,6 +83,7 @@ dependencies {
     project.dependencies.platform(libs.koin.bom)
     implementation(libs.koin.core)
     implementation(libs.bundles.koin)
+    implementation(libs.bundles.coil)
     implementation(libs.kotlinx.serialization)
     implementation(libs.material.icons)
 

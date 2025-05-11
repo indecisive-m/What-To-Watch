@@ -7,7 +7,7 @@ data class SearchResultsState(
     val searchQuery: String = "",
     val status: Status = Status.IDLE,
     val searchOption: SearchOption = SearchOption.MOVIE,
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
 )
 
 enum class Status {

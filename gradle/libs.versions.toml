@@ -13,6 +13,7 @@ kotlinSerialization = "2.1.20"
 koinBOM = "4.0.4"
 kotlinxSerialization = "1.8.0"
 materialIcons = "1.7.8"
+coil = "3.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -51,7 +52,8 @@ koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", versi
 koin-androidx-navigation = { module = "io.insert-koin:koin-androidx-navigation", version.ref = "koinBOM" }
 koin-navigation-compose = { module = "io.insert-koin:koin-androidx-compose-navigation", version.ref = "koinBOM" }
 
-
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
 
 
 
@@ -79,4 +81,9 @@ koin = [
     "koin-androidx-navigation",
     "koin-core",
     "koin-navigation-compose"
+]
+
+coil = [
+    "coil-compose",
+    "coil-network"
 ]

@@ -35,16 +35,23 @@ class SearchResultsViewModel(
 
             is SearchResultsAction.OnSearchPress -> {
                 onSearchPress(query = action.query)
+                
+            }
+
+            is SearchResultsAction.OnSearchClear -> {
                 _state.update {
                     it.copy(searchQuery = "")
                 }
-
             }
         }
     }
 
 
     private fun onSearchPress(query: String) = viewModelScope.launch {
+
+        if (state.value.searchQuery.isBlank()) {
+            null
+        }
         when (state.value.searchOption) {
             SearchOption.MOVIE -> {
 

@@ -1,11 +1,13 @@
 package com.example.whattowatch.presentation.search_results.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,10 +22,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -38,11 +42,15 @@ fun SearchBar(
     onSearchQueryChange: (String) -> Unit,
     searchQuery: String,
     onImeSearch: (String) -> Unit,
+    onSearchClear: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
     val focusRequester = remember { FocusRequester() }
     var isTextFieldFocused by remember { mutableStateOf(false) }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    var isError by remember { mutableStateOf(false) }
 
     TextField(
         value = searchQuery,
@@ -66,32 +74,51 @@ fun SearchBar(
         },
 
 
-        //// TODO Implement speech recognition later on?
+        //// TODO Implement speech input/recognition later on?
 
         trailingIcon = {
             AnimatedVisibility(
                 visible = isTextFieldFocused
             ) {
-                Icon(
-                    imageVector = Icons.Default.Mic,
-                    contentDescription = stringResource(R.string.search_with_voice)
-                )
+
+                if (searchQuery.isNotBlank()) {
+                    IconButton(
+                        onClick = onSearchClear
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Clear,
+                            contentDescription = stringResource(R.string.clear)
+                        )
+                    }
+
+                } else {
+                    Icon(
+                        imageVector = Icons.Default.Mic,
+                        contentDescription = stringResource(R.string.search_with_voice)
+                    )
+                }
 
             }
 
         },
-        shape = RoundedCornerShape(36.dp),
         colors = TextFieldDefaults.colors(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
-
-            ),
+        ),
         singleLine = true,
         keyboardActions = KeyboardActions(
             onSearch = {
-                onImeSearch(searchQuery)
-            }
+
+
+                if (searchQuery.isNotEmpty()) {
+                    onImeSearch(searchQuery)
+                    keyboardController?.hide()
+                    isError = false
+                } else {
+                    isError = true
+                }
+            },
         ),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
@@ -104,8 +131,15 @@ fun SearchBar(
             .onFocusChanged { focusState ->
                 isTextFieldFocused = focusState.isFocused
             }
+            .clip(RoundedCornerShape(36.dp))
+            .border(
+                width = 2.dp,
+                color = if (isError && searchQuery == "") Color.Red else Color.Transparent,
+                RoundedCornerShape(36.dp)
+            ),
 
-    )
+
+        )
 
 }
 
@@ -118,6 +152,7 @@ fun SearchBarPreview() {
             onSearchQueryChange = {},
             searchQuery = "",
             onImeSearch = {},
+            onSearchClear = {},
             modifier = Modifier.fillMaxWidth()
         )
     }
