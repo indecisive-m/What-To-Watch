@@ -11,4 +11,6 @@ interface MediaRepository {
 
     suspend fun getImages(imageUrlString: String): Result<ByteArray>
 
+    suspend fun getUpcomingMovies(): Result<List<Movie>>
+
 }

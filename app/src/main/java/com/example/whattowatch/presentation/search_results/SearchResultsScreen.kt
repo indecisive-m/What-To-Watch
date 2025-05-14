@@ -9,11 +9,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.whattowatch.presentation.search_results.components.ItemCard
 import com.example.whattowatch.presentation.search_results.components.SearchBar
+import com.example.whattowatch.presentation.search_results.components.UpComingMovies
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -23,6 +25,8 @@ fun SearchResultsScreenRoot(
 ) {
 
     val state = viewModel.state.collectAsStateWithLifecycle()
+
+
 
     SearchResultsScreen(
         state = state.value,
@@ -47,6 +51,13 @@ fun SearchResultsScreen(
     onAction: (SearchResultsAction) -> Unit
 
 ) {
+
+    LaunchedEffect(key1 = Unit) {
+        onAction(SearchResultsAction.LoadUpcomingMovieData)
+    }
+    UpComingMovies(
+        item = state.searchResults[0]
+    )
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -64,7 +75,7 @@ fun SearchResultsScreen(
                 onAction(SearchResultsAction.OnSearchPress(it))
             },
             onSearchClear = {
-                onAction(SearchResultsAction.OnSearchClear())
+                onAction(SearchResultsAction.OnSearchClear)
             },
             modifier = Modifier,
         )

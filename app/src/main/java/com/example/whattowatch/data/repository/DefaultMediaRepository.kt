@@ -64,6 +64,16 @@ class DefaultMediaRepository(
     override suspend fun getImages(imageUrlString: String): Result<ByteArray> {
         return remoteDataSource.getImages(imageUrlString)
     }
+
+    override suspend fun getUpcomingMovies(): Result<List<Movie>> {
+        return remoteDataSource.getUpcomingMovies()
+            .map { dto ->
+                dto.results.map {
+                    it.toMovie()
+                }
+            }
+
+    }
 }
 
 

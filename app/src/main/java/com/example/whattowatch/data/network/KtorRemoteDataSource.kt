@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.whattowatch.BuildConfig
 import com.example.whattowatch.data.dto.movie_details.MovieDetailsResultsDto
 import com.example.whattowatch.data.dto.movie_search.MovieSearchResultsDto
+import com.example.whattowatch.data.dto.movie_upcoming.UpcomingMovieSearchResultsDto
 import com.example.whattowatch.data.dto.tv_details.TvDetailsResultsDto
 import com.example.whattowatch.data.dto.tv_search.TvSearchResultsDto
 import io.ktor.client.HttpClient
@@ -128,4 +129,56 @@ class KtorRemoteDataSource(
         }
             .body()
     }
+
+    override suspend fun getUpcomingMovies(): Result<UpcomingMovieSearchResultsDto> {
+
+        return try {
+            val response: HttpResponse = httpClient.get("$BASE_URL/movie/upcoming") {
+                headers {
+                    append(
+                        "Authorization",
+                        "Bearer $BEARER_TOKEN"
+                    )
+                }
+            }
+
+            val results: UpcomingMovieSearchResultsDto = response.body()
+            Log.d(
+                "test",
+                results.toString()
+            )
+
+            Result.success(results)
+
+        } catch (e: ClientRequestException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+            Result.failure(e)
+        } catch (e: ServerResponseException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        } catch (e: SerializationException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        } catch (e: Exception) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        }
+
+    }
 }
+

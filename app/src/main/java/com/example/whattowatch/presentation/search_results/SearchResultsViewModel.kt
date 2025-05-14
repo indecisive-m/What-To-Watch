@@ -35,7 +35,7 @@ class SearchResultsViewModel(
 
             is SearchResultsAction.OnSearchPress -> {
                 onSearchPress(query = action.query)
-                
+
             }
 
             is SearchResultsAction.OnSearchClear -> {
@@ -43,7 +43,48 @@ class SearchResultsViewModel(
                     it.copy(searchQuery = "")
                 }
             }
+
+            is SearchResultsAction.LoadUpcomingMovieData -> {
+                loadUpcomingMovieData()
+            }
         }
+    }
+
+
+    private fun loadUpcomingMovieData() = viewModelScope.launch {
+        _state.update {
+            it.copy(status = Status.LOADING)
+        }
+
+        repository.getUpcomingMovies()
+            .onSuccess { upcomingMovies ->
+
+
+                Log.d(
+                    "test",
+                    upcomingMovies.toString()
+                )
+                _state.update {
+                    it.copy(
+                        searchResults = upcomingMovies,
+                        status = Status.SUCCESS
+                    )
+                }
+            }
+            .onFailure { exception ->
+
+                Log.d(
+                    "testBitches",
+                    exception.message.toString()
+                )
+
+                _state.update {
+                    it.copy(
+                        status = Status.ERROR,
+                        errorMessage = exception.message
+                    )
+                }
+            }
     }
 
 
