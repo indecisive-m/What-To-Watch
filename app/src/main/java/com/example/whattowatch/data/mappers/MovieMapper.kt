@@ -15,7 +15,7 @@ fun SearchedMovieDto.toMovie(): Movie {
         title = title,
         adult = adult,
         posterPath = "https://image.tmdb.org/t/p/w500$posterPath",
-        backdropPath = "https://image.tmdb.org/t/p/w500$backdropPath",
+        backdropPath = "https://image.tmdb.org/t/p/w780$backdropPath",
         genreIds = genreIds,
         language = language,
         originalTitle = originalTitle,

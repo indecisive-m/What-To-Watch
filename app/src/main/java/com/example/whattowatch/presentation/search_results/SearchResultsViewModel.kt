@@ -62,11 +62,11 @@ class SearchResultsViewModel(
 
                 Log.d(
                     "test",
-                    upcomingMovies.toString()
+                    upcomingMovies[0].toString()
                 )
                 _state.update {
                     it.copy(
-                        searchResults = upcomingMovies,
+                        upcomingMovies = upcomingMovies,
                         status = Status.SUCCESS
                     )
                 }
@@ -74,7 +74,7 @@ class SearchResultsViewModel(
             .onFailure { exception ->
 
                 Log.d(
-                    "testBitches",
+                    "test",
                     exception.message.toString()
                 )
 

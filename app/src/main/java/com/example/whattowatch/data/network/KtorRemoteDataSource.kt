@@ -144,7 +144,7 @@ class KtorRemoteDataSource(
 
             val results: UpcomingMovieSearchResultsDto = response.body()
             Log.d(
-                "test",
+                "resultsDto",
                 results.toString()
             )
 

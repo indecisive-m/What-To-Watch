@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -51,13 +50,6 @@ fun SearchResultsScreen(
     onAction: (SearchResultsAction) -> Unit
 
 ) {
-
-    LaunchedEffect(key1 = Unit) {
-        onAction(SearchResultsAction.LoadUpcomingMovieData)
-    }
-    UpComingMovies(
-        item = state.searchResults[0]
-    )
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -66,6 +58,15 @@ fun SearchResultsScreen(
                 horizontal = 16.dp
             )
     ) {
+
+        UpComingMovies(
+            item = state.upcomingMovies,
+            loadUpComingMovies = { onAction(SearchResultsAction.LoadUpcomingMovieData) },
+            status = state.status,
+            modifier = Modifier
+
+        )
+
         SearchBar(
             searchQuery = state.searchQuery,
             onSearchQueryChange = {
