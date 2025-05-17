@@ -6,7 +6,8 @@ import com.example.whattowatch.domain.Movie
 data class SearchResultsState(
     val searchResults: List<Media> = emptyList<Media>(),
     val searchQuery: String = "",
-    val status: Status = Status.IDLE,
+    val searchResultsStatus: Status = Status.IDLE,
+    val upcomingMoviesStatus: Status = Status.IDLE,
     val searchOption: SearchOption = SearchOption.MOVIE,
     val errorMessage: String? = null,
     val upcomingMovies: List<Movie> = emptyList<Movie>()

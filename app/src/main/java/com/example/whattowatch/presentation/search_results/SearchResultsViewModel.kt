@@ -47,13 +47,22 @@ class SearchResultsViewModel(
             is SearchResultsAction.LoadUpcomingMovieData -> {
                 loadUpcomingMovieData()
             }
+
+            is SearchResultsAction.OnSearchResultsClear -> {
+                _state.update {
+                    it.copy(
+                        searchResults = emptyList(),
+                        searchQuery = ""
+                    )
+                }
+            }
         }
     }
 
 
     private fun loadUpcomingMovieData() = viewModelScope.launch {
         _state.update {
-            it.copy(status = Status.LOADING)
+            it.copy(upcomingMoviesStatus = Status.LOADING)
         }
 
         repository.getUpcomingMovies()
@@ -67,7 +76,7 @@ class SearchResultsViewModel(
                 _state.update {
                     it.copy(
                         upcomingMovies = upcomingMovies,
-                        status = Status.SUCCESS
+                        upcomingMoviesStatus = Status.SUCCESS
                     )
                 }
             }
@@ -80,7 +89,7 @@ class SearchResultsViewModel(
 
                 _state.update {
                     it.copy(
-                        status = Status.ERROR,
+                        upcomingMoviesStatus = Status.ERROR,
                         errorMessage = exception.message
                     )
                 }
@@ -97,7 +106,7 @@ class SearchResultsViewModel(
             SearchOption.MOVIE -> {
 
                 _state.update {
-                    it.copy(status = Status.LOADING)
+                    it.copy(searchResultsStatus = Status.LOADING)
                 }
 
                 repository.searchMovies(query)
@@ -111,7 +120,7 @@ class SearchResultsViewModel(
                         _state.update {
                             it.copy(
                                 searchResults = searchResults,
-                                status = Status.SUCCESS
+                                searchResultsStatus = Status.SUCCESS
 
                             )
                         }
@@ -120,7 +129,7 @@ class SearchResultsViewModel(
 
                         _state.update {
                             it.copy(
-                                status = Status.ERROR,
+                                searchResultsStatus = Status.ERROR,
                                 errorMessage = exception.message
                             )
                         }
@@ -130,7 +139,7 @@ class SearchResultsViewModel(
 
             SearchOption.TV -> {
                 _state.update {
-                    it.copy(status = Status.LOADING)
+                    it.copy(searchResultsStatus = Status.LOADING)
                 }
 
                 repository.searchTv(query)
@@ -138,7 +147,7 @@ class SearchResultsViewModel(
                         _state.update {
                             it.copy(
                                 searchResults = searchResults,
-                                status = Status.SUCCESS
+                                searchResultsStatus = Status.SUCCESS
 
                             )
                         }
@@ -146,7 +155,7 @@ class SearchResultsViewModel(
                     .onFailure {
                         _state.update {
                             it.copy(
-                                status = Status.ERROR
+                                searchResultsStatus = Status.ERROR
                             )
                         }
 
