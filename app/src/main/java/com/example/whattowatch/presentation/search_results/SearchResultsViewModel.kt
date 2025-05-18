@@ -16,6 +16,10 @@ class SearchResultsViewModel(
     val state = _state.asStateFlow()
 
 
+    init {
+        loadUpcomingMovieData()
+    }
+
     fun onAction(action: SearchResultsAction) {
         when (action) {
             is SearchResultsAction.OnItemClick -> {

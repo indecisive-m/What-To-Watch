@@ -75,7 +75,6 @@ fun SearchResultsScreen(
         ) {
             UpComingMovies(
                 items = state.upcomingMovies,
-                loadUpComingMovies = { onAction(SearchResultsAction.LoadUpcomingMovieData) },
                 status = state.upcomingMoviesStatus,
                 modifier = Modifier
 
@@ -91,7 +90,7 @@ fun SearchResultsScreen(
                     horizontal = 16.dp
                 )
         ) {
-            
+
             SearchBar(
                 searchQuery = state.searchQuery,
                 onSearchQueryChange = {

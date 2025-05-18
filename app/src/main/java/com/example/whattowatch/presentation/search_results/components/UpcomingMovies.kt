@@ -18,7 +18,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,14 +34,9 @@ import com.example.whattowatch.presentation.search_results.Status
 @Composable
 fun UpComingMovies(
     items: List<Movie?>,
-    loadUpComingMovies: () -> Unit,
     status: Status,
     modifier: Modifier = Modifier
 ) {
-
-    LaunchedEffect(key1 = Unit) {
-        loadUpComingMovies()
-    }
 
 
     val fallbackImage = "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
