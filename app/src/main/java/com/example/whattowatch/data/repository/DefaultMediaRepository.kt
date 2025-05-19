@@ -37,25 +37,17 @@ class DefaultMediaRepository(
             }
     }
 
-    override suspend fun getMovieDetails(id: Int): Result<List<MovieDetails>> {
+    override suspend fun getMovieDetails(id: Int): Result<MovieDetails> {
         return remoteDataSource.getMovieDetails(id)
-            .map { dto ->
-                dto.results.map {
-                    it.toMovieDetails()
-                }
+            .map { it.toMovieDetails() }
 
-            }
     }
 
-    override suspend fun getTvDetails(id: Int): Result<List<TvDetails>> {
+    override suspend fun getTvDetails(id: Int): Result<TvDetails> {
         return remoteDataSource.getTvDetails(id)
-            .map { dto ->
-                dto.results.map {
-                    it.toTvDetails()
-                }
-
-            }
+            .map { it.toTvDetails() }
     }
+
 
     // Need to implement this once I have added the saving to local database.
     // Will use coil to load images but when save to watch later list is completed then use this to get byte array

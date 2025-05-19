@@ -9,7 +9,7 @@ data class MovieDetailsDto(
     @SerialName("backdrop_path")
     val backdropPath: String,
     @SerialName("belongs_to_collection")
-    val belongsToCollection: BelongsToCollection,
+    val belongsToCollection: BelongsToCollection?,
     val budget: Int,
     val genres: List<Genres>,
     val homepage: String,
@@ -46,12 +46,12 @@ data class MovieDetailsDto(
 
 @Serializable
 data class BelongsToCollection(
-    val id: Int,
-    val name: String,
+    val id: Int?,
+    val name: String?,
     @SerialName("poster_path")
-    val posterPath: String,
+    val posterPath: String?,
     @SerialName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String?,
 )
 
 @Serializable
@@ -64,7 +64,7 @@ data class Genres(
 data class ProductionCompanies(
     val id: Int,
     @SerialName("logo_path")
-    val logoPath: String,
+    val logoPath: String?,
     val name: String,
     @SerialName("origin_country")
     val originCountry: String

@@ -5,9 +5,9 @@ interface MediaRepository {
 
     suspend fun searchTv(query: String): Result<List<Tv>>
 
-    suspend fun getMovieDetails(id: Int): Result<List<MovieDetails>>
+    suspend fun getMovieDetails(id: Int): Result<MovieDetails>
 
-    suspend fun getTvDetails(id: Int): Result<List<TvDetails>>
+    suspend fun getTvDetails(id: Int): Result<TvDetails>
 
     suspend fun getImages(imageUrlString: String): Result<ByteArray>
 

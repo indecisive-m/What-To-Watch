@@ -45,7 +45,7 @@ fun MovieDetailsDto.toMovieDetails(): MovieDetails {
         video = video,
         averageVote = averageVote,
         voteCount = voteCount,
-        belongsToCollection = belongsToCollection.toDomain(),
+        belongsToCollection = this.belongsToCollection?.toDomain(),
         budget = budget,
         homepage = homepage,
         imdbId = imdbId,

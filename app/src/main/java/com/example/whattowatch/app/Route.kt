@@ -11,5 +11,5 @@ sealed interface Route {
     data object MediaList : Route
 
     @Serializable
-    data class MediaDetails(val id: String) : Route
+    data class MediaDetails(val id: Int) : Route
 }

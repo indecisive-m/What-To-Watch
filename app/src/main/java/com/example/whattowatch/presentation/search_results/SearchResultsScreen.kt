@@ -33,7 +33,8 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SearchResultsScreenRoot(
-    viewModel: SearchResultsViewModel = koinViewModel()
+    viewModel: SearchResultsViewModel = koinViewModel(),
+    onItemClick: (Int) -> Unit
 ) {
 
     val state = viewModel.state.collectAsStateWithLifecycle()
@@ -44,10 +45,7 @@ fun SearchResultsScreenRoot(
         state = state.value,
         onAction = { action ->
             when (action) {
-                is SearchResultsAction.OnItemClick -> {
-
-                }
-
+                is SearchResultsAction.OnItemClick -> onItemClick(action.id)
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -118,7 +116,8 @@ fun SearchResultsScreen(
                     ) {
                         items(state.searchResults) { searchResult ->
                             ItemCard(
-                                item = searchResult
+                                item = searchResult,
+                                onClick = { onAction(SearchResultsAction.OnItemClick(searchResult.id)) }
                             )
 
                         }

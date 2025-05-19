@@ -72,7 +72,7 @@ data class MovieDetails(
     override val averageVote: Double,
     override val voteCount: Int,
 
-    val belongsToCollection: BelongsToCollection,
+    val belongsToCollection: BelongsToCollection?,
     val budget: Int,
     val genres: List<Genres>,
     val homepage: String,

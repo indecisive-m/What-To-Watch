@@ -44,7 +44,7 @@ fun UpComingMovies(
     when (status) {
         Status.LOADING, Status.IDLE -> {
             Box(
-                modifier = Modifier.fillMaxSize(),
+                modifier = modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator()

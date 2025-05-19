@@ -3,4 +3,5 @@
     <string name="search_placeholder">Search</string>
     <string name="search_with_voice">Search with microphone</string>
     <string name="clear">Clear search</string>
+    <string name="go_back">Click to go back</string>
 </resources>

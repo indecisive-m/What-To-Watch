@@ -1,5 +1,6 @@
 package com.example.whattowatch.presentation.search_results.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -35,12 +36,17 @@ import com.example.whattowatch.ui.theme.WhatToWatchTheme
 @Composable
 fun ItemCard(
     item: Media,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
 
     when (item) {
-        is Movie -> Movie(item)
+        is Movie -> Movie(
+            item,
+            onClick
+        )
+
         is Tv -> {}
         else -> Unit
     }
@@ -51,13 +57,15 @@ fun ItemCard(
 @Composable
 fun Movie(
     item: Movie,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
     Row(
         modifier
             .fillMaxWidth()
-            .defaultMinSize(minHeight = 150.dp),
+            .defaultMinSize(minHeight = 150.dp)
+            .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically
     ) {
         AsyncImage(
@@ -121,7 +129,8 @@ fun ItemCardPreview() {
                 video = false,
                 averageVote = 8.219,
                 voteCount = 19656
-            )
+            ),
+            onClick = {}
         )
     }
 }
