@@ -11,7 +11,7 @@ import kotlinx.serialization.Serializable
 data class TvDetailsDto(
     val adult: Boolean,
     @SerialName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String?,
     @SerialName("created_by")
     val createdBy: List<CreatedBy>,
     @SerialName("episode_runtime")

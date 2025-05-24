@@ -44,6 +44,8 @@ class KtorRemoteDataSource(
                 }
             }
             val resultsDto: MovieSearchResultsDto = response.body()
+
+
             Result.success(resultsDto)
         } catch (e: ClientRequestException) {
             Log.d(

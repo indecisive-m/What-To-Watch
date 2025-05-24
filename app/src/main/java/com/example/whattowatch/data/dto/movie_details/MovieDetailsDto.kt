@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class MovieDetailsDto(
     val adult: Boolean,
     @SerialName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String?,
     @SerialName("belongs_to_collection")
     val belongsToCollection: BelongsToCollection?,
     val budget: Int,
@@ -15,7 +15,7 @@ data class MovieDetailsDto(
     val homepage: String,
     val id: Int,
     @SerialName("imdb_id")
-    val imdbId: String,
+    val imdbId: String?,
     @SerialName("original_language")
     val language: String,
     @SerialName("original_title")

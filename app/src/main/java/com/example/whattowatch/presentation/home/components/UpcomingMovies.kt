@@ -1,6 +1,7 @@
-package com.example.whattowatch.presentation.search_results.components
+package com.example.whattowatch.presentation.home.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,15 +30,20 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.whattowatch.domain.Movie
-import com.example.whattowatch.presentation.search_results.Status
+import com.example.whattowatch.presentation.home.HomeScreenAction
+import com.example.whattowatch.presentation.home.Status
 
 @Composable
 fun UpComingMovies(
     items: List<Movie?>,
     status: Status,
+    onItemClick: (HomeScreenAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
-
+//
+//    val screenConfiguration = LocalConfiguration.current
+//
+//    val isLandscape = screenConfiguration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
     val fallbackImage = "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 
@@ -56,6 +62,7 @@ fun UpComingMovies(
             val pagerState = rememberPagerState(pageCount = { 5 })
 
 
+
             Box() {
 
                 HorizontalPager(
@@ -71,7 +78,9 @@ fun UpComingMovies(
                     var currentUrl = upcomingMovie?.backdropPath ?: fallbackImage
 
 
-                    Box() {
+                    Box(
+                        modifier = Modifier.clickable(onClick = { onItemClick(HomeScreenAction.OnItemClick(upcomingMovie!!.id)) })
+                    ) {
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
                                 .data(currentUrl)

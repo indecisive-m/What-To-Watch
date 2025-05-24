@@ -1,8 +1,11 @@
 package com.example.whattowatch.presentation.search_results
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
+import com.example.whattowatch.app.Route
 import com.example.whattowatch.domain.MediaRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -10,14 +13,17 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SearchResultsViewModel(
-    private val repository: MediaRepository
+    private val repository: MediaRepository,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _state = MutableStateFlow(SearchResultsState())
     val state = _state.asStateFlow()
 
+    private val query = savedStateHandle.toRoute<Route.MediaList>().searchQuery
+
 
     init {
-        loadUpcomingMovieData()
+        onSearchPress(query)
     }
 
     fun onAction(action: SearchResultsAction) {
@@ -44,60 +50,24 @@ class SearchResultsViewModel(
 
             is SearchResultsAction.OnSearchClear -> {
                 _state.update {
-                    it.copy(searchQuery = "")
+                    it.copy(
+                        searchQuery = "",
+                        searchResultsStatus = Status.IDLE
+                    )
                 }
             }
 
-            is SearchResultsAction.LoadUpcomingMovieData -> {
-                loadUpcomingMovieData()
-            }
 
             is SearchResultsAction.OnSearchResultsClear -> {
                 _state.update {
                     it.copy(
                         searchResults = emptyList(),
-                        searchQuery = ""
+                        searchQuery = "",
+                        searchResultsStatus = Status.IDLE
                     )
                 }
             }
         }
-    }
-
-
-    private fun loadUpcomingMovieData() = viewModelScope.launch {
-        _state.update {
-            it.copy(upcomingMoviesStatus = Status.LOADING)
-        }
-
-        repository.getUpcomingMovies()
-            .onSuccess { upcomingMovies ->
-
-
-                Log.d(
-                    "test",
-                    upcomingMovies[0].toString()
-                )
-                _state.update {
-                    it.copy(
-                        upcomingMovies = upcomingMovies,
-                        upcomingMoviesStatus = Status.SUCCESS
-                    )
-                }
-            }
-            .onFailure { exception ->
-
-                Log.d(
-                    "test",
-                    exception.message.toString()
-                )
-
-                _state.update {
-                    it.copy(
-                        upcomingMoviesStatus = Status.ERROR,
-                        errorMessage = exception.message
-                    )
-                }
-            }
     }
 
 
@@ -124,11 +94,16 @@ class SearchResultsViewModel(
                         _state.update {
                             it.copy(
                                 searchResults = searchResults,
-                                searchResultsStatus = Status.SUCCESS
+                                searchQuery = query,
+                                searchResultsStatus = Status.SUCCESS,
+                                errorMessage = null
 
                             )
                         }
+
                     }
+
+
                     .onFailure { exception ->
 
                         _state.update {
@@ -151,7 +126,9 @@ class SearchResultsViewModel(
                         _state.update {
                             it.copy(
                                 searchResults = searchResults,
-                                searchResultsStatus = Status.SUCCESS
+                                searchResultsStatus = Status.SUCCESS,
+                                errorMessage = null
+
 
                             )
                         }

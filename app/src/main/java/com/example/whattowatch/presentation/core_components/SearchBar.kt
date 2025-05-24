@@ -1,4 +1,4 @@
-package com.example.whattowatch.presentation.search_results.components
+package com.example.whattowatch.presentation.core_components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.border
@@ -27,6 +27,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -46,11 +47,16 @@ fun SearchBar(
     modifier: Modifier = Modifier
 ) {
 
+
     val focusRequester = remember { FocusRequester() }
     var isTextFieldFocused by remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
 
     var isError by remember { mutableStateOf(false) }
+
+
+
 
     TextField(
         value = searchQuery,
@@ -62,7 +68,11 @@ fun SearchBar(
         },
         leadingIcon = {
             IconButton(
-                onClick = { onImeSearch(searchQuery) }
+                onClick = {
+                    onImeSearch(searchQuery)
+                    isTextFieldFocused = false
+                    focusManager.clearFocus()
+                }
             ) {
 
                 Icon(
@@ -115,6 +125,8 @@ fun SearchBar(
                     onImeSearch(searchQuery)
                     keyboardController?.hide()
                     isError = false
+                    isTextFieldFocused = false
+                    focusManager.clearFocus()
                 } else {
                     isError = true
                 }

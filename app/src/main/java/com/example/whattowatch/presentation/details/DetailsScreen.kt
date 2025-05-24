@@ -78,9 +78,9 @@ fun DetailsScreen(
                     }
                     Text(state.media.id.toString())
                     Text(state.media.averageVote.toString())
-                    Text(state.media.backdropPath)
+                    Text(state.media.backdropPath.toString())
                     Text(state.media.overview)
-                    Text(state.media.posterPath)
+                    Text(state.media.posterPath.toString())
                     Text(state.media.adult.toString())
                     Text(state.media.language)
                     Text(state.media.popularity.toString())

@@ -14,8 +14,8 @@ import com.example.whattowatch.domain.model.SpokenLanguages
 sealed class Media {
     abstract val id: Int
     abstract val adult: Boolean
-    abstract val posterPath: String
-    abstract val backdropPath: String
+    abstract val posterPath: String?
+    abstract val backdropPath: String?
     abstract val popularity: Double
     abstract val overview: String
     abstract val language: String
@@ -27,8 +27,8 @@ sealed class Media {
 data class Movie(
     override val id: Int,
     override val adult: Boolean,
-    override val posterPath: String,
-    override val backdropPath: String,
+    override val posterPath: String?,
+    override val backdropPath: String?,
     override val popularity: Double,
     override val overview: String,
     override val language: String,
@@ -46,8 +46,8 @@ data class Movie(
 data class Tv(
     override val id: Int,
     override val adult: Boolean,
-    override val posterPath: String,
-    override val backdropPath: String,
+    override val posterPath: String?,
+    override val backdropPath: String?,
     override val popularity: Double,
     override val overview: String,
     override val language: String,
@@ -64,8 +64,8 @@ data class Tv(
 data class MovieDetails(
     override val id: Int,
     override val adult: Boolean,
-    override val posterPath: String,
-    override val backdropPath: String,
+    override val posterPath: String?,
+    override val backdropPath: String?,
     override val popularity: Double,
     override val overview: String,
     override val language: String,
@@ -76,7 +76,7 @@ data class MovieDetails(
     val budget: Int,
     val genres: List<Genres>,
     val homepage: String,
-    val imdbId: String,
+    val imdbId: String?,
     val originalTitle: String,
     val productionCompanies: List<ProductionCompanies>,
     val productionCountries: List<ProductionCountries>,
@@ -93,8 +93,8 @@ data class MovieDetails(
 data class TvDetails(
     override val id: Int,
     override val adult: Boolean,
-    override val posterPath: String,
-    override val backdropPath: String,
+    override val posterPath: String?,
+    override val backdropPath: String?,
     override val popularity: Double,
     override val overview: String,
     override val language: String,

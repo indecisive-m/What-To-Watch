@@ -6,5 +6,4 @@ sealed interface SearchResultsAction {
     data class OnSearchPress(val query: String) : SearchResultsAction
     data object OnSearchClear : SearchResultsAction
     data object OnSearchResultsClear : SearchResultsAction
-    data object LoadUpcomingMovieData : SearchResultsAction
 }

@@ -8,7 +8,10 @@ sealed interface Route {
     data object MediaGraph : Route
 
     @Serializable
-    data object MediaList : Route
+    data object HomeScreen : Route
+
+    @Serializable
+    data class MediaList(val searchQuery: String) : Route
 
     @Serializable
     data class MediaDetails(val id: Int) : Route
