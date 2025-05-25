@@ -4,4 +4,6 @@
     <string name="search_with_voice">Search with microphone</string>
     <string name="clear">Clear search</string>
     <string name="go_back">Click to go back</string>
+    <string name="your_favourites">Your Favourites</string>
+    <string name="see_more">See more</string>
 </resources>

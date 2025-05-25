@@ -16,11 +16,8 @@ class HomeScreenViewModel(
     val state = _state.asStateFlow()
 
     init {
-        Log.d(
-            "HomeScreenInit",
-            "fetched"
-        )
         loadUpcomingMovieData()
+        fetchFavourites()
     }
 
 
@@ -46,6 +43,10 @@ class HomeScreenViewModel(
                         searchQuery = ""
                     )
                 }
+            }
+
+            HomeScreenAction.OnSeeMoreButtonClick -> {
+
             }
         }
 
@@ -89,10 +90,11 @@ class HomeScreenViewModel(
     }
 
 
-    private fun onSearchPress(query: String) = viewModelScope.launch {
-
+    //TODO Implement once I have room set up
+    private fun fetchFavourites() {
 
     }
+
 }
 
 

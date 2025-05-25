@@ -13,6 +13,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.example.whattowatch.presentation.details.DetailsScreenRoot
 import com.example.whattowatch.presentation.details.DetailsScreenViewModel
+import com.example.whattowatch.presentation.favourites.FavouritesScreenRoot
 import com.example.whattowatch.presentation.home.HomeScreenRoot
 import com.example.whattowatch.presentation.home.HomeScreenViewModel
 import com.example.whattowatch.presentation.search_results.SearchResultsScreenRoot
@@ -46,12 +47,18 @@ fun App() {
                         },
                         onItemClick = { id ->
                             navController.navigate(route = Route.MediaDetails(id))
+                        },
+                        onSeeMoreButtonClick = {
+                            navController.navigate(route = Route.Favourites)
                         }
                     )
                 }
 
 
-                composable<Route.MediaList> {
+                composable<Route.MediaList>(
+                    enterTransition = { fadeIn() },
+                    exitTransition = { fadeOut() }
+                ) {
 
                     val viewModel = koinViewModel<SearchResultsViewModel>()
 
@@ -72,7 +79,10 @@ fun App() {
                     )
                 }
 
-                composable<Route.MediaDetails> {
+                composable<Route.MediaDetails>(
+                    enterTransition = { slideInVertically() + fadeIn() },
+                    exitTransition = { slideOutVertically() + fadeOut() }
+                ) {
 
                     val viewModel = koinViewModel<DetailsScreenViewModel>()
 
@@ -82,6 +92,12 @@ fun App() {
                             navController.navigateUp()
                         }
 
+                    )
+                }
+
+                composable<Route.Favourites> {
+
+                    FavouritesScreenRoot(
                     )
                 }
 
