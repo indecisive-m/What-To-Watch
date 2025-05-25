@@ -23,7 +23,7 @@ class HomeScreenViewModel(
 
     fun onAction(action: HomeScreenAction) {
         when (action) {
-            is HomeScreenAction.OnSearchPress -> {
+            is HomeScreenAction.OnSearchClick -> {
 
             }
 

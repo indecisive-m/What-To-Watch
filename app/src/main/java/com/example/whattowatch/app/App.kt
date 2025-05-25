@@ -42,7 +42,7 @@ fun App() {
 
                     HomeScreenRoot(
                         viewModel = viewModel,
-                        onSearchPress = { searchQuery ->
+                        onSearchClick = { searchQuery ->
                             navController.navigate(route = Route.MediaList(searchQuery))
                         },
                         onItemClick = { id ->

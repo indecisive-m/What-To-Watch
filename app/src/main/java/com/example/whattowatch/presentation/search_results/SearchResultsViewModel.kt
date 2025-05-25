@@ -23,7 +23,7 @@ class SearchResultsViewModel(
 
 
     init {
-        onSearchPress(query)
+        onSearchClick(query)
     }
 
     fun onAction(action: SearchResultsAction) {
@@ -43,8 +43,8 @@ class SearchResultsViewModel(
 
             }
 
-            is SearchResultsAction.OnSearchPress -> {
-                onSearchPress(query = action.query)
+            is SearchResultsAction.OnSearchClick -> {
+                onSearchClick(query = action.query)
 
             }
 
@@ -71,7 +71,7 @@ class SearchResultsViewModel(
     }
 
 
-    private fun onSearchPress(query: String) = viewModelScope.launch {
+    private fun onSearchClick(query: String) = viewModelScope.launch {
 
         if (state.value.searchQuery.isBlank()) {
             null

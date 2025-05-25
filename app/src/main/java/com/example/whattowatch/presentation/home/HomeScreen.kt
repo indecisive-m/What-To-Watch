@@ -20,7 +20,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomeScreenRoot(
     viewModel: HomeScreenViewModel = koinViewModel(),
-    onSearchPress: (String) -> Unit,
+    onSearchClick: (String) -> Unit,
     onItemClick: (Int) -> Unit,
     onSeeMoreButtonClick: () -> Unit,
 ) {
@@ -37,7 +37,7 @@ fun HomeScreenRoot(
             }
             viewModel.onAction(action)
         },
-        onSearchPress = onSearchPress,
+        onSearchClick = onSearchClick,
     )
 
 }
@@ -46,7 +46,7 @@ fun HomeScreenRoot(
 fun HomeScreen(
     state: HomeScreenState,
     onAction: (HomeScreenAction) -> Unit,
-    onSearchPress: (String) -> Unit,
+    onSearchClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -72,7 +72,7 @@ fun HomeScreen(
         SearchBar(
             searchQuery = state.searchQuery,
             onSearchQueryChange = { onAction(HomeScreenAction.OnSearchQueryChange(it)) },
-            onImeSearch = onSearchPress,
+            onImeSearch = onSearchClick,
             onSearchClear = { onAction(HomeScreenAction.OnSearchClear) },
             modifier = Modifier.padding(horizontal = 16.dp)
         )

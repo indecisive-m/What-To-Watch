@@ -94,7 +94,7 @@ fun SearchResultsScreen(
                     onAction(SearchResultsAction.OnSearchQueryChange(it))
                 },
                 onImeSearch = {
-                    onAction(SearchResultsAction.OnSearchPress(it))
+                    onAction(SearchResultsAction.OnSearchClick(it))
                 },
                 onSearchClear = {
                     onAction(SearchResultsAction.OnSearchClear)
