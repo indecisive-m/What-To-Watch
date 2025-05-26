@@ -6,7 +6,7 @@ import com.example.whattowatch.domain.model.ProductionCompanies as Domain
 fun ProductionCompanies.toDomain(): Domain {
     return Domain(
         id = id,
-        logoPath = logoPath,
+        logoPath = if (logoPath != null) "https://image.tmdb.org/t/p/w300$logoPath" else null,
         name = name,
         originCountry = originCountry
     )

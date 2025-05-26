@@ -81,11 +81,11 @@ fun HomeScreen(
                 .height(16.dp)
         )
         AnimatedVisibility(
-            visible = state.favourites.isNotEmpty()
+            visible = state.upcomingMovies.isNotEmpty()
         ) {
 
             YourFavourites(
-                favourites = state.favourites,
+                favourites = state.upcomingMovies,
                 onItemClick = onAction,
                 onSeeMoreButtonClick = onAction
             )

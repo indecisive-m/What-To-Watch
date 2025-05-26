@@ -31,7 +31,7 @@ fun TvDetailsDto.toTvDetails(): TvDetails {
     return TvDetails(
         id = id,
         adult = adult,
-        posterPath = "https://image.tmdb.org/t/p/w500$posterPath",
+        posterPath = "https://image.tmdb.org/t/p/w780$posterPath",
         backdropPath = "https://image.tmdb.org/t/p/w500$backdropPath",
         popularity = popularity,
         overview = overview,

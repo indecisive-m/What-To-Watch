@@ -34,7 +34,7 @@ fun MovieDetailsDto.toMovieDetails(): MovieDetails {
         id = id,
         title = title,
         adult = adult,
-        posterPath = "https://image.tmdb.org/t/p/w500$posterPath",
+        posterPath = "https://image.tmdb.org/t/p/w780$posterPath",
         backdropPath = "https://image.tmdb.org/t/p/w500$backdropPath",
         genres = genres.map { it.toDomain() },
         language = language,

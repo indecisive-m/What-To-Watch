@@ -3,8 +3,10 @@ package com.example.whattowatch.presentation.home.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -17,8 +19,10 @@ import androidx.compose.material.icons.filled.Movie
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -44,10 +48,21 @@ fun YourFavourites(
     Column(
         modifier = modifier.padding(horizontal = 16.dp)
     ) {
-        Text(
-            text = stringResource(R.string.your_favourites),
-            style = MaterialTheme.typography.titleLarge
-        )
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = stringResource(R.string.your_favourites),
+                style = MaterialTheme.typography.titleLarge
+            )
+            SeeMoreButton(
+                containerColor = Color.Transparent,
+                onClick = { onSeeMoreButtonClick(HomeScreenAction.OnSeeMoreButtonClick) }
+            )
+
+        }
 
         Spacer(Modifier.height(16.dp))
         LazyVerticalGrid(
@@ -77,6 +92,7 @@ fun YourFavourites(
                 }
                 item(span = { GridItemSpan(2) }) {
                     SeeMoreButton(
+                        containerColor = Color.LightGray,
                         onClick = { onSeeMoreButtonClick(HomeScreenAction.OnSeeMoreButtonClick) }
                     )
                 }
