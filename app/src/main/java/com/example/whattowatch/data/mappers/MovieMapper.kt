@@ -56,6 +56,8 @@ fun MovieDetailsDto.toMovieDetails(): MovieDetails {
         spokenLanguages = spokenLanguages.map { it.toDomain() },
         status = status,
         tagline = tagline,
+        credits = credits.toDomain(),
+        reviews = reviews.results.map { it.toDomain() },
     )
 }
 

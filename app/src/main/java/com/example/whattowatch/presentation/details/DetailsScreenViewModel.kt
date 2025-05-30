@@ -56,6 +56,7 @@ class DetailsScreenViewModel(
 
                     }
                     .onFailure {
+                        
                         _state.update {
                             it.copy(
                                 status = Status.ERROR

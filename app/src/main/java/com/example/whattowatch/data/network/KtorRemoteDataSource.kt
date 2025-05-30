@@ -111,7 +111,7 @@ class KtorRemoteDataSource(
     override suspend fun getMovieDetails(id: Int): Result<MovieDetailsDto> {
 
         return try {
-            val response: HttpResponse = httpClient.get("$BASE_URL/movie/${id.toString()}") {
+            val response: HttpResponse = httpClient.get("$BASE_URL/movie/${id.toString()}?append_to_response=credits,reviews") {
                 headers {
                     append(
                         "Authorization",

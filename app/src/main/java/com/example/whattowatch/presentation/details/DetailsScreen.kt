@@ -35,6 +35,7 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.whattowatch.domain.MovieDetails
+import com.example.whattowatch.presentation.details.components.CastRow
 import com.example.whattowatch.presentation.details.components.GenreChip
 import com.example.whattowatch.presentation.details.components.IconButtonComposable
 import com.example.whattowatch.presentation.details.components.ProductionCompaniesRow
@@ -124,6 +125,8 @@ fun MovieDetailsComposable(
     val formattedDate = date.format(formatter)
 
     val productionCompaniesWithLogos = state.productionCompanies.filter { it.logoPath != null }
+
+    val castWithProfilePicture = state.credits.cast.filter { it.profilePath != null }
 
 
 
@@ -234,6 +237,12 @@ fun MovieDetailsComposable(
 
                     ProductionCompaniesRow(
                         productionCompanies = productionCompaniesWithLogos
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    CastRow(
+                        cast = castWithProfilePicture,
                     )
 
 

@@ -2,12 +2,14 @@ package com.example.whattowatch.domain
 
 import com.example.whattowatch.domain.model.BelongsToCollection
 import com.example.whattowatch.domain.model.CreatedBy
+import com.example.whattowatch.domain.model.Credits
 import com.example.whattowatch.domain.model.Genres
 import com.example.whattowatch.domain.model.LastEpisodeToAir
 import com.example.whattowatch.domain.model.Networks
 import com.example.whattowatch.domain.model.NextEpisodeToAir
 import com.example.whattowatch.domain.model.ProductionCompanies
 import com.example.whattowatch.domain.model.ProductionCountries
+import com.example.whattowatch.domain.model.Review
 import com.example.whattowatch.domain.model.Seasons
 import com.example.whattowatch.domain.model.SpokenLanguages
 
@@ -88,6 +90,10 @@ data class MovieDetails(
     val tagline: String,
     val title: String,
     val video: Boolean,
+    val credits: Credits,
+    val reviews: List<Review>
+
+
 ) : Media()
 
 data class TvDetails(
