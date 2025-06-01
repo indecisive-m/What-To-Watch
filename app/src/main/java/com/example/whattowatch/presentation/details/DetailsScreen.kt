@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -38,6 +39,7 @@ import com.example.whattowatch.domain.MovieDetails
 import com.example.whattowatch.presentation.details.components.CastRow
 import com.example.whattowatch.presentation.details.components.GenreChip
 import com.example.whattowatch.presentation.details.components.IconButtonComposable
+import com.example.whattowatch.presentation.details.components.InfoRow
 import com.example.whattowatch.presentation.details.components.ProductionCompaniesRow
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
@@ -116,18 +118,10 @@ fun MovieDetailsComposable(
     val fallbackImage = "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     var currentUrl = state.posterPath ?: fallbackImage
 
-    val date: LocalDate = LocalDate.parse(state.releaseDate)
-
-    val formatter = DateTimeFormatter.ofPattern(
-        "d MMMM yyyy",
-        Locale.getDefault()
-    )
-    val formattedDate = date.format(formatter)
 
     val productionCompaniesWithLogos = state.productionCompanies.filter { it.logoPath != null }
 
     val castWithProfilePicture = state.credits.cast.filter { it.profilePath != null }
-
 
 
     Box(
@@ -173,25 +167,31 @@ fun MovieDetailsComposable(
                     )
                     Spacer(modifier = Modifier.height(4.dp))
 
-                    Text(
-                        text = state.tagline,
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    if (state.tagline.isNotEmpty()) {
+                        Text(
+                            text = state.tagline,
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
 
-                    )
+                        )
+
+                    }
                     Spacer(modifier = Modifier.height(4.dp))
 
-                    Text(
-                        text = formattedDate,
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    )
+                    if (isDateValid(state.releaseDate) != null) {
+                        Text(
+                            text = isDateValid(state.releaseDate).toString(),
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        )
+
+                    }
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    Row(
+                    FlowRow(
                         horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically,
+                        verticalArrangement = Arrangement.Center,
                         modifier = Modifier
                             .fillMaxWidth()
 
@@ -215,23 +215,32 @@ fun MovieDetailsComposable(
                     Spacer(modifier = Modifier.height(16.dp))
 
 
-                    Text(state.averageVote.toString())
-                    Text(state.backdropPath.toString())
-                    Text(state.popularity.toString())
-                    Text(state.voteCount.toString())
+                    Text("${state.averageVote.toString()} average vote")
+                    Text("${state.voteCount.toString()} vote count")
 
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Start,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text(
-                            text = "Runtime: ",
-                            fontWeight = FontWeight.SemiBold
-                        )
-                        Text("${state.runtime} minutes")
 
-                    }
+                    InfoRow(
+                        text = "Runtime",
+                        infoFromState = state.runtime,
+                        isCurrency = false,
+                        isRunTime = true,
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    InfoRow(
+                        text = "Budget",
+                        infoFromState = state.budget,
+                        isCurrency = true,
+                        isRunTime = false,
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    InfoRow(
+                        text = "Revenue",
+                        infoFromState = state.revenue,
+                        isCurrency = true,
+                        isRunTime = false,
+                    )
 
                     Spacer(modifier = Modifier.height(8.dp))
 
@@ -276,6 +285,27 @@ fun MovieDetailsComposable(
 
         }
     }
-
 }
+
+
+@RequiresApi(Build.VERSION_CODES.O)
+private fun isDateValid(releaseDate: String): String? {
+
+    if (releaseDate.isNotEmpty()) {
+
+        val date: LocalDate = LocalDate.parse(releaseDate)
+        val formatter = DateTimeFormatter.ofPattern(
+            "d MMMM yyyy",
+            Locale.getDefault()
+        )
+
+        val formattedDate = date.format(formatter)
+
+        return formattedDate.toString()
+
+    } else {
+        return null
+    }
+}
+
 
