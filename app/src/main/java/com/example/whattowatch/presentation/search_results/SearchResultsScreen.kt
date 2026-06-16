@@ -36,6 +36,8 @@ import com.example.whattowatch.presentation.core_components.SearchBar
 import com.example.whattowatch.presentation.search_results.components.ItemCard
 import org.koin.androidx.compose.koinViewModel
 
+// This needs to reset to top of scrollable list when a new search is pressed.
+// Currently, it remembers where it was in the list which is not correct
 
 @Composable
 fun SearchResultsScreenRoot(

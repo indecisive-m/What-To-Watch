@@ -1,7 +1,6 @@
 package com.example.whattowatch.presentation.details
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,6 +24,10 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -46,7 +49,6 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DetailsScreenRoot(
     viewModel: DetailsScreenViewModel = koinViewModel<DetailsScreenViewModel>(),
@@ -62,7 +64,6 @@ fun DetailsScreenRoot(
 
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DetailsScreen(
     state: DetailsScreenState,
@@ -70,53 +71,65 @@ fun DetailsScreen(
     onBackClick: () -> Unit,
 ) {
 
+    var isImageLoading by remember { mutableStateOf(true) }
 
-    when (state.status) {
-        Status.IDLE, Status.LOADING -> {
-            Box(
-                modifier = modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        when (state.status) {
+            Status.IDLE, Status.LOADING -> {
+
+                LoadingSpinner()
+            }
+
+            Status.SUCCESS -> {
+
+
+                if (state.media == null) {
+                    return
+                }
+
+
+                if (state.media is MovieDetails) {
+                    MovieDetailsComposable(
+                        onBackClick = onBackClick,
+                        onImageLoaded = { isImageLoading = false },
+                        state = state.media,
+                        modifier = Modifier
+                    )
+
+                }
+
+                if (isImageLoading) {
+                    LoadingSpinner()
+                }
+
+
+            }
+
+            Status.ERROR -> {
+                Text("Sorry there was an error")
+
             }
         }
 
-        Status.SUCCESS -> {
-
-            if (state.media == null) {
-                return
-            }
-
-            if (state.media is MovieDetails) {
-                MovieDetailsComposable(
-                    onBackClick = onBackClick,
-                    state = state.media,
-                    modifier = Modifier
-                )
-
-            }
-
-
-        }
-
-        Status.ERROR -> {
-            Text("Sorry there was an error")
-
-        }
     }
-
 }
 
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MovieDetailsComposable(
     onBackClick: () -> Unit,
+    onImageLoaded: () -> Unit,
     state: MovieDetails,
     modifier: Modifier = Modifier
 ) {
-    val fallbackImage = "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    var currentUrl = state.posterPath ?: fallbackImage
+    val fallbackImage =
+        "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    var currentUrl by remember(state.posterPath) {
+        mutableStateOf(state.posterPath ?: fallbackImage)
+    }
 
 
     val productionCompaniesWithLogos = state.productionCompanies.filter { it.logoPath != null }
@@ -142,10 +155,14 @@ fun MovieDetailsComposable(
                         .build(),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
+                    onSuccess = {
+                        onImageLoaded()
+                    },
                     onError = {
                         if (currentUrl != fallbackImage) {
                             currentUrl = fallbackImage
                         }
+                        onImageLoaded()
                     },
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -287,8 +304,18 @@ fun MovieDetailsComposable(
     }
 }
 
+@Composable
+fun LoadingSpinner() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
+    }
+}
 
-@RequiresApi(Build.VERSION_CODES.O)
 private fun isDateValid(releaseDate: String): String? {
 
     if (releaseDate.isNotEmpty()) {

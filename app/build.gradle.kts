@@ -6,6 +6,8 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotzilla)
+    alias(libs.plugins.room)
+    alias(libs.plugins.ksp)
 }
 
 
@@ -64,6 +66,11 @@ android {
         compose = true
         buildConfig = true
     }
+
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
+
 }
 
 dependencies {
@@ -86,11 +93,14 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation(libs.bundles.ktor)
-    project.dependencies.platform(libs.koin.bom)
-    implementation(libs.koin.core)
+    implementation(platform(libs.koin.bom))
     implementation(libs.bundles.koin)
     implementation(libs.bundles.coil)
     implementation(libs.kotlinx.serialization)
     implementation(libs.material.icons)
+    implementation(libs.kotzilla.sdk.compose)
+    implementation(libs.room.ktx)
+    implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
 
 }
