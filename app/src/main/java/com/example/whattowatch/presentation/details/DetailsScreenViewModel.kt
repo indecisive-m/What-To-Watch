@@ -9,6 +9,8 @@ import com.example.whattowatch.app.Route
 import com.example.whattowatch.domain.MediaRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -29,7 +31,27 @@ class DetailsScreenViewModel(
         )
 
         getMediaDetails(mediaId)
+        checkIfFavourite()
     }
+
+
+    fun onAction(action: DetailsScreenAction) {
+        when (action) {
+            DetailsScreenAction.OnFavouriteClick -> {
+
+                viewModelScope.launch {
+                    if (state.value.isFavourite) {
+                        repository.deleteFromFavorites(mediaId)
+                    } else {
+                        state.value.media?.let { media ->
+                            repository.addToFavourites(media)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     private fun getMediaDetails(mediaId: Int) = viewModelScope.launch {
 
@@ -56,7 +78,7 @@ class DetailsScreenViewModel(
 
                     }
                     .onFailure {
-                        
+
                         _state.update {
                             it.copy(
                                 status = Status.ERROR
@@ -90,4 +112,17 @@ class DetailsScreenViewModel(
             }
         }
     }
+
+    private fun checkIfFavourite() {
+        repository.isBookFavourited(mediaId)
+            .onEach { isFavourite ->
+                _state.update {
+                    it.copy(isFavourite = isFavourite)
+                }
+            }
+            .launchIn(viewModelScope)
+
+    }
+
 }
+

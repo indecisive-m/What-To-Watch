@@ -1,20 +1,27 @@
 package com.example.whattowatch.data.repository
 
+import com.example.whattowatch.data.database.FavouritesDao
 import com.example.whattowatch.data.dto.movie_search.MovieSearchResultsDto
+import com.example.whattowatch.data.mappers.toFavouritesEntity
+import com.example.whattowatch.data.mappers.toMedia
 import com.example.whattowatch.data.mappers.toMovie
 import com.example.whattowatch.data.mappers.toMovieDetails
 import com.example.whattowatch.data.mappers.toTv
 import com.example.whattowatch.data.mappers.toTvDetails
 import com.example.whattowatch.data.network.KtorRemoteDataSource
+import com.example.whattowatch.domain.Media
 import com.example.whattowatch.domain.MediaRepository
 import com.example.whattowatch.domain.Movie
 import com.example.whattowatch.domain.MovieDetails
 import com.example.whattowatch.domain.Tv
 import com.example.whattowatch.domain.TvDetails
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 
 class DefaultMediaRepository(
-    private val remoteDataSource: KtorRemoteDataSource
+    private val remoteDataSource: KtorRemoteDataSource,
+    private val favouritesDao: FavouritesDao
 ) : MediaRepository {
 
     override suspend fun searchMovies(query: String): Result<List<Movie>> {
@@ -65,6 +72,31 @@ class DefaultMediaRepository(
                 }
             }
 
+    }
+
+
+    override fun getAllFavourites(): Flow<List<Media>> {
+        return favouritesDao.getAllFavourites()
+            .map { favouritesEntities ->
+                favouritesEntities.map { it -> it.toMedia() }
+            }
+    }
+
+    override suspend fun addToFavourites(media: Media) {
+
+
+        return favouritesDao.addToFavourites(media.toFavouritesEntity())
+    }
+
+    override fun isBookFavourited(id: Int): Flow<Boolean> {
+        return favouritesDao.getAllFavourites()
+            .map { favouritesEntities ->
+                favouritesEntities.any { it.id == id }
+            }
+    }
+
+    override suspend fun deleteFromFavorites(id: Int) {
+        return favouritesDao.removeFromFavourites(id)
     }
 }
 

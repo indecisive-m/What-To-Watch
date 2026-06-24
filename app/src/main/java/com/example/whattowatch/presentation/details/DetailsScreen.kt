@@ -59,7 +59,10 @@ fun DetailsScreenRoot(
 
     DetailsScreen(
         state = state.value,
-        onBackClick = onBackClick
+        onBackClick = onBackClick,
+        onAction = { action ->
+            viewModel.onAction(action)
+        }
     )
 
 }
@@ -69,6 +72,7 @@ fun DetailsScreen(
     state: DetailsScreenState,
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
+    onAction: (DetailsScreenAction) -> Unit
 ) {
 
     var isImageLoading by remember { mutableStateOf(true) }
@@ -96,6 +100,7 @@ fun DetailsScreen(
                         onBackClick = onBackClick,
                         onImageLoaded = { isImageLoading = false },
                         state = state.media,
+                        onAction = onAction,
                         modifier = Modifier
                     )
 
@@ -122,7 +127,9 @@ fun DetailsScreen(
 fun MovieDetailsComposable(
     onBackClick: () -> Unit,
     onImageLoaded: () -> Unit,
+    onAction: (DetailsScreenAction) -> Unit,
     state: MovieDetails,
+
     modifier: Modifier = Modifier
 ) {
     val fallbackImage =
@@ -297,7 +304,7 @@ fun MovieDetailsComposable(
             )
             IconButtonComposable(
                 icon = Icons.Filled.FavoriteBorder,
-                onClick = onBackClick
+                onClick = { onAction(DetailsScreenAction.OnFavouriteClick) }
             )
 
         }

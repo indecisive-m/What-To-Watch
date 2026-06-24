@@ -85,7 +85,7 @@ fun HomeScreen(
         ) {
 
             YourFavourites(
-                favourites = state.upcomingMovies,
+                favourites = state.favourites,
                 onItemClick = onAction,
                 onSeeMoreButtonClick = onAction
             )

@@ -90,8 +90,15 @@ class HomeScreenViewModel(
     }
 
 
-    //TODO Implement once I have room set up
-    private fun fetchFavourites() {
+    private fun fetchFavourites() = viewModelScope.launch {
+        repository.getAllFavourites()
+            .collect { favourites ->
+                _state.update {
+                    it.copy(
+                        favourites = favourites
+                    )
+                }
+            }
 
     }
 

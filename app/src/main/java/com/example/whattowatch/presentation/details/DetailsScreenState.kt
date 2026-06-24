@@ -7,6 +7,7 @@ data class DetailsScreenState(
     val media: Media? = null,
     val mediaOption: MediaOption = MediaOption.MOVIE,
     val errorMessage: String? = null,
+    val isFavourite: Boolean = false
 )
 
 enum class Status {
