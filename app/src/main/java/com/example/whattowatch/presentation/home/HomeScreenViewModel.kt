@@ -1,6 +1,5 @@
 package com.example.whattowatch.presentation.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.whattowatch.domain.MediaRepository
@@ -61,11 +60,6 @@ class HomeScreenViewModel(
         repository.getUpcomingMovies()
             .onSuccess { upcomingMovies ->
 
-
-                Log.d(
-                    "test",
-                    upcomingMovies[0].toString()
-                )
                 _state.update {
                     it.copy(
                         upcomingMovies = upcomingMovies,
@@ -74,11 +68,6 @@ class HomeScreenViewModel(
                 }
             }
             .onFailure { exception ->
-
-                Log.d(
-                    "test",
-                    exception.message.toString()
-                )
 
                 _state.update {
                     it.copy(

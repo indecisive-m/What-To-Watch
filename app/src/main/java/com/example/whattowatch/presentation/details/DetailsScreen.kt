@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -30,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -38,6 +40,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.example.whattowatch.R
 import com.example.whattowatch.domain.MovieDetails
 import com.example.whattowatch.presentation.details.components.CastRow
 import com.example.whattowatch.presentation.details.components.GenreChip
@@ -100,6 +103,7 @@ fun DetailsScreen(
                         onBackClick = onBackClick,
                         onImageLoaded = { isImageLoading = false },
                         state = state.media,
+                        isFavourite = state.isFavourite,
                         onAction = onAction,
                         modifier = Modifier
                     )
@@ -129,6 +133,7 @@ fun MovieDetailsComposable(
     onImageLoaded: () -> Unit,
     onAction: (DetailsScreenAction) -> Unit,
     state: MovieDetails,
+    isFavourite: Boolean,
 
     modifier: Modifier = Modifier
 ) {
@@ -300,10 +305,14 @@ fun MovieDetailsComposable(
         ) {
             IconButtonComposable(
                 icon = Icons.AutoMirrored.Default.ArrowBack,
+                contentDescription = R.string.go_back,
+                tint = Color.White,
                 onClick = onBackClick
             )
             IconButtonComposable(
-                icon = Icons.Filled.FavoriteBorder,
+                icon = if (isFavourite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
+                contentDescription = if (isFavourite) R.string.remove_from_favourites else R.string.add_to_favourites,
+                tint = if (isFavourite) Color.Red else Color.White,
                 onClick = { onAction(DetailsScreenAction.OnFavouriteClick) }
             )
 

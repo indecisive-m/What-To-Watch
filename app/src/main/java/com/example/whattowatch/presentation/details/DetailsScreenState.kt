@@ -1,11 +1,12 @@
 package com.example.whattowatch.presentation.details
 
 import com.example.whattowatch.domain.Media
+import com.example.whattowatch.domain.MediaType
 
 data class DetailsScreenState(
     val status: Status = Status.IDLE,
     val media: Media? = null,
-    val mediaOption: MediaOption = MediaOption.MOVIE,
+    val mediaType: MediaType = MediaType.MOVIE,
     val errorMessage: String? = null,
     val isFavourite: Boolean = false
 )
@@ -17,8 +18,5 @@ enum class Status {
     ERROR
 }
 
-enum class MediaOption {
-    MOVIE,
-    TV
-}
+
 

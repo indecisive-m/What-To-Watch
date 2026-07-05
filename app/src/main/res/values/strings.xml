@@ -5,5 +5,8 @@
     <string name="clear">Clear search</string>
     <string name="go_back">Click to go back</string>
     <string name="your_favourites">Your Favourites</string>
+    <string name="add_to_favourites">Add to favourites</string>
+    <string name="remove_from_favourites">Remove from favourites</string>
+    
     <string name="see_more">See more</string>
 </resources>

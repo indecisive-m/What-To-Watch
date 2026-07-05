@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.example.whattowatch.app.Route
 import com.example.whattowatch.domain.MediaRepository
+import com.example.whattowatch.domain.MediaType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -41,7 +42,7 @@ class DetailsScreenViewModel(
 
                 viewModelScope.launch {
                     if (state.value.isFavourite) {
-                        repository.deleteFromFavorites(mediaId)
+                        repository.deleteFromFavorites(mediaId, state.value.mediaType)
                     } else {
                         state.value.media?.let { media ->
                             repository.addToFavourites(media)
@@ -55,8 +56,8 @@ class DetailsScreenViewModel(
 
     private fun getMediaDetails(mediaId: Int) = viewModelScope.launch {
 
-        when (state.value.mediaOption) {
-            MediaOption.MOVIE -> {
+        when (state.value.mediaType) {
+            MediaType.MOVIE -> {
 
                 _state.update {
                     it.copy(status = Status.LOADING)
@@ -88,7 +89,7 @@ class DetailsScreenViewModel(
 
             }
 
-            MediaOption.TV -> {
+            MediaType.TV -> {
                 _state.update {
                     it.copy(status = Status.LOADING)
                 }

@@ -81,7 +81,7 @@ fun HomeScreen(
                 .height(16.dp)
         )
         AnimatedVisibility(
-            visible = state.upcomingMovies.isNotEmpty()
+            visible = state.favourites.isNotEmpty()
         ) {
 
             YourFavourites(

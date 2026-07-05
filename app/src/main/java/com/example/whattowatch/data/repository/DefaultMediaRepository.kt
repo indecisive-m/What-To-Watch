@@ -1,16 +1,19 @@
 package com.example.whattowatch.data.repository
 
-import com.example.whattowatch.data.database.FavouritesDao
-import com.example.whattowatch.data.dto.movie_search.MovieSearchResultsDto
-import com.example.whattowatch.data.mappers.toFavouritesEntity
-import com.example.whattowatch.data.mappers.toMedia
-import com.example.whattowatch.data.mappers.toMovie
-import com.example.whattowatch.data.mappers.toMovieDetails
-import com.example.whattowatch.data.mappers.toTv
-import com.example.whattowatch.data.mappers.toTvDetails
-import com.example.whattowatch.data.network.KtorRemoteDataSource
+import android.util.Log
+import com.example.whattowatch.data.local.database.FavouritesDao
+import com.example.whattowatch.data.local.storage.ImageStorage
+import com.example.whattowatch.data.remote.dto.movie_search.MovieSearchResultsDto
+import com.example.whattowatch.data.remote.mappers.toFavouritesEntity
+import com.example.whattowatch.data.remote.mappers.toMedia
+import com.example.whattowatch.data.remote.mappers.toMovie
+import com.example.whattowatch.data.remote.mappers.toMovieDetails
+import com.example.whattowatch.data.remote.mappers.toTv
+import com.example.whattowatch.data.remote.mappers.toTvDetails
+import com.example.whattowatch.data.remote.network.KtorRemoteDataSource
 import com.example.whattowatch.domain.Media
 import com.example.whattowatch.domain.MediaRepository
+import com.example.whattowatch.domain.MediaType
 import com.example.whattowatch.domain.Movie
 import com.example.whattowatch.domain.MovieDetails
 import com.example.whattowatch.domain.Tv
@@ -21,7 +24,8 @@ import kotlinx.coroutines.flow.map
 
 class DefaultMediaRepository(
     private val remoteDataSource: KtorRemoteDataSource,
-    private val favouritesDao: FavouritesDao
+    private val favouritesDao: FavouritesDao,
+    private val imageStorage: ImageStorage
 ) : MediaRepository {
 
     override suspend fun searchMovies(query: String): Result<List<Movie>> {
@@ -56,14 +60,6 @@ class DefaultMediaRepository(
     }
 
 
-    // Need to implement this once I have added the saving to local database.
-    // Will use coil to load images but when save to watch later list is completed then use this to get byte array
-    // to store images for offline use.
-
-    override suspend fun getImages(imageUrlString: String): Result<ByteArray> {
-        return remoteDataSource.getImages(imageUrlString)
-    }
-
     override suspend fun getUpcomingMovies(): Result<List<Movie>> {
         return remoteDataSource.getUpcomingMovies()
             .map { dto ->
@@ -74,7 +70,6 @@ class DefaultMediaRepository(
 
     }
 
-
     override fun getAllFavourites(): Flow<List<Media>> {
         return favouritesDao.getAllFavourites()
             .map { favouritesEntities ->
@@ -84,8 +79,37 @@ class DefaultMediaRepository(
 
     override suspend fun addToFavourites(media: Media) {
 
+        val mediaToMediaEntity = media.toFavouritesEntity()
 
-        return favouritesDao.addToFavourites(media.toFavouritesEntity())
+        val imageBytes = remoteDataSource.getImage(media.posterPath)
+
+        imageBytes.onSuccess { bytes ->
+            imageStorage.saveImageToStorage(
+                mediaType = mediaToMediaEntity.mediaType,
+                mediaId = mediaToMediaEntity.id,
+                bytes = bytes
+            )
+        }
+
+
+        val localLink = remoteDataSource.getImage(media.posterPath)
+            .onFailure { error ->
+                Log.e("Image", "Failed to get image", error)
+            }
+            .getOrNull()
+            ?.let { bytes ->
+                imageStorage.saveImageToStorage(
+                    mediaType = mediaToMediaEntity.mediaType,
+                    mediaId = mediaToMediaEntity.id,
+                    bytes = bytes
+                )
+            }
+
+        val entity = media.toFavouritesEntity().copy(
+            imageLink = localLink
+        )
+
+        return favouritesDao.addToFavourites(entity)
     }
 
     override fun isBookFavourited(id: Int): Flow<Boolean> {
@@ -95,7 +119,12 @@ class DefaultMediaRepository(
             }
     }
 
-    override suspend fun deleteFromFavorites(id: Int) {
+
+    override suspend fun deleteFromFavorites(id: Int, mediaType: MediaType) {
+
+
+        imageStorage.deleteFile(mediaType, id)
+
         return favouritesDao.removeFromFavourites(id)
     }
 }

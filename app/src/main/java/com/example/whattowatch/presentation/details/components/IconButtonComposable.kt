@@ -13,11 +13,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.whattowatch.R
 
 @Composable
 fun IconButtonComposable(
     icon: ImageVector,
+    contentDescription: Int,
+    tint: Color,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -35,8 +36,8 @@ fun IconButtonComposable(
 
         Icon(
             imageVector = icon,
-            contentDescription = stringResource(R.string.go_back),
-            tint = Color.White,
+            contentDescription = stringResource(contentDescription),
+            tint = tint,
             modifier = Modifier.size(24.dp)
 
         )

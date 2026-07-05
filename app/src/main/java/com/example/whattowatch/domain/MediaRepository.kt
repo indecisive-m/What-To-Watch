@@ -11,7 +11,6 @@ interface MediaRepository {
 
     suspend fun getTvDetails(id: Int): Result<TvDetails>
 
-    suspend fun getImages(imageUrlString: String): Result<ByteArray>
 
     suspend fun getUpcomingMovies(): Result<List<Movie>>
 
@@ -19,7 +18,8 @@ interface MediaRepository {
 
     suspend fun addToFavourites(media: Media)
 
-    suspend fun deleteFromFavorites(id: Int)
+    suspend fun deleteFromFavorites(id: Int, mediaType: MediaType)
+
 
     fun isBookFavourited(id: Int): Flow<Boolean>
 
