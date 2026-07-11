@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.example.whattowatch.app.Route
 import com.example.whattowatch.domain.MediaRepository
+import com.example.whattowatch.domain.MediaType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -20,10 +21,11 @@ class SearchResultsViewModel(
     val state = _state.asStateFlow()
 
     private val query = savedStateHandle.toRoute<Route.MediaList>().searchQuery
+    private val mediaType = savedStateHandle.toRoute<Route.MediaList>().mediaType
 
 
     init {
-        onSearchClick(query)
+        onSearchClick(query, mediaType)
     }
 
     fun onAction(action: SearchResultsAction) {
@@ -44,7 +46,7 @@ class SearchResultsViewModel(
             }
 
             is SearchResultsAction.OnSearchClick -> {
-                onSearchClick(query = action.query)
+                onSearchClick(query = action.query, action.mediaType)
 
             }
 
@@ -53,6 +55,14 @@ class SearchResultsViewModel(
                     it.copy(
                         searchQuery = "",
                         searchResultsStatus = Status.IDLE
+                    )
+                }
+            }
+
+            is SearchResultsAction.OnSearchOptionClick -> {
+                _state.update {
+                    it.copy(
+                        mediaType = action.mediaType
                     )
                 }
             }
@@ -71,13 +81,13 @@ class SearchResultsViewModel(
     }
 
 
-    private fun onSearchClick(query: String) = viewModelScope.launch {
+    private fun onSearchClick(query: String, mediaType: MediaType) = viewModelScope.launch {
 
         if (state.value.searchQuery.isBlank()) {
             null
         }
-        when (state.value.searchOption) {
-            SearchOption.MOVIE -> {
+        when (mediaType) {
+            MediaType.MOVIE -> {
 
                 _state.update {
                     it.copy(searchResultsStatus = Status.LOADING)
@@ -96,7 +106,8 @@ class SearchResultsViewModel(
                                 searchResults = searchResults,
                                 searchQuery = query,
                                 searchResultsStatus = Status.SUCCESS,
-                                errorMessage = null
+                                errorMessage = null,
+                                mediaType = MediaType.MOVIE
 
                             )
                         }
@@ -116,18 +127,26 @@ class SearchResultsViewModel(
                     }
             }
 
-            SearchOption.TV -> {
+            MediaType.TV -> {
                 _state.update {
                     it.copy(searchResultsStatus = Status.LOADING)
                 }
 
                 repository.searchTv(query)
                     .onSuccess { searchResults ->
+
+                        Log.d(
+                            "tvvm",
+                            searchResults.toString()
+                        )
+
                         _state.update {
                             it.copy(
                                 searchResults = searchResults,
+                                searchQuery = query,
                                 searchResultsStatus = Status.SUCCESS,
-                                errorMessage = null
+                                errorMessage = null,
+                                mediaType = MediaType.TV
 
 
                             )

@@ -3,6 +3,7 @@ package com.example.whattowatch.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.whattowatch.domain.MediaRepository
+import com.example.whattowatch.domain.MediaType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -44,6 +45,14 @@ class HomeScreenViewModel(
                 }
             }
 
+            is HomeScreenAction.OnSearchOptionClick -> {
+                _state.update {
+                    it.copy(
+                        mediaType = action.mediaType
+                    )
+                }
+            }
+
             HomeScreenAction.OnSeeMoreButtonClick -> {
 
             }
@@ -63,7 +72,8 @@ class HomeScreenViewModel(
                 _state.update {
                     it.copy(
                         upcomingMovies = upcomingMovies,
-                        status = Status.SUCCESS
+                        status = Status.SUCCESS,
+                        mediaType = MediaType.MOVIE
                     )
                 }
             }

@@ -23,6 +23,8 @@ sealed class Media {
     abstract val language: String
     abstract val averageVote: Double
     abstract val voteCount: Int
+
+    abstract val mediaType: MediaType
 }
 
 
@@ -36,6 +38,7 @@ data class Movie(
     override val language: String,
     override val averageVote: Double,
     override val voteCount: Int,
+    override val mediaType: MediaType = MediaType.MOVIE,
 
     val genreIds: List<Int>,
     val title: String?,
@@ -55,10 +58,11 @@ data class Tv(
     override val language: String,
     override val averageVote: Double,
     override val voteCount: Int,
+    override val mediaType: MediaType = MediaType.TV,
 
     val genreIds: List<Int>,
     val name: String?,
-    val originCountry: String?,
+    val originCountry: List<String>,
     val originalName: String?,
     val firstAirDate: String?,
 ) : Media()
@@ -73,6 +77,7 @@ data class MovieDetails(
     override val language: String,
     override val averageVote: Double,
     override val voteCount: Int,
+    override val mediaType: MediaType = MediaType.MOVIE,
 
     val belongsToCollection: BelongsToCollection?,
     val budget: Int,
@@ -106,9 +111,10 @@ data class TvDetails(
     override val language: String,
     override val averageVote: Double,
     override val voteCount: Int,
+    override val mediaType: MediaType = MediaType.TV,
 
     val createdBy: List<CreatedBy>,
-    val episodeRuntime: List<Int>,
+    val episodeRuntime: List<Int>?,
     val firstAirDate: String,
     val genres: List<Genres>,
     val homepage: String,
@@ -121,7 +127,7 @@ data class TvDetails(
     val networks: List<Networks>,
     val numberOfEpisodes: Int,
     val numberOfSeasons: Int,
-    val originCountry: String,
+    val originCountry: List<String>,
     val originalName: String,
     val productionCompanies: List<ProductionCompanies>,
     val productionCountries: List<ProductionCountries>,

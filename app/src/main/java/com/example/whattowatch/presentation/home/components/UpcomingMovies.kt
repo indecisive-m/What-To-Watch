@@ -45,7 +45,8 @@ fun UpComingMovies(
 //
 //    val isLandscape = screenConfiguration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-    val fallbackImage = "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    val fallbackImage =
+        "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 
     when (status) {
         Status.LOADING, Status.IDLE -> {
@@ -79,7 +80,14 @@ fun UpComingMovies(
 
 
                     Box(
-                        modifier = Modifier.clickable(onClick = { onItemClick(HomeScreenAction.OnItemClick(upcomingMovie!!.id)) })
+                        modifier = Modifier.clickable(onClick = {
+                            onItemClick(
+                                HomeScreenAction.OnItemClick(
+                                    upcomingMovie!!.id,
+                                    mediaType = upcomingMovie.mediaType
+                                )
+                            )
+                        })
                     ) {
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
@@ -135,9 +143,11 @@ fun UpComingMovies(
                         val HEIGHT = 8.dp
                         val WIDTH = HEIGHT * 4
 
-                        val color = if (pagerState.currentPage == iteration) Color.White else Color.LightGray
+                        val color =
+                            if (pagerState.currentPage == iteration) Color.White else Color.LightGray
 
-                        val shape = if (pagerState.currentPage == iteration) RoundedCornerShape(10.dp) else CircleShape
+                        val shape =
+                            if (pagerState.currentPage == iteration) RoundedCornerShape(10.dp) else CircleShape
                         val size = if (pagerState.currentPage == iteration) WIDTH else HEIGHT
 
                         Box(

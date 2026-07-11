@@ -1,6 +1,7 @@
 package com.example.whattowatch.presentation.search_results
 
 import com.example.whattowatch.domain.Media
+import com.example.whattowatch.domain.MediaType
 import com.example.whattowatch.domain.Movie
 
 data class SearchResultsState(
@@ -8,9 +9,9 @@ data class SearchResultsState(
     val searchQuery: String = "",
     val searchResultsStatus: Status = Status.IDLE,
     val upcomingMoviesStatus: Status = Status.IDLE,
-    val searchOption: SearchOption = SearchOption.MOVIE,
     val errorMessage: String? = null,
-    val upcomingMovies: List<Movie> = emptyList<Movie>()
+    val upcomingMovies: List<Movie> = emptyList<Movie>(),
+    val mediaType: MediaType = MediaType.MOVIE
 )
 
 enum class Status {
@@ -20,7 +21,3 @@ enum class Status {
     ERROR
 }
 
-enum class SearchOption {
-    MOVIE,
-    TV
-}

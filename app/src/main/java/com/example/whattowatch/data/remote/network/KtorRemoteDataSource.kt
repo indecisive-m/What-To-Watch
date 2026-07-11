@@ -123,23 +123,59 @@ class KtorRemoteDataSource(
 
 
     override suspend fun searchTv(query: String): Result<TvSearchResultsDto> {
-        return httpClient.get("$BASE_URL/search/tv") {
-            headers {
-                append(
-                    "Authorization",
-                    "Bearer $BEARER_TOKEN"
-                )
-            }
-            url {
-                parameters.append(
-                    "query",
-                    query
-                )
-            }
+        return try {
+            val response = httpClient.get("$BASE_URL/search/tv") {
+                headers {
+                    append(
+                        "Authorization",
+                        "Bearer $BEARER_TOKEN"
+                    )
+                }
+                url {
+                    parameters.append(
+                        "query",
+                        query
+                    )
+                }
 
+            }
+            val resultsDto: TvSearchResultsDto = response.body()
+
+            Log.d("tv", resultsDto.toString())
+
+
+            Result.success((resultsDto))
+
+        } catch (e: ClientRequestException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+            Result.failure(e)
+        } catch (e: ServerResponseException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        } catch (e: SerializationException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        } catch (e: Exception) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
         }
-            .body()
     }
+
 
     override suspend fun getMovieDetails(id: Int): Result<MovieDetailsDto> {
 
@@ -196,15 +232,56 @@ class KtorRemoteDataSource(
 
 
     override suspend fun getTvDetails(id: Int): Result<TvDetailsDto> {
-        return httpClient.get("$BASE_URL/tv/${id.toString()}") {
-            headers {
-                append(
-                    "Authorization",
-                    "Bearer $BEARER_TOKEN"
-                )
+
+        return try {
+
+            val response: HttpResponse = httpClient.get("$BASE_URL/tv/${id.toString()}") {
+                headers {
+                    append(
+                        "Authorization",
+                        "Bearer $BEARER_TOKEN"
+                    )
+                }
             }
+
+            val results: TvDetailsDto = response.body()
+
+            Log.d(
+                "in data",
+                results.toString()
+            )
+
+            Result.success(results)
+
+
+        } catch (e: ClientRequestException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+            Result.failure(e)
+        } catch (e: ServerResponseException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        } catch (e: SerializationException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        } catch (e: Exception) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
         }
-            .body()
     }
 
     override suspend fun getUpcomingMovies(): Result<UpcomingMovieSearchResultsDto> {

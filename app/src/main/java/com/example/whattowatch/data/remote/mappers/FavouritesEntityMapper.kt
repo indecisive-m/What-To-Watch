@@ -92,7 +92,7 @@ fun FavouritesEntity.toMedia(): Media {
             voteCount = 0,
             genreIds = emptyList(),
             name = name,
-            originCountry = null,
+            originCountry = emptyList(),
             originalName = null,
             firstAirDate = firstAirDate
         )

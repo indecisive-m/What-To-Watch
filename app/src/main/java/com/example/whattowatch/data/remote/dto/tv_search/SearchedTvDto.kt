@@ -8,12 +8,12 @@ import kotlinx.serialization.Serializable
 data class SearchedTvDto(
     val adult: Boolean,
     @SerialName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String?,
     @SerialName("genre_ids")
     val genreIds: List<Int>,
     val id: Int,
     @SerialName("origin_country")
-    val originCountry: String,
+    val originCountry: List<String>,
     @SerialName("original_language")
     val language: String,
     @SerialName("original_name")

@@ -23,15 +23,12 @@ class DetailsScreenViewModel(
     val state = _state.asStateFlow()
 
     private val mediaId = savedStateHandle.toRoute<Route.MediaDetails>().id
+    private val mediaType = savedStateHandle.toRoute<Route.MediaDetails>().mediaType
 
 
     init {
-        Log.d(
-            "Detailsvm",
-            mediaId.toString()
-        )
 
-        getMediaDetails(mediaId)
+        getMediaDetails(mediaId, mediaType)
         checkIfFavourite()
     }
 
@@ -54,9 +51,9 @@ class DetailsScreenViewModel(
     }
 
 
-    private fun getMediaDetails(mediaId: Int) = viewModelScope.launch {
+    private fun getMediaDetails(mediaId: Int, mediaType: MediaType) = viewModelScope.launch {
 
-        when (state.value.mediaType) {
+        when (mediaType) {
             MediaType.MOVIE -> {
 
                 _state.update {

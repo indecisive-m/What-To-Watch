@@ -42,11 +42,11 @@ fun App() {
 
                     HomeScreenRoot(
                         viewModel = viewModel,
-                        onSearchClick = { searchQuery ->
-                            navController.navigate(route = Route.MediaList(searchQuery))
+                        onSearchClick = { searchQuery, mediaType ->
+                            navController.navigate(route = Route.MediaList(searchQuery, mediaType))
                         },
-                        onItemClick = { id ->
-                            navController.navigate(route = Route.MediaDetails(id))
+                        onItemClick = { id, mediaType ->
+                            navController.navigate(route = Route.MediaDetails(id, mediaType))
                         },
                         onSeeMoreButtonClick = {
                             navController.navigate(route = Route.Favourites)
@@ -64,13 +64,13 @@ fun App() {
 
                     SearchResultsScreenRoot(
                         viewModel = viewModel,
-                        onItemClick = { id ->
+                        onItemClick = { id, mediaType ->
 
                             Log.d(
                                 "Nav",
                                 id.toString()
                             )
-                            navController.navigate(route = Route.MediaDetails(id))
+                            navController.navigate(route = Route.MediaDetails(id, mediaType))
 
                         },
                         onSearchResultsClear = {

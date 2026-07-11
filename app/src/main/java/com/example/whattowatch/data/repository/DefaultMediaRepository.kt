@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.whattowatch.data.local.database.FavouritesDao
 import com.example.whattowatch.data.local.storage.ImageStorage
 import com.example.whattowatch.data.remote.dto.movie_search.MovieSearchResultsDto
+import com.example.whattowatch.data.remote.dto.tv_search.TvSearchResultsDto
 import com.example.whattowatch.data.remote.mappers.toFavouritesEntity
 import com.example.whattowatch.data.remote.mappers.toMedia
 import com.example.whattowatch.data.remote.mappers.toMovie
@@ -41,7 +42,7 @@ class DefaultMediaRepository(
 
     override suspend fun searchTv(query: String): Result<List<Tv>> {
         return remoteDataSource.searchTv(query)
-            .map { dto ->
+            .map { dto: TvSearchResultsDto ->
                 dto.results.map {
                     it.toTv()
                 }

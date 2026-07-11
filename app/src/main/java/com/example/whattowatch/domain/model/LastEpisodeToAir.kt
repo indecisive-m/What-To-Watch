@@ -7,7 +7,7 @@ data class LastEpisodeToAir(
     val averageVote: Double,
     val voteCount: Int,
     val airDate: String,
-    val episodeNumber: String,
+    val episodeNumber: Int,
     val productionCode: String,
     val runtime: Int,
     val seasonNumber: Int,

@@ -47,12 +47,63 @@ fun ItemCard(
             onClick
         )
 
-        is Tv -> {}
+        is Tv -> TV(
+            item,
+            onClick
+        )
+
         else -> Unit
     }
 
 }
 
+@Composable
+fun TV(
+    item: Tv,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier
+            .fillMaxWidth()
+            .defaultMinSize(minHeight = 150.dp)
+            .clickable(onClick = onClick),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(item.posterPath)
+                .crossfade(enable = true)
+                .build(),
+            contentDescription = null,
+            error = rememberVectorPainter(Icons.Default.Movie),
+            contentScale = ContentScale.Fit,
+            modifier = Modifier
+                .height(150.dp)
+                .aspectRatio(2f / 3f)
+                .clip(RoundedCornerShape(8.dp)),
+            placeholder = rememberVectorPainter(Icons.Default.Movie)
+        )
+
+        Spacer(Modifier.width(8.dp))
+        Column() {
+            Text(
+                text = item.name.toString(),
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.Bold
+            )
+
+            Spacer(modifier.height(4.dp))
+            Text(
+                text = item.overview.toString(),
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.bodyMedium
+            )
+
+        }
+    }
+}
 
 @Composable
 fun Movie(

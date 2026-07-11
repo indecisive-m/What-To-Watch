@@ -12,7 +12,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.whattowatch.domain.MediaType
 import com.example.whattowatch.presentation.core_components.SearchBar
+import com.example.whattowatch.presentation.core_components.SearchOptions
 import com.example.whattowatch.presentation.home.components.UpComingMovies
 import com.example.whattowatch.presentation.home.components.YourFavourites
 import org.koin.androidx.compose.koinViewModel
@@ -20,8 +22,8 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomeScreenRoot(
     viewModel: HomeScreenViewModel = koinViewModel(),
-    onSearchClick: (String) -> Unit,
-    onItemClick: (Int) -> Unit,
+    onSearchClick: (String, MediaType) -> Unit,
+    onItemClick: (Int, MediaType) -> Unit,
     onSeeMoreButtonClick: () -> Unit,
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
@@ -31,7 +33,7 @@ fun HomeScreenRoot(
         state = state.value,
         onAction = { action ->
             when (action) {
-                is HomeScreenAction.OnItemClick -> onItemClick(action.id)
+                is HomeScreenAction.OnItemClick -> onItemClick(action.id, action.mediaType)
                 is HomeScreenAction.OnSeeMoreButtonClick -> onSeeMoreButtonClick()
                 else -> Unit
             }
@@ -46,7 +48,7 @@ fun HomeScreenRoot(
 fun HomeScreen(
     state: HomeScreenState,
     onAction: (HomeScreenAction) -> Unit,
-    onSearchClick: (String) -> Unit,
+    onSearchClick: (String, MediaType) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -72,14 +74,23 @@ fun HomeScreen(
         SearchBar(
             searchQuery = state.searchQuery,
             onSearchQueryChange = { onAction(HomeScreenAction.OnSearchQueryChange(it)) },
-            onImeSearch = onSearchClick,
+            onImeSearch = { onSearchClick(state.searchQuery, state.mediaType) },
             onSearchClear = { onAction(HomeScreenAction.OnSearchClear) },
             modifier = Modifier.padding(horizontal = 16.dp)
         )
         Spacer(
             modifier = Modifier
-                .height(16.dp)
+                .height(8.dp)
         )
+        SearchOptions(
+            searchOption = state.mediaType,
+            onSearchOptionClick = { onAction(HomeScreenAction.OnSearchOptionClick(it)) }
+        )
+        Spacer(
+            modifier = Modifier
+                .height(8.dp)
+        )
+
         AnimatedVisibility(
             visible = state.favourites.isNotEmpty()
         ) {

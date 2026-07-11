@@ -15,7 +15,7 @@ data class TvDetailsDto(
     @SerialName("created_by")
     val createdBy: List<CreatedBy>,
     @SerialName("episode_runtime")
-    val episodeRuntime: List<Int>,
+    val episodeRuntime: List<Int>? = null,
     @SerialName("first_air_date")
     val firstAirDate: String,
     val genres: List<Genres>,
@@ -37,7 +37,7 @@ data class TvDetailsDto(
     @SerialName("number_of_seasons")
     val numberOfSeasons: Int,
     @SerialName("origin_country")
-    val originCountry: String,
+    val originCountry: List<String>,
     @SerialName("original_language")
     val language: String,
     @SerialName("original_name")
@@ -89,7 +89,7 @@ data class LastEpisodeToAir(
     @SerialName("air_date")
     val airDate: String,
     @SerialName("episode_number")
-    val episodeNumber: String,
+    val episodeNumber: Int,
     @SerialName("production_code")
     val productionCode: String,
     val runtime: Int,
@@ -141,7 +141,7 @@ data class Networks(
 @Serializable
 data class Seasons(
     @SerialName("air_date")
-    val airDate: String,
+    val airDate: String?,
     @SerialName("episode_count")
     val episodeCount: Int,
     val id: Int,

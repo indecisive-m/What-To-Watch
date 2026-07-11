@@ -85,7 +85,14 @@ fun YourFavourites(
                         modifier = Modifier
                             .aspectRatio(2f / 3f)
                             .clip(RoundedCornerShape(8.dp))
-                            .clickable(onClick = { onItemClick(HomeScreenAction.OnItemClick(favourite.id)) }),
+                            .clickable(onClick = {
+                                onItemClick(
+                                    HomeScreenAction.OnItemClick(
+                                        favourite.id,
+                                        favourite.mediaType
+                                    )
+                                )
+                            }),
                         placeholder = rememberVectorPainter(Icons.Default.Movie)
                     )
 

@@ -42,6 +42,7 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.whattowatch.R
 import com.example.whattowatch.domain.MovieDetails
+import com.example.whattowatch.domain.TvDetails
 import com.example.whattowatch.presentation.details.components.CastRow
 import com.example.whattowatch.presentation.details.components.GenreChip
 import com.example.whattowatch.presentation.details.components.IconButtonComposable
@@ -108,6 +109,10 @@ fun DetailsScreen(
                         modifier = Modifier
                     )
 
+                }
+
+                if (state.media is TvDetails) {
+                    Text("TV Details")
                 }
 
                 if (isImageLoading) {

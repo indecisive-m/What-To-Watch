@@ -32,7 +32,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.whattowatch.domain.MediaType
 import com.example.whattowatch.presentation.core_components.SearchBar
+import com.example.whattowatch.presentation.core_components.SearchOptions
 import com.example.whattowatch.presentation.search_results.components.ItemCard
 import org.koin.androidx.compose.koinViewModel
 
@@ -42,7 +44,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun SearchResultsScreenRoot(
     viewModel: SearchResultsViewModel = koinViewModel(),
-    onItemClick: (Int) -> Unit,
+    onItemClick: (Int, MediaType) -> Unit,
     onSearchResultsClear: () -> Unit,
 ) {
 
@@ -54,7 +56,7 @@ fun SearchResultsScreenRoot(
         state = state.value,
         onAction = { action ->
             when (action) {
-                is SearchResultsAction.OnItemClick -> onItemClick(action.id)
+                is SearchResultsAction.OnItemClick -> onItemClick(action.id, action.mediaType)
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -78,6 +80,7 @@ fun SearchResultsScreen(
 
 //    val scrollable = if (isLandscape) Modifier.verticalScroll(rememberScrollState()) else Modifier
 
+
     Scaffold(
         contentWindowInsets = WindowInsets.systemBars
     ) { innerPadding ->
@@ -96,12 +99,16 @@ fun SearchResultsScreen(
                     onAction(SearchResultsAction.OnSearchQueryChange(it))
                 },
                 onImeSearch = {
-                    onAction(SearchResultsAction.OnSearchClick(it))
+                    onAction(SearchResultsAction.OnSearchClick(state.searchQuery, state.mediaType))
                 },
                 onSearchClear = {
                     onAction(SearchResultsAction.OnSearchClear)
                 },
                 modifier = Modifier,
+            )
+            SearchOptions(
+                searchOption = state.mediaType,
+                onSearchOptionClick = { onAction(SearchResultsAction.OnSearchOptionClick(it)) }
             )
             Spacer(Modifier.height(16.dp))
 
@@ -138,7 +145,14 @@ fun SearchResultsScreen(
                         items(state.searchResults) { searchResult ->
                             ItemCard(
                                 item = searchResult,
-                                onClick = { onAction(SearchResultsAction.OnItemClick(searchResult.id)) }
+                                onClick = {
+                                    onAction(
+                                        SearchResultsAction.OnItemClick(
+                                            searchResult.id,
+                                            mediaType = searchResult.mediaType
+                                        )
+                                    )
+                                }
                             )
 
                         }
