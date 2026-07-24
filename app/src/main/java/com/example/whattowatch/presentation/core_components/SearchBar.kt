@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -54,7 +55,6 @@ fun SearchBar(
     val focusManager = LocalFocusManager.current
 
     var isError by remember { mutableStateOf(false) }
-
 
 
 
@@ -115,7 +115,19 @@ fun SearchBar(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
+            focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
+            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
+            focusedTextColor = MaterialTheme.colorScheme.onSecondary,
+            unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+            focusedLabelColor = MaterialTheme.colorScheme.onSurface,
+            unfocusedLabelColor = MaterialTheme.colorScheme.onSurface,
+            focusedLeadingIconColor = MaterialTheme.colorScheme.onSecondary,
+            unfocusedLeadingIconColor = MaterialTheme.colorScheme.onSurface,
+            focusedTrailingIconColor = MaterialTheme.colorScheme.onSecondary,
+            unfocusedTrailingIconColor = MaterialTheme.colorScheme.onSurface
+
         ),
+
         singleLine = true,
         keyboardActions = KeyboardActions(
             onSearch = {
@@ -152,7 +164,6 @@ fun SearchBar(
 
 
         )
-
 }
 
 

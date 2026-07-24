@@ -5,7 +5,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -18,11 +17,12 @@ import com.example.whattowatch.presentation.home.HomeScreenRoot
 import com.example.whattowatch.presentation.home.HomeScreenViewModel
 import com.example.whattowatch.presentation.search_results.SearchResultsScreenRoot
 import com.example.whattowatch.presentation.search_results.SearchResultsViewModel
+import com.example.whattowatch.ui.theme.WhatToWatchTheme
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun App() {
-    MaterialTheme {
+    WhatToWatchTheme {
         val navController = rememberNavController()
 
         NavHost(

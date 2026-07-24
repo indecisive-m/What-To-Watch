@@ -99,7 +99,7 @@ fun YourFavourites(
                 }
                 item(span = { GridItemSpan(2) }) {
                     SeeMoreButton(
-                        containerColor = Color.LightGray,
+                        containerColor = MaterialTheme.colorScheme.secondary,
                         onClick = { onSeeMoreButtonClick(HomeScreenAction.OnSeeMoreButtonClick) }
                     )
                 }

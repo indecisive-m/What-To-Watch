@@ -1,5 +1,6 @@
 package com.example.whattowatch.presentation.search_results.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -67,7 +69,9 @@ fun TV(
         modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 150.dp)
-            .clickable(onClick = onClick),
+            .clickable(onClick = onClick)
+            .clip(RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainer),
         verticalAlignment = Alignment.CenterVertically
     ) {
         AsyncImage(
@@ -86,11 +90,14 @@ fun TV(
         )
 
         Spacer(Modifier.width(8.dp))
-        Column() {
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp)
+        ) {
             Text(
                 text = item.name.toString(),
-                style = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.Bold
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSecondary
             )
 
             Spacer(modifier.height(4.dp))
@@ -98,7 +105,8 @@ fun TV(
                 text = item.overview.toString(),
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface
             )
 
         }
@@ -116,7 +124,9 @@ fun Movie(
         modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 150.dp)
-            .clickable(onClick = onClick),
+            .clickable(onClick = onClick)
+            .clip(RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainer),
         verticalAlignment = Alignment.CenterVertically
     ) {
         AsyncImage(
@@ -135,11 +145,16 @@ fun Movie(
         )
 
         Spacer(Modifier.width(8.dp))
-        Column() {
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp)
+
+        ) {
             Text(
                 text = item.title.toString(),
-                style = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.Bold
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSecondary
+
             )
 
             Spacer(modifier.height(4.dp))
@@ -147,7 +162,9 @@ fun Movie(
                 text = item.overview.toString(),
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface
+
             )
 
         }

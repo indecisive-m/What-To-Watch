@@ -10,7 +10,7 @@ fun Seasons.toDomain(): Domain {
         id = id,
         name = name,
         overview = overview,
-        posterPath = "https://image.tmdb.org/t/p/w500$posterPath",
+        posterPath = posterPath?.let { "https://image.tmdb.org/t/p/w500$it" },
         seasonNumber = seasonNumber,
         averageVote = averageVote
     )

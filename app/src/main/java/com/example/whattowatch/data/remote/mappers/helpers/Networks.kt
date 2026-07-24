@@ -6,7 +6,7 @@ import com.example.whattowatch.domain.model.Networks as Domain
 fun Networks.toDomain(): Domain {
     return Domain(
         id = id,
-        logoPath = "https://image.tmdb.org/t/p/w500$logoPath",
+        logoPath = logoPath?.let { "https://image.tmdb.org/t/p/w500$it" },
         name = name,
         originCountry = originCountry
     )

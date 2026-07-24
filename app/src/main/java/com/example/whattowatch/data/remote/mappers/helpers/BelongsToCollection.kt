@@ -8,7 +8,7 @@ fun BelongsToCollection.toDomain(): DomainCollection {
     return DomainCollection(
         id = id,
         name = name,
-        posterPath = posterPath,
-        backdropPath = backdropPath
+        posterPath = posterPath?.let { "https://image.tmdb.org/t/p/w500$it" },
+        backdropPath = backdropPath?.let { "https://image.tmdb.org/t/p/w780$it" }
     )
 }

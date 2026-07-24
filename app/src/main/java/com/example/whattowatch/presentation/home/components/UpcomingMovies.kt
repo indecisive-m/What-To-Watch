@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,6 +17,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,6 +35,7 @@ import com.example.whattowatch.domain.Movie
 import com.example.whattowatch.presentation.home.HomeScreenAction
 import com.example.whattowatch.presentation.home.Status
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UpComingMovies(
     items: List<Movie?>,
@@ -64,19 +67,26 @@ fun UpComingMovies(
 
 
 
-            Box() {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxWidth(),
+
+                ) {
 
                 HorizontalPager(
                     state = pagerState,
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(500.dp)
+                        .height(450.dp)
+                        .aspectRatio(2F / 3F, matchHeightConstraintsFirst = true)
+                        .clip(RoundedCornerShape(16.dp)),
+                    pageSpacing = 24.dp,
 
-                ) { page ->
+
+                    ) { page ->
 
                     val upcomingMovie = items[page]
 
-                    var currentUrl = upcomingMovie?.backdropPath ?: fallbackImage
+                    var currentUrl = upcomingMovie?.posterPath ?: fallbackImage
 
 
                     Box(
@@ -132,7 +142,7 @@ fun UpComingMovies(
                 }
                 Row(
                     modifier = Modifier
-                        .align(Alignment.BottomEnd)
+                        .align(Alignment.BottomCenter)
                         .padding(bottom = 24.dp),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
@@ -154,7 +164,7 @@ fun UpComingMovies(
                             modifier = Modifier
                                 .padding(2.dp)
                                 .clip(shape)
-                                .background(color)
+                                .background(MaterialTheme.colorScheme.primary)
                                 .width(size)
                                 .height(HEIGHT)
                         )

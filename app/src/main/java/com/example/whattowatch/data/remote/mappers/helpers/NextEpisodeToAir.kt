@@ -17,6 +17,6 @@ fun NextEpisodeToAir.toDomain(): Domain {
         runtime = runtime,
         seasonNumber = seasonNumber,
         showId = showId,
-        stillPath = "https://image.tmdb.org/t/p/w300$stillPath"
+        stillPath = stillPath?.let { "https://image.tmdb.org/t/p/w300$it" }
     )
 }

@@ -29,7 +29,7 @@ fun SeeMoreButton(
         shape = RoundedCornerShape(36.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = containerColor,
-            contentColor = Color.Black
+            contentColor = MaterialTheme.colorScheme.onSecondary
 
         ),
         modifier = modifier,
@@ -42,11 +42,13 @@ fun SeeMoreButton(
             ) {
                 Text(
                     text = stringResource(R.string.see_more),
-                    style = MaterialTheme.typography.bodyLarge
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSecondary
                 )
                 Icon(
                     imageVector = Icons.AutoMirrored.Default.ArrowRight,
-                    contentDescription = null
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary
                 )
 
             }

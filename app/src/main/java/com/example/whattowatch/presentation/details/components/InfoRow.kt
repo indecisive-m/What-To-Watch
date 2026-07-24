@@ -3,6 +3,7 @@ package com.example.whattowatch.presentation.details.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,14 +19,15 @@ fun InfoRow(
     modifier: Modifier = Modifier,
     isCurrency: Boolean = false,
     isRunTime: Boolean = false,
-) {
+
+    ) {
 
     val textResult = if (isRunTime) {
         "$infoFromState minutes"
     } else if (isCurrency) {
         convertToCurrency(infoFromState)
     } else {
-        null
+        infoFromState
     }
 
 
@@ -37,9 +39,14 @@ fun InfoRow(
     ) {
         Text(
             text = "${text}: ",
-            fontWeight = FontWeight.SemiBold
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.primary
+
         )
-        Text(textResult.toString())
+        Text(
+            text = textResult.toString(),
+            color = MaterialTheme.colorScheme.onSurface
+        )
 
     }
 

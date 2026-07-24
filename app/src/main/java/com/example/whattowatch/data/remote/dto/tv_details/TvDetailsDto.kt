@@ -71,7 +71,7 @@ data class CreatedBy(
     val name: String,
     val gender: Int,
     @SerialName("profile_path")
-    val profilePath: String,
+    val profilePath: String?,
     @SerialName("original_name")
     val originalName: String
 )
@@ -98,7 +98,7 @@ data class LastEpisodeToAir(
     @SerialName("show_id")
     val showId: Int,
     @SerialName("still_path")
-    val stillPath: String
+    val stillPath: String?
 )
 
 @Serializable
@@ -124,7 +124,7 @@ data class NextEpisodeToAir(
     @SerialName("show_id")
     val showId: Int,
     @SerialName("still_path")
-    val stillPath: String
+    val stillPath: String?
 )
 
 
@@ -132,7 +132,7 @@ data class NextEpisodeToAir(
 data class Networks(
     val id: Int,
     @SerialName("logo_path")
-    val logoPath: String,
+    val logoPath: String?,
     val name: String,
     @SerialName("origin_country")
     val originCountry: String

@@ -8,12 +8,14 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
@@ -23,6 +25,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
@@ -34,7 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.whattowatch.domain.MediaType
 import com.example.whattowatch.presentation.core_components.SearchBar
-import com.example.whattowatch.presentation.core_components.SearchOptions
+import com.example.whattowatch.presentation.core_components.SearchOptionsTabRow
 import com.example.whattowatch.presentation.search_results.components.ItemCard
 import org.koin.androidx.compose.koinViewModel
 
@@ -82,7 +85,8 @@ fun SearchResultsScreen(
 
 
     Scaffold(
-        contentWindowInsets = WindowInsets.systemBars
+        contentWindowInsets = WindowInsets.systemBars,
+        modifier = Modifier.background(MaterialTheme.colorScheme.background)
     ) { innerPadding ->
 
         Column(
@@ -104,12 +108,18 @@ fun SearchResultsScreen(
                 onSearchClear = {
                     onAction(SearchResultsAction.OnSearchClear)
                 },
-                modifier = Modifier,
+                modifier = Modifier.fillMaxWidth(),
             )
-            SearchOptions(
+            Spacer(
+                modifier = Modifier
+                    .height(8.dp)
+            )
+            SearchOptionsTabRow(
                 searchOption = state.mediaType,
-                onSearchOptionClick = { onAction(SearchResultsAction.OnSearchOptionClick(it)) }
+                onSearchOptionClick = { onAction(SearchResultsAction.OnSearchOptionClick(it)) },
+                modifier = Modifier
             )
+
             Spacer(Modifier.height(16.dp))
 
             AnimatedVisibility(
@@ -161,8 +171,11 @@ fun SearchResultsScreen(
 
                     SmallFloatingActionButton(
                         onClick = { onSearchResultsClear() },
-                        modifier = Modifier.align(Alignment.TopEnd)
-                    ) {
+                        containerColor = MaterialTheme.colorScheme.secondary,
+                        modifier = Modifier.align(Alignment.TopEnd),
+                        contentColor = MaterialTheme.colorScheme.onSecondary,
+
+                        ) {
                         Icon(
                             imageVector = Icons.Default.Clear,
                             contentDescription = "Clear results"

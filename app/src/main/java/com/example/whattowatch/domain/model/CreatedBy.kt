@@ -5,6 +5,6 @@ data class CreatedBy(
     val creditId: String,
     val name: String,
     val gender: Int,
-    val profilePath: String,
+    val profilePath: String?,
     val originalName: String
 )

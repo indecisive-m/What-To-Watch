@@ -181,7 +181,7 @@ class KtorRemoteDataSource(
 
         return try {
             val response: HttpResponse =
-                httpClient.get("$BASE_URL/movie/${id.toString()}?append_to_response=credits,reviews") {
+                httpClient.get("$BASE_URL/movie/${id.toString()}?append_to_response=credits,reviews,language=en-US") {
                     headers {
                         append(
                             "Authorization",

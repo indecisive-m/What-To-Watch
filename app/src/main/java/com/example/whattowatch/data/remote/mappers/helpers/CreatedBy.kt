@@ -9,7 +9,7 @@ fun CreatedBy.toDomain(): Domain {
         creditId = creditId,
         name = name,
         gender = gender,
-        profilePath = "https://image.tmdb.org/t/p/w185$profilePath",
+        profilePath = profilePath?.let { "https://image.tmdb.org/t/p/w185$it" },
         originalName = originalName
     )
 }

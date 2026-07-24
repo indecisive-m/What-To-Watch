@@ -71,6 +71,10 @@ android {
         schemaDirectory("$projectDir/schemas")
     }
 
+    kotzilla {
+        skipBuildReportFailure = true
+    }
+
 }
 
 dependencies {

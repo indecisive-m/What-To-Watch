@@ -8,7 +8,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.whattowatch.domain.model.Genres
 
@@ -24,8 +23,8 @@ fun GenreChip(
         modifier = modifier.padding(horizontal = 8.dp),
         shape = RoundedCornerShape(16.dp),
         colors = AssistChipDefaults.assistChipColors(
-            containerColor = Color.LightGray,
-            labelColor = Color.Black
+            containerColor = MaterialTheme.colorScheme.secondary,
+            labelColor = MaterialTheme.colorScheme.onSecondary
         ),
         border = null,
 //        elevation = TODO(),

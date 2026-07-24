@@ -1,6 +1,5 @@
 package com.example.whattowatch.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -9,18 +8,32 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    background = Color(0xFF080D24),
+    primary = Color(0xFFD4AF37),
+    onPrimary = Color(0xFF1C1300),
+    secondary = Color(0xFF244C56),
+    onSecondary = Color(0xFFE3F0F3),
+    surfaceContainer = Color(0xFF222C50),
+    onSurface = Color(0xFFE3F0F3).copy(alpha = 0.75F),
+    outline = Color(0xFFD4AF37).copy(alpha = 0.75F),
+    surfaceTint = Color(0xFFD4AF37), // Icon Colour
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+
+    background = Color(0xFF080D24),
+    primary = Color(0xFFD4AF37),
+    onPrimary = Color(0xFF1C1300),
+    secondary = Color(0xFF244C56),
+    onSecondary = Color(0xFFE3F0F3),
+    surfaceContainer = Color(0xFF222C50),
+    onSurface = Color(0xFFE3F0F3).copy(alpha = 0.75F),
+    surfaceTint = Color(0xFFD4AF37) // Icon Colour
+
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -37,7 +50,7 @@ private val LightColorScheme = lightColorScheme(
 fun WhatToWatchTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
