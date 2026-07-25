@@ -1,7 +1,7 @@
 package com.example.whattowatch.di
 
 import androidx.room.Room
-import com.example.whattowatch.data.local.database.FavouritesDatabase
+import com.example.whattowatch.data.local.database.WatchLaterDatabase
 import com.example.whattowatch.data.local.storage.ImageStorage
 import com.example.whattowatch.data.remote.network.HttpClientFactory
 import com.example.whattowatch.data.remote.network.KtorRemoteDataSource
@@ -11,6 +11,7 @@ import com.example.whattowatch.domain.MediaRepository
 import com.example.whattowatch.presentation.details.DetailsScreenViewModel
 import com.example.whattowatch.presentation.home.HomeScreenViewModel
 import com.example.whattowatch.presentation.search_results.SearchResultsViewModel
+import com.example.whattowatch.presentation.watch_later.WatchLaterViewModel
 import io.ktor.client.engine.okhttp.OkHttp
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.singleOf
@@ -30,13 +31,14 @@ val koinModule = module {
     single {
         Room.databaseBuilder(
             androidContext(),
-            FavouritesDatabase::class.java,
-            "favourites.db"
+            WatchLaterDatabase::class.java,
+            "watch_later.db"
         ).build()
     }
 
-    single { get<FavouritesDatabase>().favouritesDao() }
+    single { get<WatchLaterDatabase>().watchLaterDao() }
     viewModelOf(::SearchResultsViewModel)
     viewModelOf(::DetailsScreenViewModel)
     viewModelOf(::HomeScreenViewModel)
+    viewModelOf(::WatchLaterViewModel)
 }

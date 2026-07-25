@@ -23,7 +23,7 @@ sealed interface Route {
     data class MediaDetails(val id: Int, val mediaType: MediaType) : Route
 
     @Serializable
-    data object Favourites : Route
+    data object WatchLater : Route
 }
 
 enum class BottomNavigation(
@@ -36,6 +36,12 @@ enum class BottomNavigation(
         icon = Icons.Filled.Home,
         route = Route.HomeScreen
     ),
+
+    WATCH_LATER(
+        label = "Watch Later",
+        icon = Icons.Filled.Star,
+        route = Route.WatchLater
+    ),
     SEARCH(
         label = "Search",
         icon = Icons.Filled.Search,
@@ -43,11 +49,6 @@ enum class BottomNavigation(
             "", MediaType.MOVIE
         )
     ),
-    WATCH_LATER(
-        label = "Watch Later",
-        icon = Icons.Filled.Star,
-        route = Route.Favourites
-    )
 
 
 }

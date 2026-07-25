@@ -6,21 +6,29 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -31,11 +39,11 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.example.whattowatch.presentation.details.DetailsScreenRoot
 import com.example.whattowatch.presentation.details.DetailsScreenViewModel
-import com.example.whattowatch.presentation.favourites.FavouritesScreenRoot
 import com.example.whattowatch.presentation.home.HomeScreenRoot
 import com.example.whattowatch.presentation.home.HomeScreenViewModel
 import com.example.whattowatch.presentation.search_results.SearchResultsScreenRoot
 import com.example.whattowatch.presentation.search_results.SearchResultsViewModel
+import com.example.whattowatch.presentation.watch_later.WatchLaterScreenRoot
 import com.example.whattowatch.ui.theme.WhatToWatchTheme
 import org.koin.androidx.compose.koinViewModel
 
@@ -47,43 +55,87 @@ fun App() {
 
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route ?: BottomNavigation.HOME
+        val currentDestination = navBackStackEntry?.destination
 
         val currentHierarchy = navBackStackEntry?.destination?.hierarchy
+
+        Log.d("test", navBackStackEntry.toString())
+
 
         Scaffold(
             contentWindowInsets = WindowInsets.systemBars,
             modifier = Modifier.background(MaterialTheme.colorScheme.background),
             bottomBar = {
-                NavigationBar(
-                    windowInsets = NavigationBarDefaults.windowInsets
-                ) {
-                    BottomNavigation.entries.forEachIndexed { index, navigation ->
 
-                        val isSelected by remember(currentRoute) {
-                            derivedStateOf {
-                                currentHierarchy?.any { it.hasRoute(navigation.route::class) }
-                                    ?: true
-                            }
+                val screensWithBottomBar = currentDestination?.hasRoute<Route.HomeScreen>() == true
+                        || currentDestination?.hasRoute<Route.WatchLater>() == true
+                        || currentDestination?.hasRoute<Route.MediaList>() == true
 
-                        }
-                        NavigationBarItem(
-                            selected = isSelected,
-                            onClick = {
-                                navController.navigate(navigation.route)
-                            },
-                            icon = {
+                if (screensWithBottomBar) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .navigationBarsPadding()
 
-                                Icon(
-                                    imageVector = navigation.icon,
-                                    contentDescription = navigation.label,
-                                    modifier = Modifier.size(28.dp)
+
+                    ) {
+                        NavigationBar(
+                            windowInsets = NavigationBarDefaults.windowInsets,
+                            modifier = Modifier
+                                .align(Alignment.BottomCenter)
+                                .fillMaxWidth(0.75F)
+                                .clip(RoundedCornerShape(36.dp)),
+
+                            ) {
+                            BottomNavigation.entries.forEachIndexed { index, navigation ->
+
+                                val isSelected by remember(currentRoute) {
+                                    derivedStateOf {
+                                        currentHierarchy?.any { it.hasRoute(navigation.route::class) }
+                                            ?: true
+                                    }
+
+                                }
+                                NavigationBarItem(
+                                    selected = isSelected,
+                                    onClick = {
+                                        navController.navigate(navigation.route)
+                                    },
+                                    colors = NavigationBarItemColors(
+                                        selectedIndicatorColor = MaterialTheme.colorScheme.primary,
+                                        selectedIconColor = MaterialTheme.colorScheme.onPrimary,
+                                        selectedTextColor = MaterialTheme.colorScheme.onSecondary,
+                                        unselectedIconColor = MaterialTheme.colorScheme.secondary,
+                                        unselectedTextColor = MaterialTheme.colorScheme.onSurface,
+                                        disabledIconColor = MaterialTheme.colorScheme.background,
+                                        disabledTextColor = MaterialTheme.colorScheme.background,
+                                    ),
+                                    icon = {
+
+                                        Icon(
+                                            imageVector = navigation.icon,
+                                            contentDescription = navigation.label,
+                                            modifier = Modifier.size(28.dp),
+                                        )
+
+                                    },
+                                    label = {
+                                        Text(
+                                            text = navigation.label,
+                                        )
+                                    }
                                 )
 
                             }
-                        )
+                        }
 
                     }
+                } else {
+
+                    null
                 }
+
+
             }
         ) { innerPadding ->
             NavHost(
@@ -116,7 +168,7 @@ fun App() {
                                 navController.navigate(route = Route.MediaDetails(id, mediaType))
                             },
                             onSeeMoreButtonClick = {
-                                navController.navigate(route = Route.Favourites)
+                                navController.navigate(route = Route.WatchLater)
                             }
 
                         )
@@ -163,9 +215,9 @@ fun App() {
                         )
                     }
 
-                    composable<Route.Favourites> {
+                    composable<Route.WatchLater> {
 
-                        FavouritesScreenRoot(
+                        WatchLaterScreenRoot(
                         )
                     }
 

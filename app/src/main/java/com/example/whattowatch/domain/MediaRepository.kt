@@ -11,16 +11,26 @@ interface MediaRepository {
 
     suspend fun getTvDetails(id: Int): Result<TvDetails>
 
-
     suspend fun getUpcomingMovies(): Result<List<Movie>>
 
-    fun getAllFavourites(): Flow<List<Media>>
+    suspend fun getNowPlayingMovies(): Result<List<Movie>>
 
-    suspend fun addToFavourites(media: Media)
+    suspend fun getPopularMovies(): Result<List<Movie>>
 
-    suspend fun deleteFromFavorites(id: Int, mediaType: MediaType)
+    suspend fun getTopRatedMovies(): Result<List<Movie>>
+
+    suspend fun getTopRatedTvShows(): Result<List<Tv>>
+
+    suspend fun getPopularTvShows(): Result<List<Tv>>
 
 
-    fun isBookFavourited(id: Int): Flow<Boolean>
+    fun getAllWatchLater(): Flow<List<Media>>
+
+    suspend fun addToWatchLater(media: Media)
+
+    suspend fun deleteFromWatchLater(id: Int, mediaType: MediaType)
+
+
+    fun isMediaInWatchLater(id: Int): Flow<Boolean>
 
 }

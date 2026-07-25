@@ -29,7 +29,7 @@ class DetailsScreenViewModel(
     init {
 
         getMediaDetails(mediaId, mediaType)
-        checkIfFavourite()
+        checkIfInWatchLater()
     }
 
 
@@ -38,11 +38,11 @@ class DetailsScreenViewModel(
             DetailsScreenAction.OnFavouriteClick -> {
 
                 viewModelScope.launch {
-                    if (state.value.isFavourite) {
-                        repository.deleteFromFavorites(mediaId, state.value.mediaType)
+                    if (state.value.isWatchLater) {
+                        repository.deleteFromWatchLater(mediaId, state.value.mediaType)
                     } else {
                         state.value.media?.let { media ->
-                            repository.addToFavourites(media)
+                            repository.addToWatchLater(media)
                         }
                     }
                 }
@@ -111,11 +111,11 @@ class DetailsScreenViewModel(
         }
     }
 
-    private fun checkIfFavourite() {
-        repository.isBookFavourited(mediaId)
-            .onEach { isFavourite ->
+    private fun checkIfInWatchLater() {
+        repository.isMediaInWatchLater(mediaId)
+            .onEach { isWatchLater ->
                 _state.update {
-                    it.copy(isFavourite = isFavourite)
+                    it.copy(isWatchLater = isWatchLater)
                 }
             }
             .launchIn(viewModelScope)

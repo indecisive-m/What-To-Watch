@@ -1,6 +1,6 @@
 package com.example.whattowatch.data.remote.mappers
 
-import com.example.whattowatch.data.local.database.FavouritesEntity
+import com.example.whattowatch.data.local.database.WatchLaterEntity
 import com.example.whattowatch.domain.Media
 import com.example.whattowatch.domain.MediaType
 import com.example.whattowatch.domain.Movie
@@ -8,9 +8,9 @@ import com.example.whattowatch.domain.MovieDetails
 import com.example.whattowatch.domain.Tv
 import com.example.whattowatch.domain.TvDetails
 
-fun Media.toFavouritesEntity(): FavouritesEntity {
+fun Media.toFavouritesEntity(): WatchLaterEntity {
     return when (this) {
-        is Movie -> FavouritesEntity(
+        is Movie -> WatchLaterEntity(
             id = id,
             title = title,
             releaseDate = releaseDate,
@@ -23,7 +23,7 @@ fun Media.toFavouritesEntity(): FavouritesEntity {
         )
 
         is MovieDetails ->
-            FavouritesEntity(
+            WatchLaterEntity(
                 id = id,
                 title = title,
                 releaseDate = releaseDate,
@@ -35,7 +35,7 @@ fun Media.toFavouritesEntity(): FavouritesEntity {
                 imageLink = null
             )
 
-        is Tv -> FavouritesEntity(
+        is Tv -> WatchLaterEntity(
             id = id,
             title = null,
             releaseDate = null,
@@ -47,7 +47,7 @@ fun Media.toFavouritesEntity(): FavouritesEntity {
             imageLink = null
         )
 
-        is TvDetails -> FavouritesEntity(
+        is TvDetails -> WatchLaterEntity(
             id = id,
             title = null,
             releaseDate = null,
@@ -61,7 +61,7 @@ fun Media.toFavouritesEntity(): FavouritesEntity {
     }
 }
 
-fun FavouritesEntity.toMedia(): Media {
+fun WatchLaterEntity.toMedia(): Media {
     return if (mediaType == MediaType.MOVIE) {
         Movie(
             id = id,

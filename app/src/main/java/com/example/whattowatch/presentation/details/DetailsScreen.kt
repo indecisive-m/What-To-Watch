@@ -108,7 +108,7 @@ fun DetailsScreen(
                         onBackClick = onBackClick,
                         onImageLoaded = { isImageLoading = false },
                         state = state.media,
-                        isFavourite = state.isFavourite,
+                        isWatchLater = state.isWatchLater,
                         onAction = onAction,
                         modifier = Modifier
                     )
@@ -120,7 +120,7 @@ fun DetailsScreen(
                         onBackClick = onBackClick,
                         onImageLoaded = { isImageLoading = false },
                         state = state.media,
-                        isFavourite = state.isFavourite,
+                        isWatchLater = state.isWatchLater,
                         onAction = onAction,
                         modifier = Modifier
                     )
@@ -149,7 +149,7 @@ fun TvDetailsComposable(
     onImageLoaded: () -> Unit,
     onAction: (DetailsScreenAction) -> Unit,
     state: TvDetails,
-    isFavourite: Boolean,
+    isWatchLater: Boolean,
     modifier: Modifier = Modifier
 ) {
     val fallbackImage =
@@ -323,7 +323,7 @@ fun TvDetailsComposable(
         IconRow(
             onBackClick = onBackClick,
             onAction = onAction,
-            isFavourite = isFavourite,
+            isWatchLater = isWatchLater,
             modifier = Modifier.align(Alignment.TopStart)
         )
     }
@@ -336,7 +336,7 @@ fun MovieDetailsComposable(
     onImageLoaded: () -> Unit,
     onAction: (DetailsScreenAction) -> Unit,
     state: MovieDetails,
-    isFavourite: Boolean,
+    isWatchLater: Boolean,
 
     modifier: Modifier = Modifier
 ) {
@@ -582,7 +582,7 @@ fun MovieDetailsComposable(
         IconRow(
             onBackClick = onBackClick,
             onAction = onAction,
-            isFavourite = isFavourite,
+            isWatchLater = isWatchLater,
             modifier = Modifier.align(Alignment.TopStart)
         )
 

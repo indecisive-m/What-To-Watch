@@ -1,7 +1,7 @@
 package com.example.whattowatch.data.repository
 
 import android.util.Log
-import com.example.whattowatch.data.local.database.FavouritesDao
+import com.example.whattowatch.data.local.database.WatchLaterDao
 import com.example.whattowatch.data.local.storage.ImageStorage
 import com.example.whattowatch.data.remote.dto.movie_search.MovieSearchResultsDto
 import com.example.whattowatch.data.remote.dto.tv_search.TvSearchResultsDto
@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.map
 
 class DefaultMediaRepository(
     private val remoteDataSource: KtorRemoteDataSource,
-    private val favouritesDao: FavouritesDao,
+    private val watchLaterDao: WatchLaterDao,
     private val imageStorage: ImageStorage
 ) : MediaRepository {
 
@@ -71,14 +71,34 @@ class DefaultMediaRepository(
 
     }
 
-    override fun getAllFavourites(): Flow<List<Media>> {
-        return favouritesDao.getAllFavourites()
-            .map { favouritesEntities ->
-                favouritesEntities.map { it -> it.toMedia() }
+    override suspend fun getNowPlayingMovies(): Result<List<Movie>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getPopularMovies(): Result<List<Movie>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getTopRatedMovies(): Result<List<Movie>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getTopRatedTvShows(): Result<List<Tv>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getPopularTvShows(): Result<List<Tv>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getAllWatchLater(): Flow<List<Media>> {
+        return watchLaterDao.getAllWatchLater()
+            .map { watchLaterEntities ->
+                watchLaterEntities.map { it -> it.toMedia() }
             }
     }
 
-    override suspend fun addToFavourites(media: Media) {
+    override suspend fun addToWatchLater(media: Media) {
 
         val mediaToMediaEntity = media.toFavouritesEntity()
 
@@ -110,24 +130,26 @@ class DefaultMediaRepository(
             imageLink = localLink
         )
 
-        return favouritesDao.addToFavourites(entity)
+        return watchLaterDao.addToWatchLater(entity)
     }
 
-    override fun isBookFavourited(id: Int): Flow<Boolean> {
-        return favouritesDao.getAllFavourites()
-            .map { favouritesEntities ->
-                favouritesEntities.any { it.id == id }
+    override fun isMediaInWatchLater(id: Int): Flow<Boolean> {
+        return watchLaterDao.getAllWatchLater()
+            .map { watchLaterEntities ->
+                watchLaterEntities.any { it.id == id }
             }
     }
 
 
-    override suspend fun deleteFromFavorites(id: Int, mediaType: MediaType) {
+    override suspend fun deleteFromWatchLater(id: Int, mediaType: MediaType) {
 
 
         imageStorage.deleteFile(mediaType, id)
 
-        return favouritesDao.removeFromFavourites(id)
+        return watchLaterDao.removeFromWatchLater(id)
     }
+
+
 }
 
 

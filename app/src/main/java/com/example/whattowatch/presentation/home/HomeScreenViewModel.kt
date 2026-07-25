@@ -17,7 +17,7 @@ class HomeScreenViewModel(
 
     init {
         loadUpcomingMovieData()
-        fetchFavourites()
+        fetchWaterLater()
     }
 
 
@@ -89,12 +89,12 @@ class HomeScreenViewModel(
     }
 
 
-    private fun fetchFavourites() = viewModelScope.launch {
-        repository.getAllFavourites()
-            .collect { favourites ->
+    private fun fetchWaterLater() = viewModelScope.launch {
+        repository.getAllWatchLater()
+            .collect { watchLater ->
                 _state.update {
                     it.copy(
-                        favourites = favourites
+                        watchLater = watchLater
                     )
                 }
             }

@@ -22,7 +22,7 @@ import com.example.whattowatch.presentation.details.DetailsScreenAction
 fun IconRow(
     onBackClick: () -> Unit,
     onAction: (DetailsScreenAction) -> Unit,
-    isFavourite: Boolean,
+    isWatchLater: Boolean,
     modifier: Modifier = Modifier
 
 ) {
@@ -44,9 +44,9 @@ fun IconRow(
             onClick = onBackClick
         )
         IconButtonComposable(
-            icon = if (isFavourite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
-            contentDescription = if (isFavourite) R.string.remove_from_favourites else R.string.add_to_favourites,
-            tint = if (isFavourite) Color.Red else Color.White,
+            icon = if (isWatchLater) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
+            contentDescription = if (isWatchLater) R.string.remove_from_favourites else R.string.add_to_favourites,
+            tint = if (isWatchLater) Color.Red else Color.White,
             backgroundColor = MaterialTheme.colorScheme.surfaceContainer,
             onClick = { onAction(DetailsScreenAction.OnFavouriteClick) }
         )

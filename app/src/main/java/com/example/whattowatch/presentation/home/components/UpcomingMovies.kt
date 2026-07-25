@@ -63,7 +63,7 @@ fun UpComingMovies(
 
         Status.SUCCESS -> {
 
-            val pagerState = rememberPagerState(pageCount = { 5 })
+            val pagerState = rememberPagerState(pageCount = { 8 })
 
 
 

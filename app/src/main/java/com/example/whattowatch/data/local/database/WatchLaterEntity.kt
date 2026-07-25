@@ -4,8 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.whattowatch.domain.MediaType
 
-@Entity(tableName = "favourites")
-data class FavouritesEntity(
+@Entity(tableName = "watch_later")
+data class WatchLaterEntity(
     @PrimaryKey val id: Int,
     val title: String?,
     val releaseDate: String?,

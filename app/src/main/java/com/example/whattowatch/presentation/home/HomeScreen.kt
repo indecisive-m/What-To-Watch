@@ -1,6 +1,5 @@
 package com.example.whattowatch.presentation.home
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.whattowatch.domain.MediaType
 import com.example.whattowatch.presentation.home.components.UpComingMovies
-import com.example.whattowatch.presentation.home.components.YourFavourites
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -81,17 +79,6 @@ fun HomeScreen(
                 .height(16.dp)
         )
 
-        AnimatedVisibility(
-            visible = state.favourites.isNotEmpty()
-        ) {
-
-            YourFavourites(
-                favourites = state.favourites,
-                onItemClick = onAction,
-                onSeeMoreButtonClick = onAction
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-        }
 
         //TODO: Maybe add categories?
 

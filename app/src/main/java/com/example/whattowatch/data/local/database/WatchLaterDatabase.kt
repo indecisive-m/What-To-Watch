@@ -5,11 +5,11 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 @Database(
-    entities = [FavouritesEntity::class],
+    entities = [WatchLaterEntity::class],
     version = 1
 )
 @TypeConverters(MediaTypeConverter::class)
 
-abstract class FavouritesDatabase : RoomDatabase() {
-    abstract fun favouritesDao(): FavouritesDao
+abstract class WatchLaterDatabase : RoomDatabase() {
+    abstract fun watchLaterDao(): WatchLaterDao
 }
