@@ -18,11 +18,11 @@ sealed class Media {
     abstract val adult: Boolean
     abstract val posterPath: String?
     abstract val backdropPath: String?
-    abstract val popularity: Double
+    abstract val popularity: Double?
     abstract val overview: String
     abstract val language: String
-    abstract val averageVote: Double
-    abstract val voteCount: Int
+    abstract val averageVote: Double?
+    abstract val voteCount: Int?
 
     abstract val mediaType: MediaType
 }
@@ -33,14 +33,14 @@ data class Movie(
     override val adult: Boolean,
     override val posterPath: String?,
     override val backdropPath: String?,
-    override val popularity: Double,
+    override val popularity: Double?,
     override val overview: String,
     override val language: String,
-    override val averageVote: Double,
-    override val voteCount: Int,
+    override val averageVote: Double?,
+    override val voteCount: Int?,
     override val mediaType: MediaType = MediaType.MOVIE,
 
-    val genreIds: List<Int>,
+    val genreIds: List<Int>?,
     val title: String?,
     val originalTitle: String?,
     val releaseDate: String?,

@@ -67,114 +67,121 @@ fun UpComingMovies(
 
 
 
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxWidth(),
+            Column() {
 
-                ) {
+                Text(
+                    text = "New & Upcoming",
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxWidth(),
 
-                HorizontalPager(
-                    state = pagerState,
-                    modifier = Modifier
-                        .height(450.dp)
-                        .aspectRatio(2F / 3F, matchHeightConstraintsFirst = true)
-                        .clip(RoundedCornerShape(16.dp)),
-                    pageSpacing = 24.dp,
-
-
-                    ) { page ->
-
-                    val upcomingMovie = items[page]
-
-                    var currentUrl = upcomingMovie?.posterPath ?: fallbackImage
-
-
-                    Box(
-                        modifier = Modifier.clickable(onClick = {
-                            onItemClick(
-                                HomeScreenAction.OnItemClick(
-                                    upcomingMovie!!.id,
-                                    mediaType = upcomingMovie.mediaType
-                                )
-                            )
-                        })
                     ) {
-                        AsyncImage(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(currentUrl)
-                                .crossfade(enable = true)
-                                .build(),
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop,
-                            onError = {
-                                if (currentUrl != fallbackImage) {
-                                    currentUrl = fallbackImage
-                                }
-                            },
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        Column(
-                            Modifier
-                                .align(Alignment.BottomStart)
-                                .padding(
-                                    vertical = 24.dp,
-                                    horizontal = 16.dp
+
+                    HorizontalPager(
+                        state = pagerState,
+                        modifier = Modifier
+                            .height(450.dp)
+                            .aspectRatio(2F / 3F, matchHeightConstraintsFirst = true)
+                            .clip(RoundedCornerShape(16.dp)),
+                        pageSpacing = 24.dp,
+
+
+                        ) { page ->
+
+                        val upcomingMovie = items[page]
+
+                        var currentUrl = upcomingMovie?.posterPath ?: fallbackImage
+
+
+                        Box(
+                            modifier = Modifier.clickable(onClick = {
+                                onItemClick(
+                                    HomeScreenAction.OnItemClick(
+                                        upcomingMovie!!.id,
+                                        mediaType = upcomingMovie.mediaType
+                                    )
                                 )
+                            })
                         ) {
-                            Text(
-                                text = upcomingMovie?.title.toString(),
-                                style = MaterialTheme.typography.headlineLarge,
-                                color = Color.White,
-                                modifier = Modifier
-
+                            AsyncImage(
+                                model = ImageRequest.Builder(LocalContext.current)
+                                    .data(currentUrl)
+                                    .crossfade(enable = true)
+                                    .build(),
+                                contentDescription = null,
+                                contentScale = ContentScale.Crop,
+                                onError = {
+                                    if (currentUrl != fallbackImage) {
+                                        currentUrl = fallbackImage
+                                    }
+                                },
+                                modifier = Modifier.fillMaxWidth()
                             )
-                            Text(
-                                text = upcomingMovie?.averageVote.toString(),
-                                color = Color.White,
+                            Column(
+                                Modifier
+                                    .align(Alignment.BottomStart)
+                                    .padding(
+                                        vertical = 24.dp,
+                                        horizontal = 16.dp
+                                    )
+                            ) {
+                                Text(
+                                    text = upcomingMovie?.title.toString(),
+                                    style = MaterialTheme.typography.headlineMedium,
+                                    color = MaterialTheme.colorScheme.onSecondary,
 
-                                )
+                                    )
+                                Text(
+                                    text = upcomingMovie?.averageVote.toString(),
+                                    color = MaterialTheme.colorScheme.onSecondary,
+
+                                    )
+
+                            }
+
 
                         }
 
-                    }
-
-
-                }
-                Row(
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(bottom = 24.dp),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-
-                    repeat(pagerState.pageCount) { iteration ->
-
-                        val HEIGHT = 8.dp
-                        val WIDTH = HEIGHT * 4
-
-                        val color =
-                            if (pagerState.currentPage == iteration) Color.White else Color.LightGray
-
-                        val shape =
-                            if (pagerState.currentPage == iteration) RoundedCornerShape(10.dp) else CircleShape
-                        val size = if (pagerState.currentPage == iteration) WIDTH else HEIGHT
-
-                        Box(
-                            modifier = Modifier
-                                .padding(2.dp)
-                                .clip(shape)
-                                .background(MaterialTheme.colorScheme.primary)
-                                .width(size)
-                                .height(HEIGHT)
-                        )
-
 
                     }
+                    Row(
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .padding(bottom = 24.dp),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+
+                        repeat(pagerState.pageCount) { iteration ->
+
+                            val HEIGHT = 8.dp
+                            val WIDTH = HEIGHT * 4
+
+                            val color =
+                                if (pagerState.currentPage == iteration) Color.White else Color.LightGray
+
+                            val shape =
+                                if (pagerState.currentPage == iteration) RoundedCornerShape(10.dp) else CircleShape
+                            val size = if (pagerState.currentPage == iteration) WIDTH else HEIGHT
+
+                            Box(
+                                modifier = Modifier
+                                    .padding(2.dp)
+                                    .clip(shape)
+                                    .background(MaterialTheme.colorScheme.primary)
+                                    .width(size)
+                                    .height(HEIGHT)
+                            )
+
+
+                        }
+                    }
+
                 }
 
             }
-
         }
 
 

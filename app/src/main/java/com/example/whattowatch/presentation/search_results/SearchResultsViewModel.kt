@@ -54,7 +54,7 @@ class SearchResultsViewModel(
                 _state.update {
                     it.copy(
                         searchQuery = "",
-                        searchResultsStatus = Status.IDLE
+                        searchResultsStatus = Status.SUCCESS
                     )
                 }
             }
@@ -73,7 +73,7 @@ class SearchResultsViewModel(
                     it.copy(
                         searchResults = emptyList(),
                         searchQuery = "",
-                        searchResultsStatus = Status.IDLE
+                        searchResultsStatus = Status.SUCCESS
                     )
                 }
             }
@@ -119,6 +119,7 @@ class SearchResultsViewModel(
 
                         _state.update {
                             it.copy(
+                                searchResults = emptyList(),
                                 searchResultsStatus = Status.ERROR,
                                 errorMessage = exception.message
                             )
@@ -152,10 +153,12 @@ class SearchResultsViewModel(
                             )
                         }
                     }
-                    .onFailure {
+                    .onFailure { exception ->
                         _state.update {
                             it.copy(
-                                searchResultsStatus = Status.ERROR
+                                searchResults = emptyList(),
+                                searchResultsStatus = Status.ERROR,
+                                errorMessage = exception.message
                             )
                         }
 

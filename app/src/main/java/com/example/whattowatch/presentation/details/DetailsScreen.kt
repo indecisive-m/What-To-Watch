@@ -548,29 +548,34 @@ fun MovieDetailsComposable(
                 Column(
                     modifier = Modifier.padding(horizontal = 16.dp)
                 ) {
-                    Text(
-                        text = "Reviews",
-                        fontWeight = FontWeight.SemiBold,
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                    HorizontalDivider(
-                        thickness = 2.dp,
-                        color = MaterialTheme.colorScheme.outline,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-
+                    if (state.reviews.isEmpty()) {
+                        null
+                    } else {
+                        Text(
+                            text = "Reviews",
+                            fontWeight = FontWeight.SemiBold,
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        HorizontalDivider(
+                            thickness = 2.dp,
+                            color = MaterialTheme.colorScheme.outline,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
                 }
             }
             items(
                 state.reviews,
                 key = { review -> review.id }) { review ->
+
                 ReviewComposable(
                     review = review,
                     modifier = Modifier
                         .padding(horizontal = 16.dp, vertical = 8.dp)
                         .fillMaxWidth()
                 )
+
             }
         }
 

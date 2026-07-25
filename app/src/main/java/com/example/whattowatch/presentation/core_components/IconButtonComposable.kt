@@ -1,4 +1,4 @@
-package com.example.whattowatch.presentation.details.components
+package com.example.whattowatch.presentation.core_components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -19,6 +19,7 @@ fun IconButtonComposable(
     icon: ImageVector,
     contentDescription: Int,
     tint: Color,
+    backgroundColor: Color,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -28,10 +29,10 @@ fun IconButtonComposable(
             .clip(CircleShape)
             .border(
                 width = 1.dp,
-                color = Color.Black.copy(alpha = 0.8f),
+                color = backgroundColor,
                 shape = CircleShape
             )
-            .background(Color.Black.copy(alpha = 0.7f))
+            .background(backgroundColor)
     ) {
 
         Icon(
