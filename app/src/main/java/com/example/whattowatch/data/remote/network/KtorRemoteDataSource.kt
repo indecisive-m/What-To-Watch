@@ -297,10 +297,7 @@ class KtorRemoteDataSource(
             }
 
             val results: UpcomingMovieSearchResultsDto = response.body()
-            Log.d(
-                "resultsDto",
-                results.toString()
-            )
+
 
             Result.success(results)
 
@@ -334,5 +331,250 @@ class KtorRemoteDataSource(
         }
 
     }
+
+    override suspend fun getPopularMovies(): Result<MovieSearchResultsDto> {
+        return try {
+            val response: HttpResponse =
+                httpClient.get("$BASE_URL/movie/popular?language=en-US&page=1") {
+                    headers {
+                        append(
+                            "Authorization",
+                            "Bearer $BEARER_TOKEN"
+                        )
+                    }
+                }
+
+
+            val results: MovieSearchResultsDto = response.body()
+
+
+            Result.success(results)
+
+        } catch (e: ClientRequestException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+            Result.failure(e)
+        } catch (e: ServerResponseException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        } catch (e: SerializationException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        } catch (e: Exception) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        }
+
+    }
+
+    override suspend fun getTopRatedMovies(): Result<MovieSearchResultsDto> {
+        return try {
+            val response: HttpResponse = httpClient.get("$BASE_URL/movie/top_rated?page=1") {
+                headers {
+                    append(
+                        "Authorization",
+                        "Bearer $BEARER_TOKEN"
+                    )
+                }
+            }
+
+
+            val results: MovieSearchResultsDto = response.body()
+
+
+            Result.success(results)
+
+        } catch (e: ClientRequestException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+            Result.failure(e)
+        } catch (e: ServerResponseException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        } catch (e: SerializationException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        } catch (e: Exception) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        }
+
+    }
+
+    override suspend fun getNowPlayingMovies(): Result<MovieSearchResultsDto> {
+        return try {
+            val response: HttpResponse = httpClient.get("$BASE_URL/movie/now_playing") {
+                headers {
+                    append(
+                        "Authorization",
+                        "Bearer $BEARER_TOKEN"
+                    )
+                }
+            }
+
+
+            val results: MovieSearchResultsDto = response.body()
+
+
+            Result.success(results)
+
+        } catch (e: ClientRequestException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+            Result.failure(e)
+        } catch (e: ServerResponseException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        } catch (e: SerializationException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        } catch (e: Exception) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun getPopularTvShows(): Result<TvSearchResultsDto> {
+        return try {
+            val response: HttpResponse = httpClient.get(
+                "$BASE_URL/tv/popular"
+            ) {
+                headers {
+                    append(
+                        "Authorization",
+                        "Bearer $BEARER_TOKEN"
+                    )
+                }
+            }
+
+
+            val results: TvSearchResultsDto = response.body()
+
+
+            Result.success(results)
+
+        } catch (e: ClientRequestException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+            Result.failure(e)
+        } catch (e: ServerResponseException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        } catch (e: SerializationException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        } catch (e: Exception) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        }
+
+    }
+
+    override suspend fun getTopRatedTvShows(): Result<TvSearchResultsDto> {
+        return try {
+            val response: HttpResponse = httpClient.get(
+                "$BASE_URL/tv/top_rated"
+            ) {
+                headers {
+                    append(
+                        "Authorization",
+                        "Bearer $BEARER_TOKEN"
+                    )
+                }
+            }
+
+
+            val results: TvSearchResultsDto = response.body()
+
+
+            Result.success(results)
+
+        } catch (e: ClientRequestException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+            Result.failure(e)
+        } catch (e: ServerResponseException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        } catch (e: SerializationException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        } catch (e: Exception) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        }
+
+    }
+
 }
 

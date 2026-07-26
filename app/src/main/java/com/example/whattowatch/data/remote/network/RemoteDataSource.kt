@@ -21,5 +21,16 @@ interface RemoteDataSource {
 
     suspend fun getUpcomingMovies(): Result<UpcomingMovieSearchResultsDto>
 
+    suspend fun getPopularMovies(): Result<MovieSearchResultsDto>
+
+    suspend fun getTopRatedMovies(): Result<MovieSearchResultsDto>
+
+    suspend fun getNowPlayingMovies(): Result<MovieSearchResultsDto>
+
+
+    suspend fun getPopularTvShows(): Result<TvSearchResultsDto>
+
+    suspend fun getTopRatedTvShows(): Result<TvSearchResultsDto>
+
 
 }

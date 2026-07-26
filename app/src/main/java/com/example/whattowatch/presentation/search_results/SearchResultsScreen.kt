@@ -29,7 +29,6 @@ import com.example.whattowatch.presentation.core_components.SearchBar
 import com.example.whattowatch.presentation.core_components.SearchOptionsTabRow
 import com.example.whattowatch.presentation.details.LoadingSpinner
 import com.example.whattowatch.presentation.search_results.components.ItemCard
-import com.example.whattowatch.presentation.search_results.components.NavigationIconRow
 import org.koin.androidx.compose.koinViewModel
 
 // This needs to reset to top of scrollable list when a new search is pressed.
@@ -85,11 +84,7 @@ fun SearchResultsScreen(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
             ) {
-                NavigationIconRow(
-                    onBackClick = onSearchResultsClear,
-                    onAction = onAction,
 
-                    )
                 SearchBar(
                     searchQuery = state.searchQuery,
                     onSearchQueryChange = {

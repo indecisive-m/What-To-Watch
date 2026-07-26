@@ -72,23 +72,48 @@ class DefaultMediaRepository(
     }
 
     override suspend fun getNowPlayingMovies(): Result<List<Movie>> {
-        TODO("Not yet implemented")
+        return remoteDataSource.getNowPlayingMovies()
+            .map { dto ->
+                dto.results.map {
+                    it.toMovie()
+                }
+            }
     }
 
     override suspend fun getPopularMovies(): Result<List<Movie>> {
-        TODO("Not yet implemented")
+        return remoteDataSource.getPopularMovies()
+            .map { dto ->
+                dto.results.map {
+                    it.toMovie()
+                }
+            }
     }
 
     override suspend fun getTopRatedMovies(): Result<List<Movie>> {
-        TODO("Not yet implemented")
+        return remoteDataSource.getTopRatedMovies()
+            .map { dto ->
+                dto.results.map {
+                    it.toMovie()
+                }
+            }
     }
 
     override suspend fun getTopRatedTvShows(): Result<List<Tv>> {
-        TODO("Not yet implemented")
+        return remoteDataSource.getTopRatedTvShows()
+            .map { dto ->
+                dto.results.map {
+                    it.toTv()
+                }
+            }
     }
 
     override suspend fun getPopularTvShows(): Result<List<Tv>> {
-        TODO("Not yet implemented")
+        return remoteDataSource.getPopularTvShows()
+            .map { dto ->
+                dto.results.map {
+                    it.toTv()
+                }
+            }
     }
 
     override fun getAllWatchLater(): Flow<List<Media>> {

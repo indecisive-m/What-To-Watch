@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 
 class HomeScreenViewModel(
     private val repository: MediaRepository
@@ -16,8 +17,41 @@ class HomeScreenViewModel(
     val state = _state.asStateFlow()
 
     init {
-        loadUpcomingMovieData()
-        fetchWaterLater()
+        viewModelScope.launch {
+            _state.update {
+                it.copy(status = Status.LOADING)
+            }
+
+            supervisorScope {
+                loadUpcomingMovieData()
+                loadPopularMovieData()
+                loadTopRatedMovies()
+                loadNowPlayingMovies()
+                loadPopularTvShows()
+                loadTopRatedTvShows()
+            }
+
+            _state.update { currentState ->
+                val allFetchCallsFailed = currentState.upcomingMoviesError != null &&
+                        currentState.popularMoviesError != null &&
+                        currentState.topRatedMoviesError != null &&
+                        currentState.nowPlayingMoviesError != null &&
+                        currentState.topRatedTvShowsError != null &&
+                        currentState.popularTvShowsError != null
+
+                if (allFetchCallsFailed) {
+                    currentState.copy(
+                        errorMessage = "Could not load any data",
+                        status = Status.ERROR
+                    )
+                } else {
+                    currentState.copy(status = Status.SUCCESS)
+
+                }
+
+            }
+
+        }
     }
 
 
@@ -61,10 +95,8 @@ class HomeScreenViewModel(
     }
 
 
-    private fun loadUpcomingMovieData() = viewModelScope.launch {
-        _state.update {
-            it.copy(status = Status.LOADING)
-        }
+    private suspend fun loadUpcomingMovieData() {
+
 
         repository.getUpcomingMovies()
             .onSuccess { upcomingMovies ->
@@ -72,7 +104,6 @@ class HomeScreenViewModel(
                 _state.update {
                     it.copy(
                         upcomingMovies = upcomingMovies,
-                        status = Status.SUCCESS,
                         mediaType = MediaType.MOVIE
                     )
                 }
@@ -81,27 +112,134 @@ class HomeScreenViewModel(
 
                 _state.update {
                     it.copy(
-                        status = Status.ERROR,
-                        errorMessage = exception.message
+                        upcomingMoviesError = exception.message
                     )
                 }
             }
+
+
     }
 
+    private suspend fun loadPopularMovieData() {
 
-    private fun fetchWaterLater() = viewModelScope.launch {
-        repository.getAllWatchLater()
-            .collect { watchLater ->
+        repository.getPopularMovies()
+            .onSuccess { popularMovies ->
+
                 _state.update {
                     it.copy(
-                        watchLater = watchLater
+                        popularMovies = popularMovies,
+                        mediaType = MediaType.MOVIE
+
                     )
                 }
             }
+            .onFailure { exception ->
 
+                _state.update {
+                    it.copy(
+                        popularMoviesError = exception.message
+                    )
+                }
+            }
     }
 
+
+    private suspend fun loadTopRatedMovies() {
+
+
+        repository.getTopRatedMovies()
+            .onSuccess { topRated ->
+
+                _state.update {
+                    it.copy(
+                        topRatedMovies = topRated,
+                        mediaType = MediaType.MOVIE
+
+                    )
+                }
+            }
+            .onFailure { exception ->
+
+                _state.update {
+                    it.copy(
+                        topRatedMoviesError = exception.message
+                    )
+                }
+            }
+    }
+
+    private suspend fun loadNowPlayingMovies() {
+
+        repository.getNowPlayingMovies()
+            .onSuccess { nowPlaying ->
+
+                _state.update {
+                    it.copy(
+                        nowPlayingMovies = nowPlaying,
+                        mediaType = MediaType.MOVIE
+
+                    )
+                }
+            }
+            .onFailure { exception ->
+
+                _state.update {
+                    it.copy(
+                        nowPlayingMoviesError = exception.message
+                    )
+                }
+            }
+    }
+
+    private suspend fun loadPopularTvShows() {
+
+        repository.getPopularTvShows()
+            .onSuccess { popularTv ->
+
+                _state.update {
+                    it.copy(
+                        popularTvShows = popularTv,
+                        mediaType = MediaType.TV
+
+                    )
+                }
+            }
+            .onFailure { exception ->
+
+                _state.update {
+                    it.copy(
+                        popularTvShowsError = exception.message
+                    )
+                }
+            }
+    }
+
+    private suspend fun loadTopRatedTvShows() {
+
+        repository.getTopRatedTvShows()
+            .onSuccess { topRated ->
+
+                _state.update {
+                    it.copy(
+                        topRatedTvShows = topRated,
+                        mediaType = MediaType.TV
+
+                    )
+                }
+            }
+            .onFailure { exception ->
+
+                _state.update {
+                    it.copy(
+                        topRatedTvShowsError = exception.message
+                    )
+                }
+            }
+    }
+
+
 }
+
 
 
 

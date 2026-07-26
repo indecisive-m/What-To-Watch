@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.whattowatch.domain.MediaType
 import com.example.whattowatch.presentation.home.components.UpComingMovies
+import com.example.whattowatch.presentation.home.components.UpComingTv
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -77,6 +78,53 @@ fun HomeScreen(
         Spacer(
             modifier = Modifier
                 .height(16.dp)
+        )
+        UpComingMovies(
+            items = state.popularMovies,
+            status = state.status,
+            onItemClick = onAction,
+            modifier = Modifier
+        )
+        Spacer(
+            modifier = Modifier
+                .height(16.dp)
+        )
+        UpComingMovies(
+            items = state.topRatedMovies,
+            status = state.status,
+            onItemClick = onAction,
+            modifier = Modifier
+        )
+        Spacer(
+            modifier = Modifier
+                .height(16.dp)
+        )
+        UpComingMovies(
+            items = state.nowPlayingMovies,
+            status = state.status,
+            onItemClick = onAction,
+            modifier = Modifier
+        )
+
+        Spacer(
+            modifier = Modifier
+                .height(16.dp)
+        )
+        UpComingTv(
+            items = state.topRatedTvShows,
+            status = state.status,
+            onItemClick = onAction,
+            modifier = Modifier
+        )
+        Spacer(
+            modifier = Modifier
+                .height(16.dp)
+        )
+        UpComingTv(
+            items = state.popularTvShows,
+            status = state.status,
+            onItemClick = onAction,
+            modifier = Modifier
         )
 
 

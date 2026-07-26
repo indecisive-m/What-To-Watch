@@ -1,9 +1,9 @@
 package com.example.whattowatch.presentation.watch_later
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -22,16 +22,25 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.example.whattowatch.domain.MediaType
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun WatchLaterScreenRoot(
     viewModel: WatchLaterViewModel = koinViewModel(),
+    onItemClick: (Int, MediaType) -> Unit,
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
 
     WatchLaterScreen(
         state = state.value,
+        onAction = { action ->
+            when (action) {
+                is WatchScreenAction.OnItemClick -> onItemClick(action.id, action.mediaType)
+                else -> Unit
+            }
+            viewModel.onAction(action)
+        },
         modifier = Modifier
     )
 }
@@ -40,6 +49,7 @@ fun WatchLaterScreenRoot(
 @Composable
 fun WatchLaterScreen(
     state: WatchLaterState,
+    onAction: (WatchScreenAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -53,8 +63,6 @@ fun WatchLaterScreen(
             columns = GridCells.Fixed(2),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = modifier
-                .height(500.dp),
             content = {
 
                 items(state.watchLaterItems) { item ->
@@ -68,7 +76,15 @@ fun WatchLaterScreen(
                         contentScale = ContentScale.Fit,
                         modifier = Modifier
                             .aspectRatio(2f / 3f)
-                            .clip(RoundedCornerShape(8.dp)),
+                            .clip(RoundedCornerShape(8.dp))
+                            .clickable(onClick = {
+                                onAction(
+                                    WatchScreenAction.OnItemClick(
+                                        id = item.id,
+                                        item.mediaType
+                                    )
+                                )
+                            }),
                         placeholder = rememberVectorPainter(Icons.Default.Movie)
                     )
 
@@ -78,6 +94,7 @@ fun WatchLaterScreen(
 
         )
     }
+
 }
 
 

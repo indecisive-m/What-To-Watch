@@ -1,5 +1,6 @@
 package com.example.whattowatch.presentation.home.components
 
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,14 +32,14 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import com.example.whattowatch.domain.Movie
+import com.example.whattowatch.domain.Tv
 import com.example.whattowatch.presentation.home.HomeScreenAction
 import com.example.whattowatch.presentation.home.Status
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UpComingMovies(
-    items: List<Movie>,
+fun UpComingTv(
+    items: List<Tv>,
     status: Status,
     onItemClick: (HomeScreenAction) -> Unit,
     modifier: Modifier = Modifier
@@ -128,7 +129,7 @@ fun UpComingMovies(
                                     )
                             ) {
                                 Text(
-                                    text = upcomingMovie?.title.toString(),
+                                    text = upcomingMovie?.name.toString(),
                                     style = MaterialTheme.typography.headlineMedium,
                                     color = MaterialTheme.colorScheme.onSecondary,
 

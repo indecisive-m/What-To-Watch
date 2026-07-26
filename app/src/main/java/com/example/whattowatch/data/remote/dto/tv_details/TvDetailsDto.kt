@@ -113,12 +113,12 @@ data class NextEpisodeToAir(
     @SerialName("air_date")
     val airDate: String,
     @SerialName("episode_number")
-    val episodeNumber: String,
+    val episodeNumber: Int,
     @SerialName("episode_type")
     val episodeType: String,
     @SerialName("production_code")
     val productionCode: String,
-    val runtime: Int,
+    val runtime: Int?,
     @SerialName("season_number")
     val seasonNumber: Int,
     @SerialName("show_id")

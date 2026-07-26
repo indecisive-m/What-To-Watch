@@ -44,6 +44,7 @@ import com.example.whattowatch.presentation.home.HomeScreenViewModel
 import com.example.whattowatch.presentation.search_results.SearchResultsScreenRoot
 import com.example.whattowatch.presentation.search_results.SearchResultsViewModel
 import com.example.whattowatch.presentation.watch_later.WatchLaterScreenRoot
+import com.example.whattowatch.presentation.watch_later.WatchLaterViewModel
 import com.example.whattowatch.ui.theme.WhatToWatchTheme
 import org.koin.androidx.compose.koinViewModel
 
@@ -186,10 +187,6 @@ fun App() {
                             viewModel = viewModel,
                             onItemClick = { id, mediaType ->
 
-                                Log.d(
-                                    "Nav",
-                                    id.toString()
-                                )
                                 navController.navigate(route = Route.MediaDetails(id, mediaType))
 
                             },
@@ -217,7 +214,16 @@ fun App() {
 
                     composable<Route.WatchLater> {
 
+                        val viewModel = koinViewModel<WatchLaterViewModel>()
+
+
                         WatchLaterScreenRoot(
+                            viewModel = viewModel,
+                            onItemClick = { id, mediaType ->
+
+                                navController.navigate(route = Route.MediaDetails(id, mediaType))
+
+                            },
                         )
                     }
 

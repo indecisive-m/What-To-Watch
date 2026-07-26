@@ -7,10 +7,10 @@ data class NextEpisodeToAir(
     val averageVote: Double,
     val voteCount: Int,
     val airDate: String,
-    val episodeNumber: String,
+    val episodeNumber: Int,
     val episodeType: String,
     val productionCode: String,
-    val runtime: Int,
+    val runtime: Int?,
     val seasonNumber: Int,
     val showId: Int,
     val stillPath: String?

@@ -12,13 +12,22 @@ class WatchLaterViewModel(
     private val repository: MediaRepository,
 
     ) : ViewModel() {
+    private val _state = MutableStateFlow(WatchLaterState())
+    val state = _state.asStateFlow()
 
     init {
         fetchWaterLater()
     }
 
-    private val _state = MutableStateFlow(WatchLaterState())
-    val state = _state.asStateFlow()
+
+    fun onAction(action: WatchScreenAction) {
+        when (action) {
+            is WatchScreenAction.OnItemClick -> {
+
+            }
+            
+        }
+    }
 
     private fun fetchWaterLater() = viewModelScope.launch {
         repository.getAllWatchLater()
