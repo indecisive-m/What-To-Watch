@@ -26,7 +26,6 @@ class HomeScreenViewModel(
                 loadUpcomingMovieData()
                 loadPopularMovieData()
                 loadTopRatedMovies()
-                loadNowPlayingMovies()
                 loadPopularTvShows()
                 loadTopRatedTvShows()
             }
@@ -35,7 +34,6 @@ class HomeScreenViewModel(
                 val allFetchCallsFailed = currentState.upcomingMoviesError != null &&
                         currentState.popularMoviesError != null &&
                         currentState.topRatedMoviesError != null &&
-                        currentState.nowPlayingMoviesError != null &&
                         currentState.topRatedTvShowsError != null &&
                         currentState.popularTvShowsError != null
 

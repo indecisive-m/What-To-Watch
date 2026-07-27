@@ -9,7 +9,7 @@ data class LastEpisodeToAir(
     val airDate: String,
     val episodeNumber: Int,
     val productionCode: String,
-    val runtime: Int,
+    val runtime: Int?,
     val seasonNumber: Int,
     val showId: Int,
     val stillPath: String?

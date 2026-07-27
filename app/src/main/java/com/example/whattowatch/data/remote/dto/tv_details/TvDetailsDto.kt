@@ -92,7 +92,7 @@ data class LastEpisodeToAir(
     val episodeNumber: Int,
     @SerialName("production_code")
     val productionCode: String,
-    val runtime: Int,
+    val runtime: Int?,
     @SerialName("season_number")
     val seasonNumber: Int,
     @SerialName("show_id")

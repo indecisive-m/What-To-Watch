@@ -37,12 +37,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.example.whattowatch.R
 import com.example.whattowatch.domain.MovieDetails
 import com.example.whattowatch.domain.TvDetails
 import com.example.whattowatch.presentation.details.components.CreatedByRow
@@ -552,7 +554,7 @@ fun MovieDetailsComposable(
                         null
                     } else {
                         Text(
-                            text = "Reviews",
+                            text = stringResource(R.string.reviews),
                             fontWeight = FontWeight.SemiBold,
                             style = MaterialTheme.typography.titleLarge,
                             color = MaterialTheme.colorScheme.primary
@@ -604,7 +606,7 @@ fun LoadingSpinner() {
     }
 }
 
-private fun isDateValid(releaseDate: String?): String? {
+fun isDateValid(releaseDate: String?): String? {
 
     val validDate = releaseDate != null
 
