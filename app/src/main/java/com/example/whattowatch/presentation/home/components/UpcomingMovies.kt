@@ -26,11 +26,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.example.whattowatch.R
 import com.example.whattowatch.domain.Movie
 import com.example.whattowatch.presentation.home.HomeScreenAction
 
@@ -60,10 +61,9 @@ fun UpComingMovies(
             .padding(16.dp)
     ) {
         Text(
-            text = "New & Upcoming",
+            text = stringResource(R.string.new_upcoming),
             color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.SemiBold,
+            style = MaterialTheme.typography.headlineLarge,
 
             )
         HorizontalDivider(

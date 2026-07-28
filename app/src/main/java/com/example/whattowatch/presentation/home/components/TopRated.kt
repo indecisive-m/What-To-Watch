@@ -31,11 +31,13 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalWindowInfo
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.example.whattowatch.R
 import com.example.whattowatch.domain.Media
 import com.example.whattowatch.domain.Movie
 import com.example.whattowatch.domain.Tv
@@ -64,12 +66,12 @@ fun TopRated(
     ) {
         Text(
             text = when (topRated[0]) {
-                is Movie -> "Top Rated Movies"
-                is Tv -> "Top Rated TV Shows"
+                is Movie -> stringResource(R.string.top_rated_movies)
+                is Tv -> stringResource(R.string.top_rated_tv_shows)
                 else -> ""
             },
             color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.SemiBold,
 
             )
@@ -149,7 +151,7 @@ fun TopRated(
                             else -> ""
                         },
                         color = MaterialTheme.colorScheme.onSecondary,
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleLarge
 
                     )
                     Text(

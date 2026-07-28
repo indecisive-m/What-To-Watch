@@ -24,11 +24,12 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalWindowInfo
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.example.whattowatch.R
 import com.example.whattowatch.domain.Media
 import com.example.whattowatch.domain.Movie
 import com.example.whattowatch.domain.Tv
@@ -51,13 +52,12 @@ fun Popular(
     ) {
         Text(
             text = when (popular[0]) {
-                is Movie -> "Popular Movies"
-                is Tv -> "Popular TV Shows"
+                is Movie -> stringResource(R.string.popular_movies)
+                is Tv -> stringResource(R.string.popular_tv_shows)
                 else -> ""
             },
             color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.SemiBold,
+            style = MaterialTheme.typography.headlineMedium,
 
             )
         HorizontalDivider(
@@ -115,7 +115,7 @@ fun Popular(
                                 else -> ""
                             },
                             color = MaterialTheme.colorScheme.onSecondary,
-                            style = MaterialTheme.typography.titleMedium,
+                            style = MaterialTheme.typography.titleLarge,
                             modifier = Modifier.fillMaxWidth(),
 
 

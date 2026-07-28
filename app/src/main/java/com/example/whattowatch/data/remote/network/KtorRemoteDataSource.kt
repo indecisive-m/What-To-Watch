@@ -235,19 +235,20 @@ class KtorRemoteDataSource(
 
         return try {
 
-            val response: HttpResponse = httpClient.get("$BASE_URL/tv/${id.toString()}") {
-                headers {
-                    append(
-                        "Authorization",
-                        "Bearer $BEARER_TOKEN"
-                    )
+            val response: HttpResponse =
+                httpClient.get("$BASE_URL/tv/${id.toString()}?append_to_response=credits,reviews,language=en-US") {
+                    headers {
+                        append(
+                            "Authorization",
+                            "Bearer $BEARER_TOKEN"
+                        )
+                    }
                 }
-            }
 
             val results: TvDetailsDto = response.body()
 
             Log.d(
-                "in data",
+                "tvDetails",
                 results.toString()
             )
 

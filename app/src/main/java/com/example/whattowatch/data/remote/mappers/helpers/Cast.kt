@@ -12,7 +12,7 @@ fun Cast.toDomain(): DomainCast {
         name = name,
         originalName = originalName,
         popularity = popularity,
-        profilePath = if (profilePath != null) "https://image.tmdb.org/t/p/w185$profilePath" else null,
+        profilePath = profilePath?.let { "https://image.tmdb.org/t/p/w185$it" },
         castId = castId,
         character = character,
         creditId = creditId,

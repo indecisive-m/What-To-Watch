@@ -132,7 +132,7 @@ data class Cast(
     @SerialName("profile_path")
     val profilePath: String?,
     @SerialName("cast_id")
-    val castId: Int,
+    val castId: Int?,
     val character: String,
     @SerialName("credit_id")
     val creditId: String,

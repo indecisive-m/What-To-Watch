@@ -40,12 +40,14 @@ fun InfoRow(
         Text(
             text = "${text}: ",
             fontWeight = FontWeight.SemiBold,
+            style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.primary
 
         )
         Text(
             text = textResult.toString(),
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onSurface,
+            style = MaterialTheme.typography.bodyLarge
         )
 
     }

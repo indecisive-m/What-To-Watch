@@ -105,7 +105,7 @@ fun Tab(
     ) {
         Text(
             text = title,
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onSecondary,
             modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)
         )

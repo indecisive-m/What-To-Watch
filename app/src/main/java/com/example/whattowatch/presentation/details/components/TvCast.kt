@@ -1,5 +1,6 @@
 package com.example.whattowatch.presentation.details.components
 
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,11 +25,11 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import com.example.whattowatch.domain.model.Cast
+import com.example.whattowatch.domain.model.TvCast
 
 @Composable
-fun CastRow(
-    cast: List<Cast>,
+fun TvCast(
+    cast: List<TvCast>,
     modifier: Modifier = Modifier
 ) {
 
@@ -46,7 +47,7 @@ fun CastRow(
 
 
         ) {
-            items(items = cast) { person ->
+            items(cast) { person ->
 
                 Row(
                     modifier = Modifier

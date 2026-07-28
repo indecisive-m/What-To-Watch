@@ -1,10 +1,12 @@
 package com.example.whattowatch.data.remote.mappers.helpers
 
-import com.example.whattowatch.data.remote.dto.movie_details.Crew
-import com.example.whattowatch.domain.model.Crew as DomainCrew
 
-fun Crew.toDomain(): DomainCrew {
-    return DomainCrew(
+import com.example.whattowatch.data.remote.dto.tv_details.TvCrew
+import com.example.whattowatch.domain.model.TvCrew as DomainTvCrew
+
+
+fun TvCrew.toDomain(): DomainTvCrew {
+    return DomainTvCrew(
         adult = adult,
         gender = gender,
         id = id,
@@ -15,6 +17,8 @@ fun Crew.toDomain(): DomainCrew {
         profilePath = profilePath?.let { "https://image.tmdb.org/t/p/w185$it" },
         creditId = creditId,
         department = department,
-        job = job
+        job = job,
     )
+
 }
+

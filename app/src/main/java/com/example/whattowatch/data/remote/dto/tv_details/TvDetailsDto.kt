@@ -3,6 +3,7 @@ package com.example.whattowatch.data.remote.dto.tv_details
 import com.example.whattowatch.data.remote.dto.movie_details.Genres
 import com.example.whattowatch.data.remote.dto.movie_details.ProductionCompanies
 import com.example.whattowatch.data.remote.dto.movie_details.ProductionCountries
+import com.example.whattowatch.data.remote.dto.movie_details.ReviewsDto
 import com.example.whattowatch.data.remote.dto.movie_details.SpokenLanguages
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -59,7 +60,9 @@ data class TvDetailsDto(
     @SerialName("vote_average")
     val averageVote: Double,
     @SerialName("vote_count")
-    val voteCount: Int
+    val voteCount: Int,
+    val credits: TvCredits,
+    val reviews: ReviewsDto
 )
 
 
@@ -154,3 +157,51 @@ data class Seasons(
     @SerialName("vote_average")
     val averageVote: Double,
 )
+
+@Serializable
+data class TvCast(
+    val adult: Boolean,
+    val gender: Int,
+    val id: Int,
+    @SerialName("known_for_department")
+    val knownForDepartment: String,
+    val name: String,
+    @SerialName("original_name")
+    val originalName: String,
+    val popularity: Double,
+    @SerialName("profile_path")
+    val profilePath: String?,
+    val character: String,
+    @SerialName("credit_id")
+    val creditId: String,
+    val order: Int,
+)
+
+@Serializable
+data class TvCrew(
+    val adult: Boolean,
+    val gender: Int,
+    val id: Int,
+    @SerialName("known_for_department")
+    val knownForDepartment: String,
+    val name: String,
+    @SerialName("original_name")
+    val originalName: String,
+    val popularity: Double,
+    @SerialName("profile_path")
+    val profilePath: String?,
+    @SerialName("credit_id")
+    val creditId: String,
+    val department: String,
+    val job: String,
+)
+
+@Serializable
+data class TvCredits(
+    @SerialName("cast")
+    val tvCast: List<TvCast>,
+    @SerialName("crew")
+    val tvCrew: List<TvCrew>
+)
+
+

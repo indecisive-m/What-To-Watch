@@ -1,14 +1,13 @@
 package com.example.whattowatch.domain.model
 
 
-data class Credits(
-    val cast: List<Cast>,
-    val crew: List<Crew>
+data class TvCredits(
+    val tvCast: List<TvCast>,
+    val tvCrew: List<TvCrew>
 
 )
 
-
-data class Cast(
+data class TvCast(
     val adult: Boolean,
     val gender: Int,
     val id: Int,
@@ -17,13 +16,12 @@ data class Cast(
     val originalName: String,
     val popularity: Double,
     val profilePath: String?,
-    val castId: Int?,
     val character: String,
     val creditId: String,
     val order: Int,
 )
 
-data class Crew(
+data class TvCrew(
     val adult: Boolean,
     val gender: Int,
     val id: Int,
@@ -36,3 +34,6 @@ data class Crew(
     val department: String,
     val job: String,
 )
+
+
+

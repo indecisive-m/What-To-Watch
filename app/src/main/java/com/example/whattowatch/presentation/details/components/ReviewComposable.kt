@@ -30,6 +30,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import com.example.whattowatch.R
 import com.example.whattowatch.domain.model.Review
@@ -71,7 +73,8 @@ fun ReviewComposable(
                 ) {
                     Text(
                         text = review.author,
-                        style = MaterialTheme.typography.titleSmall,
+                        style = MaterialTheme.typography.titleMedium,
+                        letterSpacing = TextUnit(1.2F, TextUnitType.Sp),
                         color = MaterialTheme.colorScheme.onSecondary
                     )
                     HorizontalDivider(

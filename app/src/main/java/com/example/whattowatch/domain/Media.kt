@@ -12,6 +12,7 @@ import com.example.whattowatch.domain.model.ProductionCountries
 import com.example.whattowatch.domain.model.Review
 import com.example.whattowatch.domain.model.Seasons
 import com.example.whattowatch.domain.model.SpokenLanguages
+import com.example.whattowatch.domain.model.TvCredits
 
 sealed class Media {
     abstract val id: Int
@@ -136,7 +137,9 @@ data class TvDetails(
     val status: String,
     val tagline: String,
     val type: String,
+    val credits: TvCredits,
+    val reviews: List<Review>
 
-    ) : Media()
+) : Media()
 
 

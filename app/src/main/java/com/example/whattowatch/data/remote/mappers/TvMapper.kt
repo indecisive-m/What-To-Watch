@@ -61,5 +61,7 @@ fun TvDetailsDto.toTvDetails(): TvDetails {
         status = status,
         tagline = tagline,
         type = type,
+        credits = credits.toDomain(),
+        reviews = reviews.results.map { it.toDomain() }
     )
 }
