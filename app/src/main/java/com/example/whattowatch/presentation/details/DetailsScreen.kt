@@ -51,6 +51,7 @@ import com.example.whattowatch.presentation.details.components.GenreChip
 import com.example.whattowatch.presentation.details.components.IconRow
 import com.example.whattowatch.presentation.details.components.InfoRow
 import com.example.whattowatch.presentation.details.components.InfoTabRow
+import com.example.whattowatch.presentation.details.components.JustWatch
 import com.example.whattowatch.presentation.details.components.ReviewComposable
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
@@ -259,6 +260,8 @@ fun DetailsScreen(
                             }
                         }
 
+
+
                         Spacer(modifier.height(16.dp))
 
                         HorizontalDivider(
@@ -266,6 +269,15 @@ fun DetailsScreen(
                             modifier = Modifier.fillMaxWidth(),
                             color = MaterialTheme.colorScheme.outline
                         )
+                    }
+                    item {
+
+                        if (state.justWatch != null) {
+                            JustWatch(
+                                justWatch = state.justWatch
+                            )
+
+                        }
                     }
 
                     item {

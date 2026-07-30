@@ -1,6 +1,5 @@
 package com.example.whattowatch.presentation.details
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,6 +13,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 
 class DetailsScreenViewModel(
     private val repository: MediaRepository,
@@ -28,8 +28,14 @@ class DetailsScreenViewModel(
 
     init {
 
-        getMediaDetails(mediaId, mediaType)
-        checkIfInWatchLater()
+        viewModelScope.launch {
+            supervisorScope {
+                getMediaDetails(mediaId, mediaType)
+                checkIfInWatchLater()
+                getJustWatch(mediaId, mediaType)
+            }
+        }
+
     }
 
 
@@ -51,7 +57,7 @@ class DetailsScreenViewModel(
     }
 
 
-    private fun getMediaDetails(mediaId: Int, mediaType: MediaType) = viewModelScope.launch {
+    private suspend fun getMediaDetails(mediaId: Int, mediaType: MediaType) {
 
         when (mediaType) {
             MediaType.MOVIE -> {
@@ -63,10 +69,7 @@ class DetailsScreenViewModel(
                 repository.getMovieDetails(mediaId)
                     .onSuccess { results ->
 
-                        Log.d(
-                            "Details",
-                            results.toString()
-                        )
+
                         _state.update {
                             it.copy(
                                 status = Status.SUCCESS,
@@ -120,6 +123,24 @@ class DetailsScreenViewModel(
             }
             .launchIn(viewModelScope)
 
+    }
+
+    private suspend fun getJustWatch(mediaId: Int, mediaType: MediaType) {
+        repository.getJustWatch(mediaId, mediaType)
+            .onSuccess { results ->
+                _state.update {
+                    it.copy(
+                        justWatch = results
+                    )
+                }
+            }
+            .onFailure {
+                _state.update {
+                    it.copy(
+                        justWatch = null
+                    )
+                }
+            }
     }
 
 }

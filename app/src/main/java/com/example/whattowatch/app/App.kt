@@ -1,6 +1,5 @@
 package com.example.whattowatch.app
 
-import android.util.Log
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
@@ -60,8 +59,6 @@ fun App() {
         val currentDestination = navBackStackEntry?.destination
 
         val currentHierarchy = navBackStackEntry?.destination?.hierarchy
-
-        Log.d("test", navBackStackEntry.toString())
 
 
         Scaffold(

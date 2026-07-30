@@ -1,5 +1,6 @@
 package com.example.whattowatch.domain
 
+import com.example.whattowatch.domain.model.JustWatch
 import kotlinx.coroutines.flow.Flow
 
 interface MediaRepository {
@@ -22,6 +23,8 @@ interface MediaRepository {
     suspend fun getTopRatedTvShows(): Result<List<Tv>>
 
     suspend fun getPopularTvShows(): Result<List<Tv>>
+
+    suspend fun getJustWatch(id: Int, mediaType: MediaType): Result<JustWatch>
 
 
     fun getAllWatchLater(): Flow<List<Media>>

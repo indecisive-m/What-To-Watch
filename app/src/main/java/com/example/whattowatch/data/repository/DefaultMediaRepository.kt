@@ -6,6 +6,7 @@ import com.example.whattowatch.data.local.storage.ImageStorage
 import com.example.whattowatch.data.remote.dto.movie_search.MovieSearchResultsDto
 import com.example.whattowatch.data.remote.dto.tv_search.TvSearchResultsDto
 import com.example.whattowatch.data.remote.mappers.toFavouritesEntity
+import com.example.whattowatch.data.remote.mappers.toJustWatch
 import com.example.whattowatch.data.remote.mappers.toMedia
 import com.example.whattowatch.data.remote.mappers.toMovie
 import com.example.whattowatch.data.remote.mappers.toMovieDetails
@@ -19,6 +20,7 @@ import com.example.whattowatch.domain.Movie
 import com.example.whattowatch.domain.MovieDetails
 import com.example.whattowatch.domain.Tv
 import com.example.whattowatch.domain.TvDetails
+import com.example.whattowatch.domain.model.JustWatch
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -174,6 +176,10 @@ class DefaultMediaRepository(
         return watchLaterDao.removeFromWatchLater(id)
     }
 
+    override suspend fun getJustWatch(id: Int, mediaType: MediaType): Result<JustWatch> {
+        return remoteDataSource.getJustWatch(id, mediaType)
+            .map { it.toJustWatch() }
+    }
 
 }
 
