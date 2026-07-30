@@ -131,6 +131,7 @@ class DefaultMediaRepository(
 
         val imageBytes = remoteDataSource.getImage(media.posterPath)
 
+
         imageBytes.onSuccess { bytes ->
             imageStorage.saveImageToStorage(
                 mediaType = mediaToMediaEntity.mediaType,

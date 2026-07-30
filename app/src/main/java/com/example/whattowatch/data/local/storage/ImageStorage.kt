@@ -1,7 +1,6 @@
 package com.example.whattowatch.data.local.storage
 
 import android.content.Context
-import android.util.Log
 import com.example.whattowatch.domain.MediaType
 import java.io.File
 
@@ -42,7 +41,6 @@ class ImageStorage(
 
         savedImage.writeBytes(bytes)
 
-        Log.d("filepath", savedImage.absolutePath)
 
         return savedImage.absolutePath
     }

@@ -22,6 +22,8 @@ fun InfoRow(
 
     ) {
 
+    val numberNotZero = infoFromState > 0
+
     val textResult = if (isRunTime) {
         "$infoFromState minutes"
     } else if (isCurrency) {
@@ -31,26 +33,29 @@ fun InfoRow(
     }
 
 
+    if (numberNotZero) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start,
+            modifier = modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = "${text}: ",
+                fontWeight = FontWeight.SemiBold,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.primary
 
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start,
-        modifier = modifier.fillMaxWidth()
-    ) {
-        Text(
-            text = "${text}: ",
-            fontWeight = FontWeight.SemiBold,
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.primary
+            )
+            Text(
+                text = textResult.toString(),
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.bodyLarge
+            )
 
-        )
-        Text(
-            text = textResult.toString(),
-            color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.bodyLarge
-        )
+        }
 
     }
+
 
 }
 

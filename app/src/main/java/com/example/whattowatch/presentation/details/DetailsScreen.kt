@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -47,6 +48,7 @@ import coil3.request.crossfade
 import com.example.whattowatch.R
 import com.example.whattowatch.domain.MovieDetails
 import com.example.whattowatch.domain.TvDetails
+import com.example.whattowatch.presentation.details.components.CreatedByRow
 import com.example.whattowatch.presentation.details.components.GenreChip
 import com.example.whattowatch.presentation.details.components.IconRow
 import com.example.whattowatch.presentation.details.components.InfoRow
@@ -185,9 +187,9 @@ fun DetailsScreen(
                                     is TvDetails -> media.name
                                     else -> ""
                                 },
-                                style = MaterialTheme.typography.displaySmall,
+                                style = MaterialTheme.typography.displayLarge,
                                 fontWeight = FontWeight.SemiBold,
-                                modifier = Modifier.align(Alignment.CenterHorizontally),
+//                                modifier = Modifier.align(Alignment.CenterHorizontally),
                                 color = MaterialTheme.colorScheme.onSecondary
                             )
                             Spacer(modifier = Modifier.height(4.dp))
@@ -196,9 +198,9 @@ fun DetailsScreen(
                                 is MovieDetails -> if (media.tagline.isNotEmpty()) {
                                     Text(
                                         text = media.tagline,
-                                        style = MaterialTheme.typography.headlineSmall,
+                                        style = MaterialTheme.typography.headlineMedium,
                                         color = MaterialTheme.colorScheme.onSurface,
-                                        modifier = Modifier.align(Alignment.CenterHorizontally)
+//                                        modifier = Modifier.align(Alignment.CenterHorizontally)
 
                                     )
 
@@ -209,7 +211,7 @@ fun DetailsScreen(
                                         text = media.tagline,
                                         style = MaterialTheme.typography.headlineSmall,
                                         color = MaterialTheme.colorScheme.onSurface,
-                                        modifier = Modifier.align(Alignment.CenterHorizontally)
+//                                        modifier = Modifier.align(Alignment.CenterHorizontally)
 
                                     )
 
@@ -225,14 +227,14 @@ fun DetailsScreen(
                                     text = validDate,
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onSurface,
-                                    modifier = Modifier.align(Alignment.CenterHorizontally)
+//                                    modifier = Modifier.align(Alignment.CenterHorizontally)
                                 )
                             }
                         }
                     }
                     item {
                         FlowRow(
-                            horizontalArrangement = Arrangement.Center,
+//                            horizontalArrangement = Arrangement.Center,
                             verticalArrangement = Arrangement.Center,
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -263,22 +265,15 @@ fun DetailsScreen(
 
 
                         Spacer(modifier.height(16.dp))
-
-                        HorizontalDivider(
-                            thickness = 2.dp,
-                            modifier = Modifier.fillMaxWidth(),
-                            color = MaterialTheme.colorScheme.outline
-                        )
+//
+//                        HorizontalDivider(
+//                            thickness = 2.dp,
+//                            modifier = Modifier.fillMaxWidth(),
+//                            color = MaterialTheme.colorScheme.outline
+//                        )
+//                        Spacer(modifier.height(16.dp))
                     }
-                    item {
 
-                        if (state.justWatch != null) {
-                            JustWatch(
-                                justWatch = state.justWatch
-                            )
-
-                        }
-                    }
 
                     item {
                         Row(
@@ -286,7 +281,8 @@ fun DetailsScreen(
                                 .padding(horizontal = 16.dp)
                                 .fillMaxWidth()
                                 .height(IntrinsicSize.Min),
-                            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
                             Row {
                                 Icon(
@@ -295,6 +291,7 @@ fun DetailsScreen(
                                     tint = MaterialTheme.colorScheme.surfaceTint,
                                     modifier = Modifier.size(28.dp)
                                 )
+                                Spacer(modifier.width(8.dp))
                                 Text(
                                     text = "${media.averageVote.toString()} /10",
                                     style = MaterialTheme.typography.headlineSmall,
@@ -362,6 +359,17 @@ fun DetailsScreen(
                         }
 
                     }
+                    item {
+
+                        if (state.justWatch != null) {
+                            JustWatch(
+                                justWatch = state.justWatch
+                            )
+
+                        }
+                    }
+
+
 
                     when (media) {
                         is MovieDetails -> {
@@ -387,6 +395,19 @@ fun DetailsScreen(
                         }
 
                         else -> {}
+                    }
+
+                    item {
+
+                        when (media) {
+                            is TvDetails -> {
+                                CreatedByRow(
+                                    creators = media.createdBy
+                                )
+                            }
+
+                            else -> {}
+                        }
                     }
                     when (media) {
                         is MovieDetails -> {

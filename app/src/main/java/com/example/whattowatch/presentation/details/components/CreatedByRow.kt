@@ -13,19 +13,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.example.whattowatch.R
 import com.example.whattowatch.domain.model.CreatedBy
 
 @Composable
@@ -35,12 +37,23 @@ fun CreatedByRow(
 ) {
 
 
-    Column {
+    Column(
+        modifier = modifier
+            .padding(16.dp)
+    ) {
+
         Text(
-            text = "Created By:",
-            style = MaterialTheme.typography.titleMedium,
+            text = stringResource(R.string.created_by),
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.primary
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        HorizontalDivider(
+            thickness = 2.dp,
+            color = MaterialTheme.colorScheme.outline,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(Modifier.height(16.dp))
+
         LazyRow(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -54,7 +67,7 @@ fun CreatedByRow(
                 Row(
                     modifier = Modifier
                         .clip(RoundedCornerShape(16.dp))
-                        .background(Color.LightGray)
+                        .background(MaterialTheme.colorScheme.surfaceContainer)
                         .height(120.dp),
                     verticalAlignment = Alignment.CenterVertically,
 
@@ -82,7 +95,8 @@ fun CreatedByRow(
                     ) {
                         Text(
                             text = person.name,
-                            style = MaterialTheme.typography.titleMedium
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onSurface
                         )
 
                     }
