@@ -2,6 +2,7 @@ package com.example.whattowatch.data.remote.network
 
 import android.util.Log
 import com.example.whattowatch.BuildConfig
+import com.example.whattowatch.data.remote.dto.ImageDto
 import com.example.whattowatch.data.remote.dto.JustWatchDto
 import com.example.whattowatch.data.remote.dto.movie_details.MovieDetailsDto
 import com.example.whattowatch.data.remote.dto.movie_search.MovieSearchResultsDto
@@ -19,6 +20,8 @@ import io.ktor.client.statement.HttpResponse
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.decodeFromJsonElement
+import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 
 
@@ -596,7 +599,7 @@ class KtorRemoteDataSource(
             val jsonElement =
                 jsonObject?.get("GB") ?: throw NoSuchElementException("GB was not found")
 
-            val justWatch = Json.decodeFromJsonElement<JustWatchDto>(
+            val justWatch = Json.decodeFromJsonElement(
                 deserializer = JustWatchDto.serializer(),
                 element = jsonElement
             )
@@ -635,6 +638,65 @@ class KtorRemoteDataSource(
         }
     }
 
+    override suspend fun getImages(id: Int, mediaType: MediaType): Result<List<ImageDto>> {
+
+        return try {
+            val response: HttpResponse = httpClient.get(
+                "$BASE_URL/${mediaType.name.lowercase()}/${id}/images?include_image_language=en-us"
+            ) {
+                headers {
+                    append(
+                        "Authorization",
+                        "Bearer $BEARER_TOKEN"
+                    )
+                }
+            }
+
+            val responseBody: JsonObject = response.body() as JsonObject
+
+            val jsonArray = responseBody["backdrops"]?.jsonArray
+
+            val jsonElementList =
+                jsonArray ?: throw NoSuchElementException("No backdrops available")
+
+
+            val images = Json.decodeFromJsonElement<List<ImageDto>>(
+                jsonElementList
+            )
+
+
+            Result.success(images)
+
+
+        } catch (e: ClientRequestException) {
+            Log.d(
+                "test??",
+                e.toString()
+            )
+            Result.failure(e)
+        } catch (e: ServerResponseException) {
+            Log.d(
+                "test?",
+                e.toString()
+            )
+
+            Result.failure(e)
+        } catch (e: SerializationException) {
+            Log.d(
+                "?",
+                e.toString()
+            )
+
+            Result.failure(e)
+        } catch (e: Exception) {
+            Log.d(
+                "test???",
+                e.toString()
+            )
+
+            Result.failure(e)
+        }
+    }
 }
 
 

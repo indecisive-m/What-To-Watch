@@ -143,5 +143,23 @@ class DetailsScreenViewModel(
             }
     }
 
+    private suspend fun getImages(mediaId: Int, mediaType: MediaType) {
+        repository.getImages(mediaId, mediaType)
+            .onSuccess { results ->
+                _state.update {
+                    it.copy(
+                        images = results
+                    )
+                }
+            }
+            .onFailure {
+                _state.update {
+                    it.copy(
+                        images = emptyList()
+                    )
+                }
+            }
+    }
+
 }
 

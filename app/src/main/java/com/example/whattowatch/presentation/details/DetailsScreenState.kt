@@ -2,6 +2,7 @@ package com.example.whattowatch.presentation.details
 
 import com.example.whattowatch.domain.Media
 import com.example.whattowatch.domain.MediaType
+import com.example.whattowatch.domain.model.Images
 import com.example.whattowatch.domain.model.JustWatch
 
 data class DetailsScreenState(
@@ -10,7 +11,8 @@ data class DetailsScreenState(
     val mediaType: MediaType = MediaType.MOVIE,
     val errorMessage: String? = null,
     val isWatchLater: Boolean = false,
-    val justWatch: JustWatch? = null
+    val justWatch: JustWatch? = null,
+    val images: List<Images> = emptyList()
 )
 
 enum class Status {

@@ -75,7 +75,7 @@ fun ReviewComposable(
                         text = review.author,
                         style = MaterialTheme.typography.titleMedium,
                         letterSpacing = TextUnit(1.2F, TextUnitType.Sp),
-                        color = MaterialTheme.colorScheme.onSecondary
+                        color = MaterialTheme.colorScheme.onSecondary,
                     )
                     HorizontalDivider(
                         thickness = 2.dp,

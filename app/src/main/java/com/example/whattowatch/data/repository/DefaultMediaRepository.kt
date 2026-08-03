@@ -5,6 +5,7 @@ import com.example.whattowatch.data.local.database.WatchLaterDao
 import com.example.whattowatch.data.local.storage.ImageStorage
 import com.example.whattowatch.data.remote.dto.movie_search.MovieSearchResultsDto
 import com.example.whattowatch.data.remote.dto.tv_search.TvSearchResultsDto
+import com.example.whattowatch.data.remote.mappers.helpers.toImages
 import com.example.whattowatch.data.remote.mappers.toFavouritesEntity
 import com.example.whattowatch.data.remote.mappers.toJustWatch
 import com.example.whattowatch.data.remote.mappers.toMedia
@@ -20,6 +21,7 @@ import com.example.whattowatch.domain.Movie
 import com.example.whattowatch.domain.MovieDetails
 import com.example.whattowatch.domain.Tv
 import com.example.whattowatch.domain.TvDetails
+import com.example.whattowatch.domain.model.Images
 import com.example.whattowatch.domain.model.JustWatch
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -114,6 +116,15 @@ class DefaultMediaRepository(
             .map { dto ->
                 dto.results.map {
                     it.toTv()
+                }
+            }
+    }
+
+    override suspend fun getImages(id: Int, mediaType: MediaType): Result<List<Images>> {
+        return remoteDataSource.getImages(id, mediaType)
+            .map { dto ->
+                dto.map {
+                    it.toImages()
                 }
             }
     }

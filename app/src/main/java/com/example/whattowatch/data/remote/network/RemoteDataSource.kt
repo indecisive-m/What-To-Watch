@@ -1,5 +1,6 @@
 package com.example.whattowatch.data.remote.network
 
+import com.example.whattowatch.data.remote.dto.ImageDto
 import com.example.whattowatch.data.remote.dto.JustWatchDto
 import com.example.whattowatch.data.remote.dto.movie_details.MovieDetailsDto
 import com.example.whattowatch.data.remote.dto.movie_search.MovieSearchResultsDto
@@ -29,6 +30,7 @@ interface RemoteDataSource {
 
     suspend fun getNowPlayingMovies(): Result<MovieSearchResultsDto>
 
+    suspend fun getImages(id: Int, mediaType: MediaType): Result<List<ImageDto>>
 
     suspend fun getPopularTvShows(): Result<TvSearchResultsDto>
 

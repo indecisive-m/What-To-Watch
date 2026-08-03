@@ -6,19 +6,19 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.carousel.HorizontalCenteredHeroCarousel
+import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,14 +51,14 @@ fun UpComingMovies(
         "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 
 
-    val pagerState = rememberPagerState(pageCount = { 8 })
-
+    val carouselState = rememberCarouselState { 10 }
 
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
+
     ) {
         Text(
             text = stringResource(R.string.new_upcoming),
@@ -70,41 +70,45 @@ fun UpComingMovies(
             thickness = 2.dp,
             color = MaterialTheme.colorScheme.outline
         )
+        Spacer(modifier = Modifier.height(16.dp))
+        HorizontalCenteredHeroCarousel(
 
-        Box(
-            contentAlignment = Alignment.Center,
+            state = carouselState,
+            itemSpacing = 16.dp,
             modifier = Modifier
+                .clip(RoundedCornerShape(16.dp))
                 .fillMaxWidth()
-                .padding(16.dp),
 
-            ) {
 
-            HorizontalPager(
-                state = pagerState,
+        ) { page ->
+
+            val upcomingMovie = items[page]
+
+            var currentUrl = upcomingMovie.posterPath ?: fallbackImage
+
+
+            Column(
                 modifier = Modifier
-                    .height(450.dp)
-                    .aspectRatio(2F / 3F, matchHeightConstraintsFirst = true)
-                    .clip(RoundedCornerShape(16.dp)),
-                pageSpacing = 24.dp,
-
-
-                ) { page ->
-
-                val upcomingMovie = items[page]
-
-                var currentUrl = upcomingMovie?.posterPath ?: fallbackImage
-
-
-                Box(
-                    modifier = Modifier.clickable(onClick = {
+                    .clickable(onClick = {
                         onItemClick(
                             HomeScreenAction.OnItemClick(
-                                upcomingMovie!!.id,
+                                upcomingMovie.id,
                                 mediaType = upcomingMovie.mediaType
                             )
                         )
                     })
+                    .fillMaxWidth()
+            ) {
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(450.dp)
+                        .clip(RoundedCornerShape(16.dp))
+
+
                 ) {
+
+
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
                             .data(currentUrl)
@@ -117,72 +121,68 @@ fun UpComingMovies(
                                 currentUrl = fallbackImage
                             }
                         },
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Column(
-                        Modifier
-                            .align(Alignment.BottomStart)
-                            .padding(
-                                vertical = 24.dp,
-                                horizontal = 16.dp
-                            )
-                    ) {
-                        Text(
-                            text = upcomingMovie?.title.toString(),
-                            style = MaterialTheme.typography.headlineMedium,
-                            color = MaterialTheme.colorScheme.onSecondary,
-
-                            )
-                        Text(
-                            text = upcomingMovie?.averageVote.toString(),
-                            color = MaterialTheme.colorScheme.onSecondary,
-
-                            )
-
-                    }
-
-
-                }
-
-
-            }
-            Row(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 24.dp),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-
-                repeat(pagerState.pageCount) { iteration ->
-
-                    val HEIGHT = 8.dp
-                    val WIDTH = HEIGHT * 4
-
-                    val color =
-                        if (pagerState.currentPage == iteration) Color.White else Color.LightGray
-
-                    val shape =
-                        if (pagerState.currentPage == iteration) RoundedCornerShape(10.dp) else CircleShape
-                    val size = if (pagerState.currentPage == iteration) WIDTH else HEIGHT
-
-                    Box(
+                        alignment = Alignment.Center,
                         modifier = Modifier
-                            .padding(2.dp)
-                            .clip(shape)
-                            .background(MaterialTheme.colorScheme.primary)
-                            .width(size)
-                            .height(HEIGHT)
+                            .matchParentSize()
                     )
+                }
+                Column(
+                    horizontalAlignment = Alignment.Start,
+                    modifier = Modifier
+                        .padding(
+                            vertical = 16.dp,
+                            horizontal = 16.dp
+                        )
+                        .height(88.dp)
+                ) {
+                    Text(
+                        text = upcomingMovie.title.toString(),
+                        style = MaterialTheme.typography.headlineMedium,
+                        color = MaterialTheme.colorScheme.onSecondary,
+                    )
+                    Text(
+                        text = upcomingMovie.averageVote.toString(),
+                        color = MaterialTheme.colorScheme.onSecondary,
 
-
+                        )
                 }
             }
-
         }
+    }
+    Spacer(Modifier.height(16.dp))
+    Row(
+        modifier = Modifier
+            .padding(bottom = 24.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
 
+        repeat(10) { iteration ->
+
+            val HEIGHT = 8.dp
+            val WIDTH = HEIGHT * 4
+
+            val color =
+                if (carouselState.currentItem == iteration) Color.White else Color.LightGray
+
+            val shape =
+                if (carouselState.currentItem == iteration) RoundedCornerShape(10.dp) else CircleShape
+            val size = if (carouselState.currentItem == iteration) WIDTH else HEIGHT
+
+
+            Box(
+                modifier = Modifier
+                    .padding(2.dp)
+                    .clip(shape)
+                    .background(MaterialTheme.colorScheme.primary)
+                    .width(size)
+                    .height(HEIGHT)
+            )
+        }
     }
 }
+
 
 
 

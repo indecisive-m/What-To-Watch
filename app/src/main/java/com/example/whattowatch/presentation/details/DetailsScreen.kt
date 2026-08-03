@@ -90,6 +90,7 @@ fun DetailsScreen(
     val media = state.media
 
 
+
     when (state.status) {
         Status.IDLE, Status.LOADING -> {
             LoadingSpinner()
