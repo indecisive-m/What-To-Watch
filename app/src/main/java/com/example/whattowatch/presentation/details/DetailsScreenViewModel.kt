@@ -33,6 +33,7 @@ class DetailsScreenViewModel(
                 getMediaDetails(mediaId, mediaType)
                 checkIfInWatchLater()
                 getJustWatch(mediaId, mediaType)
+                getRecommendations(mediaId, mediaType)
             }
         }
 
@@ -52,6 +53,10 @@ class DetailsScreenViewModel(
                         }
                     }
                 }
+            }
+
+            is DetailsScreenAction.OnItemClick -> {
+                
             }
         }
     }
@@ -159,6 +164,53 @@ class DetailsScreenViewModel(
                     )
                 }
             }
+    }
+
+    private suspend fun getRecommendations(mediaId: Int, mediaType: MediaType) {
+
+        when (mediaType) {
+            MediaType.MOVIE -> {
+                repository.getMovieRecommendations(mediaId)
+                    .onSuccess { recommendations ->
+                        _state.update {
+                            it.copy(
+                                movieRecommendations = recommendations,
+                                mediaType = mediaType
+                            )
+                        }
+                    }
+                    .onFailure {
+                        _state.update {
+                            it.copy(
+                                movieRecommendations = emptyList()
+                            )
+                        }
+                    }
+
+            }
+
+            MediaType.TV -> {
+                repository.getTvRecommendations(mediaId)
+                    .onSuccess { recommendations ->
+                        _state.update {
+                            it.copy(
+                                tvRecommendations = recommendations,
+                                mediaType = mediaType
+
+                            )
+                        }
+                    }
+                    .onFailure {
+                        _state.update {
+                            it.copy(
+                                tvRecommendations = emptyList()
+                            )
+                        }
+                    }
+
+            }
+        }
+
     }
 
 }

@@ -6,8 +6,10 @@ import com.example.whattowatch.data.remote.dto.ImageDto
 import com.example.whattowatch.data.remote.dto.JustWatchDto
 import com.example.whattowatch.data.remote.dto.movie_details.MovieDetailsDto
 import com.example.whattowatch.data.remote.dto.movie_search.MovieSearchResultsDto
+import com.example.whattowatch.data.remote.dto.movie_search.SearchedMovieDto
 import com.example.whattowatch.data.remote.dto.movie_upcoming.UpcomingMovieSearchResultsDto
 import com.example.whattowatch.data.remote.dto.tv_details.TvDetailsDto
+import com.example.whattowatch.data.remote.dto.tv_search.SearchedTvDto
 import com.example.whattowatch.data.remote.dto.tv_search.TvSearchResultsDto
 import com.example.whattowatch.domain.MediaType
 import io.ktor.client.HttpClient
@@ -150,7 +152,6 @@ class KtorRemoteDataSource(
             }
             val resultsDto: TvSearchResultsDto = response.body()
 
-            Log.d("tv", resultsDto.toString())
 
 
             Result.success((resultsDto))
@@ -337,7 +338,7 @@ class KtorRemoteDataSource(
     override suspend fun getPopularMovies(): Result<MovieSearchResultsDto> {
         return try {
             val response: HttpResponse =
-                httpClient.get("$BASE_URL/movie/popular?language=en-US&page=1") {
+                httpClient.get("$BASE_URL/discover/movie?sort_by=popularity.desc&with_original_language=en") {
                     headers {
                         append(
                             "Authorization",
@@ -383,7 +384,7 @@ class KtorRemoteDataSource(
 
     }
 
-    override suspend fun getTopRatedMovies(): Result<MovieSearchResultsDto> {
+    override suspend fun getTopRatedMovies(): Result<List<SearchedMovieDto>> {
         return try {
             val response: HttpResponse = httpClient.get("$BASE_URL/movie/top_rated?page=1") {
                 headers {
@@ -395,7 +396,9 @@ class KtorRemoteDataSource(
             }
 
 
-            val results: MovieSearchResultsDto = response.body()
+            val responseBody: MovieSearchResultsDto = response.body()
+
+            val results = responseBody.results.filter { it -> it.language == "en" }
 
 
             Result.success(results)
@@ -478,11 +481,59 @@ class KtorRemoteDataSource(
         }
     }
 
+    override suspend fun getMovieRecommendations(id: Int): Result<MovieSearchResultsDto> {
+        return try {
+            val response: HttpResponse = httpClient.get(
+                "$BASE_URL/movie/${id}/recommendations"
+            ) {
+                headers {
+                    append(
+                        "Authorization",
+                        "Bearer $BEARER_TOKEN"
+                    )
+                }
+            }
+
+            val responseBody: MovieSearchResultsDto = response.body()
+
+            Result.success(responseBody)
+        } catch (e: ClientRequestException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+            Result.failure(e)
+        } catch (e: ServerResponseException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        } catch (e: SerializationException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        } catch (e: Exception) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        }
+
+    }
+
     override suspend fun getPopularTvShows(): Result<TvSearchResultsDto> {
         return try {
             val response: HttpResponse = httpClient.get(
-                "$BASE_URL/tv/popular"
+                "$BASE_URL/discover/tv?sort_by=popularity.desc&with_original_language=en"
             ) {
+
                 headers {
                     append(
                         "Authorization",
@@ -528,7 +579,7 @@ class KtorRemoteDataSource(
 
     }
 
-    override suspend fun getTopRatedTvShows(): Result<TvSearchResultsDto> {
+    override suspend fun getTopRatedTvShows(): Result<List<SearchedTvDto>> {
         return try {
             val response: HttpResponse = httpClient.get(
                 "$BASE_URL/tv/top_rated"
@@ -541,12 +592,60 @@ class KtorRemoteDataSource(
                 }
             }
 
+            val responseBody: TvSearchResultsDto = response.body()
 
-            val results: TvSearchResultsDto = response.body()
+            val results = responseBody.results.filter { it -> it.language == "en" }
 
 
             Result.success(results)
 
+        } catch (e: ClientRequestException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+            Result.failure(e)
+        } catch (e: ServerResponseException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        } catch (e: SerializationException) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        } catch (e: Exception) {
+            Log.d(
+                "test",
+                e.toString()
+            )
+
+            Result.failure(e)
+        }
+
+    }
+
+    override suspend fun getTvRecommendations(id: Int): Result<TvSearchResultsDto> {
+        return try {
+            val response: HttpResponse = httpClient.get(
+                "$BASE_URL/tv/${id}/recommendations"
+            ) {
+                headers {
+                    append(
+                        "Authorization",
+                        "Bearer $BEARER_TOKEN"
+                    )
+                }
+            }
+
+            val responseBody: TvSearchResultsDto = response.body()
+
+            Result.success(responseBody)
         } catch (e: ClientRequestException) {
             Log.d(
                 "test",

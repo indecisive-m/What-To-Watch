@@ -213,9 +213,12 @@ fun App() {
                             viewModel = viewModel,
                             onBackClick = {
                                 navController.navigateUp()
-                            }
+                            },
+                            onItemClick = { id, mediaType ->
+                                navController.navigate(route = Route.MediaDetails(id, mediaType))
+                            },
 
-                        )
+                            )
                     }
 
                     composable<Route.WatchLater> {

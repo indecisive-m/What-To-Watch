@@ -96,7 +96,7 @@ class DefaultMediaRepository(
     override suspend fun getTopRatedMovies(): Result<List<Movie>> {
         return remoteDataSource.getTopRatedMovies()
             .map { dto ->
-                dto.results.map {
+                dto.map {
                     it.toMovie()
                 }
             }
@@ -105,7 +105,7 @@ class DefaultMediaRepository(
     override suspend fun getTopRatedTvShows(): Result<List<Tv>> {
         return remoteDataSource.getTopRatedTvShows()
             .map { dto ->
-                dto.results.map {
+                dto.map {
                     it.toTv()
                 }
             }
@@ -191,6 +191,24 @@ class DefaultMediaRepository(
     override suspend fun getJustWatch(id: Int, mediaType: MediaType): Result<JustWatch> {
         return remoteDataSource.getJustWatch(id, mediaType)
             .map { it.toJustWatch() }
+    }
+
+    override suspend fun getMovieRecommendations(id: Int): Result<List<Movie>> {
+        return remoteDataSource.getMovieRecommendations(id)
+            .map { dto ->
+                dto.results.map {
+                    it.toMovie()
+                }
+            }
+    }
+
+    override suspend fun getTvRecommendations(id: Int): Result<List<Tv>> {
+        return remoteDataSource.getTvRecommendations(id)
+            .map { dto ->
+                dto.results.map {
+                    it.toTv()
+                }
+            }
     }
 
 }

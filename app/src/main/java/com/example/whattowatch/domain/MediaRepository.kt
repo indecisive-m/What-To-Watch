@@ -29,6 +29,9 @@ interface MediaRepository {
 
     suspend fun getJustWatch(id: Int, mediaType: MediaType): Result<JustWatch>
 
+    suspend fun getMovieRecommendations(id: Int): Result<List<Movie>>
+
+    suspend fun getTvRecommendations(id: Int): Result<List<Tv>>
 
     fun getAllWatchLater(): Flow<List<Media>>
 

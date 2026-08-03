@@ -46,6 +46,7 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.whattowatch.R
+import com.example.whattowatch.domain.MediaType
 import com.example.whattowatch.domain.MovieDetails
 import com.example.whattowatch.domain.TvDetails
 import com.example.whattowatch.presentation.details.components.CreatedByRow
@@ -54,6 +55,7 @@ import com.example.whattowatch.presentation.details.components.IconRow
 import com.example.whattowatch.presentation.details.components.InfoRow
 import com.example.whattowatch.presentation.details.components.InfoTabRow
 import com.example.whattowatch.presentation.details.components.JustWatch
+import com.example.whattowatch.presentation.details.components.Recommendations
 import com.example.whattowatch.presentation.details.components.ReviewComposable
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
@@ -64,6 +66,7 @@ import java.util.Locale
 fun DetailsScreenRoot(
     viewModel: DetailsScreenViewModel = koinViewModel<DetailsScreenViewModel>(),
     onBackClick: () -> Unit,
+    onItemClick: (Int, MediaType) -> Unit,
 ) {
 
     val state = viewModel.state.collectAsStateWithLifecycle()
@@ -72,6 +75,11 @@ fun DetailsScreenRoot(
         state = state.value,
         onBackClick = onBackClick,
         onAction = { action ->
+            when (action) {
+                is DetailsScreenAction.OnItemClick -> onItemClick(action.id, action.mediaType)
+                else -> Unit
+            }
+
             viewModel.onAction(action)
         }
     )
@@ -144,12 +152,13 @@ fun DetailsScreen(
 
             ) {
 
-
                 LazyColumn(
                     modifier = Modifier
                         .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Bottom)),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
+
                 ) {
+
 
                     item {
                         AsyncImage(
@@ -168,7 +177,8 @@ fun DetailsScreen(
                                 }
                                 isImageLoading = false
                             },
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier
+                                .fillMaxWidth()
                         )
                         Spacer(Modifier.height(16.dp))
 
@@ -212,9 +222,8 @@ fun DetailsScreen(
                                         text = media.tagline,
                                         style = MaterialTheme.typography.headlineSmall,
                                         color = MaterialTheme.colorScheme.onSurface,
-//                                        modifier = Modifier.align(Alignment.CenterHorizontally)
 
-                                    )
+                                        )
 
                                 }
 
@@ -228,14 +237,12 @@ fun DetailsScreen(
                                     text = validDate,
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onSurface,
-//                                    modifier = Modifier.align(Alignment.CenterHorizontally)
                                 )
                             }
                         }
                     }
                     item {
                         FlowRow(
-//                            horizontalArrangement = Arrangement.Center,
                             verticalArrangement = Arrangement.Center,
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -266,13 +273,6 @@ fun DetailsScreen(
 
 
                         Spacer(modifier.height(16.dp))
-//
-//                        HorizontalDivider(
-//                            thickness = 2.dp,
-//                            modifier = Modifier.fillMaxWidth(),
-//                            color = MaterialTheme.colorScheme.outline
-//                        )
-//                        Spacer(modifier.height(16.dp))
                     }
 
 
@@ -410,6 +410,13 @@ fun DetailsScreen(
                             else -> {}
                         }
                     }
+                    item {
+                        Recommendations(
+                            tv = state.tvRecommendations,
+                            movie = state.movieRecommendations,
+                            onClick = onAction
+                        )
+                    }
                     when (media) {
                         is MovieDetails -> {
                             item {
@@ -432,6 +439,7 @@ fun DetailsScreen(
                                     }
                                 }
                             }
+
                             items(
                                 items = media.reviews,
                                 key = { review -> review.id }) { review ->
@@ -466,6 +474,9 @@ fun DetailsScreen(
                                     }
                                 }
                             }
+
+
+
                             items(
                                 items = media.reviews,
                                 key = { review -> review.id }) { review ->
